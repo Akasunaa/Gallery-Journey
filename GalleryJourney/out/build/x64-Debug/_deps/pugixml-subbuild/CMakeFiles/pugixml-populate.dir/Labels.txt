@@ -1,0 +1,14 @@
+# Target labels
+ pugixml-populate
+# Source files and their labels
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/CMakeFiles/pugixml-populate
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/CMakeFiles/pugixml-populate.rule
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/CMakeFiles/pugixml-populate-complete.rule
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/pugixml-populate-prefix/src/pugixml-populate-stamp/pugixml-populate-build.rule
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/pugixml-populate-prefix/src/pugixml-populate-stamp/pugixml-populate-configure.rule
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/pugixml-populate-prefix/src/pugixml-populate-stamp/pugixml-populate-download.rule
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/pugixml-populate-prefix/src/pugixml-populate-stamp/pugixml-populate-install.rule
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/pugixml-populate-prefix/src/pugixml-populate-stamp/pugixml-populate-mkdir.rule
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/pugixml-populate-prefix/src/pugixml-populate-stamp/pugixml-populate-patch.rule
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/pugixml-populate-prefix/src/pugixml-populate-stamp/pugixml-populate-test.rule
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/pugixml-populate-prefix/src/pugixml-populate-stamp/pugixml-populate-update.rule

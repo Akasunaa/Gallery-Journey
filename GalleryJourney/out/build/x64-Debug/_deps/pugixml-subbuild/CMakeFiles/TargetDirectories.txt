@@ -1,0 +1,3 @@
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/CMakeFiles/pugixml-populate.dir
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/prome/OneDrive/Bureau/Gallery Journey/SampleGoogleTestPugixml/out/build/x64-Debug/_deps/pugixml-subbuild/CMakeFiles/rebuild_cache.dir
