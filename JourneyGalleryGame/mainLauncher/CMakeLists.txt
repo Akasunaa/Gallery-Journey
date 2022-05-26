@@ -1,7 +1,7 @@
 
 add_executable(mainLauncher mainLauncher.cpp)
 
-target_link_libraries(mainLauncher PUBLIC src pugixml sfml-graphics tmxlite)
+target_link_libraries(mainLauncher PUBLIC src pugixml sfml-graphics tmxlite box2d)
 
 add_custom_target(copy-resources ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resources)
 file(GLOB RESOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/resources/*.*)

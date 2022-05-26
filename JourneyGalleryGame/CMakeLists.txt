@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 cmake_policy(VERSION 3.15)
 
 include(FetchContent)
-project(Tmxlite_SampleSFML VERSION 1.0.0 LANGUAGES CXX)
+project(GalleryJourney VERSION 1.0.0 LANGUAGES CXX)
 
 if(WIN32)
   # SonarLint support for CMake requires the following flag to be set on.
@@ -34,6 +34,14 @@ else()
   FetchContent_MakeAvailable(sfml)
 endif()
 
+FetchContent_Declare(
+    box2d
+    GIT_REPOSITORY https://github.com/erincatto/box2d.git
+    GIT_TAG v2.4.1
+
+)
+FetchContent_MakeAvailable(box2d)
+
 set(CMAKE_CXX_STANDARD 20)
 
 #
@@ -43,7 +51,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 # Download and unpack tmxlite at configure time
 set (TMXLITE_STATIC_LIB TRUE)
-configure_file(CMakeLists_tmxlite.txt.in tmxlite-download/tmxlite/CMakeLists.txt)
+configure_file(CMakeLists.txt.in tmxlite-download/tmxlite/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
   RESULT_VARIABLE result
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tmxlite-download/tmxlite )
@@ -121,5 +129,5 @@ endif()
 enable_testing()
 add_executable(unitTests unitTests.cpp)
 target_link_libraries(unitTests gtest_main)
-target_link_libraries(unitTests src pugixml sfml-graphics tmxlite)
+target_link_libraries(unitTests src pugixml sfml-graphics tmxlite box2d)
 add_test(NAME that-test-I-made COMMAND unitTests)

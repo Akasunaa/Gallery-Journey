@@ -32,13 +32,16 @@ source distribution.
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
-
+#include <stdio.h>
+#include <assert.h>
 #include <tmxlite/Map.hpp>
 
+#include "box2d/box2d.h"
 #include "SFMLOrthogonalLayer.h"
 
 int myMain()
 {
+    b2Vec2 gravity(0.0f, -10.0f);
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
 
     tmx::Map map;
