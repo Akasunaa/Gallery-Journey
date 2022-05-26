@@ -1,3 +1,4 @@
+#Gitignore de github
 # Prerequisites
 *.d
 
@@ -30,3 +31,41 @@
 *.exe
 *.out
 *.app
+
+### JetBrains template
+
+# User-specific stuff:
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+
+# Sensitive or high-churn files:
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+
+# Gradle:
+.idea/gradle.xml
+.idea/libraries
+
+# Mongo Explorer plugin:
+.idea/mongoSettings.xml
+
+## File-based project format:
+*.iws
+
+
+
+
+
+
+# Ignore directory used by Visual Studio for project generation
+build
+# Ignore directories used by CLion for project generation
+.idea
+cmake-build-debug
