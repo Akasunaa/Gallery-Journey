@@ -1,26 +1,34 @@
 #include "Game.h"
-#include <tmxlite/Map.hpp>
-#include <iostream>
+
 
 
 
 void Game::initVariable()
 {
 	this->window = nullptr;
-
 	this->player = nullptr;
+	this->world = nullptr;
 }
 
 void Game::initWindow()
 {
+	//init fenetre
 	this->videoMode.height = 600;
 	this->videoMode.width = 800;
-	//this->videoMode.getDesktopMode;
 	this->window= new sf::RenderWindow(this->videoMode, "SFML window", sf::Style::Titlebar | sf::Style::Close);
 
-	//init Tiled
+	//init world
+	b2Vec2 gravity(0.0f, 0.0f);
+	this->world = new b2World(gravity);
+	timeStep = 1.0f / 60.0f;
+	velocityIterations = 6;
+	positionIterations = 2;
 
-	this->player = new Player();
+
+	//Init player
+	this->player = new Player(world, { 0.0f, 0.0f });
+
+	//test mur
 
 
 }
@@ -33,6 +41,8 @@ Game::Game() {
 
 Game::~Game() {
 	delete this->window;
+	delete this->player;
+	delete this->world;
 }
 
 const bool Game::running() const
@@ -42,6 +52,7 @@ const bool Game::running() const
 
 void Game::pollEvents()
 {
+	this->world->Step(timeStep, velocityIterations, positionIterations);
 	while (this->window->pollEvent(this->ev))
 	{
 		switch (this->ev.type)
@@ -58,7 +69,6 @@ void Game::pollEvents()
 
 	player->updateInput();
 
-
 }
 
 void Game::update() 
@@ -72,8 +82,8 @@ void Game::render()
 {
 
 	this->window->clear();
-	this->player->playerDraw((this->window));
-	//this->window->draw(this->rect);
+	this->player->playerDraw((this->window), { -400.0f, -400.0f });
+
 
 	//Afficher la tilemap
 

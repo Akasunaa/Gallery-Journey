@@ -2,6 +2,11 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <Player.h>
+#include "box2d/box2d.h"
+#include <stdio.h>
+#include <assert.h>
+#include <tmxlite/Map.hpp>
+#include <iostream>
 
 class Game {
 private:
@@ -10,6 +15,11 @@ private:
 	sf::Event ev;
 
 	Player* player;
+	b2World* world;
+
+	float timeStep;
+	int32 velocityIterations;
+	int32 positionIterations;
 
 	void initVariable();
 	void initWindow();
