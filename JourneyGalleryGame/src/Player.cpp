@@ -12,13 +12,12 @@ Player::Player(b2World* world, b2Vec2 pos)
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.f;
-	fixtureDef.friction = 1.f;
+	fixtureDef.friction = 0.f;
 	body->CreateFixture(&fixtureDef);
 
 	//sprite
 	this->rect.setSize(sf::Vector2f(playerWidth, playerHight));
 	this->rect.setFillColor(sf::Color::Cyan);
-	this->rect.setOrigin(-pos.x + playerWidth / 2, pos.y + playerHight / 2);
 }
 
 
@@ -57,10 +56,9 @@ void Player::setposition(b2Vec2 pos)
 	body->SetLinearVelocity({ 0.0f,0.0f });
 }
 
-void Player::playerDraw(sf::RenderWindow* window, std::pair<float, float> limit)
+void Player::playerDraw(sf::RenderWindow* window)
 {
-	rect.setPosition(sf::Vector2f(getPosition().x-limit.first, -getPosition().y-limit.second));
-
+	rect.setPosition(sf::Vector2f(getPosition().x, getPosition().y));
 	window->draw(rect);
 }
 

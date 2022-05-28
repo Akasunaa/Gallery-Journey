@@ -4,18 +4,15 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <stdio.h>
-#include <InteractableObject.h>
 
-#define heightWall 100
-#define widthWall 100
-
-class WallPiece : public InterractableObject
-{
-public:
-	explicit WallPiece(b2World* world, b2Vec2 pos);
+class InterractableObject {
+public :
+	explicit InterractableObject(b2World* world, b2Vec2 pos, float heigth, float width);
 	void setposition(b2Vec2 pos);
-	void drawWallPiece(sf::RenderWindow* window);	
+	void draw(sf::RenderWindow* window);	
 	b2Vec2 getPosition() const;
+	void interact();
+
 
 private:
 	b2Body* body;

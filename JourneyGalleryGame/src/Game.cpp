@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <MyContactListener.h>
 
 
 
@@ -26,16 +27,26 @@ void Game::initWindow()
 
 
 	//Init player
-	this->player = new Player(world, { 0.0f, 0.0f });
+	this->player = new Player(world, { 100.0f, 0.0f });
 
-	//test mur
+	//init wall
+	this->wall = new WallPiece(world, { 0.0f, 0.0f });
 
+	//Init ground
+	/*b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0.0f,-200.0f);
+	b2Body* groundBody = world->CreateBody(&groundBodyDef);
+	b2PolygonShape groundBox;
+	groundBox.SetAsBox(10000.0f, 10.0f);
+	groundBody->CreateFixture(&groundBox, 0.0f);*/
 
 }
 
 Game::Game() {
 	this->initVariable();
 	this->initWindow();
+	//system("dir");
+
 
 }
 
@@ -52,7 +63,11 @@ const bool Game::running() const
 
 void Game::pollEvents()
 {
+	MyContactListener myContactListenerInstance;
+
 	this->world->Step(timeStep, velocityIterations, positionIterations);
+	world->SetContactListener(&myContactListenerInstance);
+
 	while (this->window->pollEvent(this->ev))
 	{
 		switch (this->ev.type)
@@ -82,11 +97,9 @@ void Game::render()
 {
 
 	this->window->clear();
-	this->player->playerDraw((this->window), { -400.0f, -400.0f });
 
-
-	//Afficher la tilemap
-
+	this->wall->drawWallPiece((this->window));
+	this->player->playerDraw((this->window));
 
 	this->window->display();
 }

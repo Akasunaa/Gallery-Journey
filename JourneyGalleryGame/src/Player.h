@@ -15,7 +15,7 @@ class Player
 public:
 	explicit Player(b2World* world, b2Vec2 pos);
 	void updateInput();
-	void playerDraw(sf::RenderWindow* window, std::pair<float, float> limit);
+	void playerDraw(sf::RenderWindow* window);
 	b2Vec2 getPosition() const;
 	void setposition(b2Vec2 pos);
 
