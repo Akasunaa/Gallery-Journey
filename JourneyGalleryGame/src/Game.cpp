@@ -98,7 +98,7 @@ void Game::render()
 
 	this->window->clear();
 
-	this->wall->drawWallPiece((this->window));
+	this->wall->draw((this->window));
 	this->player->playerDraw((this->window));
 
 	this->window->display();

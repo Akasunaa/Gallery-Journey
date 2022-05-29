@@ -13,13 +13,8 @@ class WallPiece : public InterractableObject
 {
 public:
 	explicit WallPiece(b2World* world, b2Vec2 pos);
-	void setposition(b2Vec2 pos);
-	void drawWallPiece(sf::RenderWindow* window);	
-	b2Vec2 getPosition() const;
+	void interact() override;
 
 private:
-	b2Body* body;
-	b2BodyDef bodyDef;
-	sf::RectangleShape rect;
 
 };
