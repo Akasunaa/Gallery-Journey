@@ -4,18 +4,33 @@
 void MyContactListener::BeginContact(b2Contact* contact) {
     b2BodyUserData bodyA = contact->GetFixtureA()->GetBody()->GetUserData();
     b2BodyUserData bodyB = contact->GetFixtureB()->GetBody()->GetUserData();
-    //InterractableObject* ioA = (InterractableObject*)(bodyA.pointer);
-    //InterractableObject* ioB = (InterractableObject*)(bodyB.pointer);
     if (bodyA.pointer) {
-        std::cout << "broooooooooooo" << '\n';
+        auto ptrA = (InterractableObject*)bodyA.pointer;
+        if (ptrA) {
+            ptrA->interact();
+        }
     }
     if (bodyB.pointer) {
-        std::cout << "broooooooooooo" << '\n';
+        auto ptrB = (InterractableObject*)bodyB.pointer;
+        if (ptrB) {
+            ptrB->interact();
+        }
     }
-    std::cout << "poutch" << '\n';
 }
 
 void MyContactListener::EndContact(b2Contact* contact) {
-    //getRadarAndAircraft(contact);
-    std::cout << "not poutch" << '\n';
+    b2BodyUserData bodyA = contact->GetFixtureA()->GetBody()->GetUserData();
+    b2BodyUserData bodyB = contact->GetFixtureB()->GetBody()->GetUserData();
+    if (bodyA.pointer) {
+        auto ptrA = (InterractableObject*)bodyA.pointer;
+        if (ptrA) {
+            ptrA->dontInteract();
+        }
+    }
+    if (bodyB.pointer) {
+        auto ptrB = (InterractableObject*)bodyB.pointer;
+        if (ptrB) {
+            ptrB->dontInteract();
+        }
+    }
 }

@@ -12,11 +12,16 @@ public :
 	void draw(sf::RenderWindow* window);	
 	b2Vec2 getPosition() const;
 	virtual void interact();
+	virtual void dontInteract();
+	virtual void checkInteract();
 
 
 private:
 	b2Body* body;
 	b2BodyDef bodyDef;
 	sf::RectangleShape rect;
+
+protected:
+	bool canInteract;
 
 };

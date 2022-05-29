@@ -14,6 +14,8 @@ class WallPiece : public InterractableObject
 public:
 	explicit WallPiece(b2World* world, b2Vec2 pos);
 	void interact() override;
+	virtual void dontinteract();
+	virtual void checkInteract();
 
 private:
 

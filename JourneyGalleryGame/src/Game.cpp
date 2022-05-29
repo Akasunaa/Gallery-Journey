@@ -83,6 +83,7 @@ void Game::pollEvents()
 	}
 
 	player->updateInput();
+	wall->checkInteract();
 
 }
 
