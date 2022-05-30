@@ -6,7 +6,6 @@
 #include "box2d/box2d.h"
 #include <stdio.h>
 #include <assert.h>
-#include <tmxlite/Map.hpp>
 #include <iostream>
 #include <MyContactListener.h>
 #include <memory>

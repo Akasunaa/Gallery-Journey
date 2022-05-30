@@ -1,7 +1,6 @@
 
 #include <stdio.h>
 #include <assert.h>
-#include <tmxlite/Map.hpp>
 
 #include "box2d/box2d.h"
 #include <Player.cpp>
