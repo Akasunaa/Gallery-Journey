@@ -10,9 +10,9 @@
 #include <MyContactListener.h>
 #include <memory>
 #include <vector>
+#include "Excavation.h"
 
-
-enum class States { inGame = 1, inExclavation = 2};
+enum class States { inGame = 1, inExcavation = 2};
  
 
 class Game {
@@ -27,8 +27,10 @@ private:
 
 	b2World* world;
 	Player* player;
-	//std::vector<WallPiece*> walls;
+	Excavation* excavation;
 	std::vector<std::unique_ptr<WallPiece>> walls;
+
+
 	void initWindow();
 	void initWorld();
 

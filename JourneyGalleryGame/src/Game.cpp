@@ -27,6 +27,7 @@ void Game::initWorld()
 
 	//init level
 	this->player = new Player(world, { 100.0f, 0.0f });
+	this->excavation = new Excavation(this->window);
 
 	//init walls
 
@@ -48,7 +49,6 @@ void Game::initWorld()
 Game::Game() {
 	this->initWindow();
 	this->initWorld();
-
 }
 
 Game::~Game() {
@@ -79,54 +79,48 @@ void Game::pollEvents()
 		case sf::Event::KeyPressed:
 			if (this->ev.key.code == sf::Keyboard::Escape)
 				this->window->close();
-			else if (this->ev.key.code == sf::Keyboard::Space) {
-				if (states == States::inGame) {
-					std::cout << "oooooooooooooooooooo";
-					states = States(2);
-				}
-				else if (states == States::inExclavation) {
-					std::cout << "aaaaaaaaaaaaaaaaaaa";
-					states = States(1);
-				}
-			}
-
 			else if (this->ev.key.code == sf::Keyboard::E) {
-				std::cout << "wshhhhhhhhhh";
-				for (auto& wall : walls) {
-					if (wall->checkInteract()) {
-						std::cout << "ca fonctionne !";
+				if (states == States::inGame) {
+					for (auto& wall : walls) {
+						if (wall->checkInteract()) {
+							states = States::inExcavation;
+						}
 					}
 				}
 			}
-			break;
+			else if (this->ev.key.code == sf::Keyboard::Q) {
+				if (states == States::inExcavation) {
+					states = States::inGame;
+				}
+				break;
+			}
 		}
 	}
-
-
-	player->updateInput();
-	for (auto &wall : walls) {
-		wall->checkInteract();
-	}
-
 
 }
 
 void Game::update() 
 {
 	this->pollEvents();
+	player->updateInput();
+	for (auto& wall : walls) {
+		wall->checkInteract();
+	}
 }
 
 
 
 void Game::render()
 {
-
 	this->window->clear();
 	for (auto& wall : walls) {
 		wall->draw((this->window));
 	}
 	this->player->playerDraw((this->window));
-
+	if (states == States::inExcavation) {
+		excavation->draw(this->window);
+	}
+	
 	this->window->display();
 }
 
