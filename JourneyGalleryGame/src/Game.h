@@ -9,6 +9,12 @@
 #include <tmxlite/Map.hpp>
 #include <iostream>
 #include <MyContactListener.h>
+#include <memory>
+#include <vector>
+
+
+enum class States { inGame = 1, inExclavation = 2};
+ 
 
 class Game {
 private:
@@ -16,19 +22,18 @@ private:
 	sf::VideoMode videoMode;
 	sf::Event ev;
 
-	Player* player;
-	Player* player2;
-	b2World* world;
-
 	float timeStep;
 	int32 velocityIterations;
 	int32 positionIterations;
 
-	WallPiece* wall;
-
-
-	void initVariable();
+	b2World* world;
+	Player* player;
+	//std::vector<WallPiece*> walls;
+	std::vector<std::unique_ptr<WallPiece>> walls;
 	void initWindow();
+	void initWorld();
+
+	States states;
 
 public :
 	Game();

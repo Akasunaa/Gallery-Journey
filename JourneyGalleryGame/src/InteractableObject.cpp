@@ -1,10 +1,12 @@
 #include "InteractableObject.h"
 #include <iostream>
 
-InterractableObject::InterractableObject(b2World* world, b2Vec2 pos, float height, float width)
+InterractableObject::InterractableObject(b2World* world,float x, float y, float height, float width)
 {
+	canInteract = false;
 	//box2d
 	bodyDef.type = b2_kinematicBody;
+	b2Vec2 pos{ x,y };
 	bodyDef.position.Set(pos.x, pos.y);
 	bodyDef.userData.pointer = reinterpret_cast<uintptr_t>((InterractableObject*)this);
 

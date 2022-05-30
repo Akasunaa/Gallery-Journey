@@ -1,15 +1,7 @@
 #include "Game.h"
-#include <MyContactListener.h>
 
 
 
-
-void Game::initVariable()
-{
-	this->window = nullptr;
-	this->player = nullptr;
-	this->world = nullptr;
-}
 
 void Game::initWindow()
 {
@@ -17,21 +9,30 @@ void Game::initWindow()
 	this->videoMode.height = 600;
 	this->videoMode.width = 800;
 	this->window= new sf::RenderWindow(this->videoMode, "SFML window", sf::Style::Titlebar | sf::Style::Close);
+}
 
+void Game::initWorld()
+{
 	//init world
 	b2Vec2 gravity(0.0f, 0.0f);
 	this->world = new b2World(gravity);
+
+	//init time
 	timeStep = 1.0f / 60.0f;
 	velocityIterations = 6;
 	positionIterations = 2;
 
+	//init state
+	states = States::inGame;
 
-	//Init player
+	//init level
 	this->player = new Player(world, { 100.0f, 0.0f });
 
-	//init wall
-	this->wall = new WallPiece(world, { 0.0f, 0.0f });
+	//init walls
 
+
+	std::unique_ptr<WallPiece> wall = std::make_unique<WallPiece>(world, 0.0f, 0.0f);
+	walls.push_back(std::move(wall));
 	//Init ground
 	/*b2BodyDef groundBodyDef;
 	groundBodyDef.position.Set(0.0f,-200.0f);
@@ -39,14 +40,14 @@ void Game::initWindow()
 	b2PolygonShape groundBox;
 	groundBox.SetAsBox(10000.0f, 10.0f);
 	groundBody->CreateFixture(&groundBox, 0.0f);*/
-
 }
 
-Game::Game() {
-	this->initVariable();
-	this->initWindow();
-	//system("dir");
 
+
+
+Game::Game() {
+	this->initWindow();
+	this->initWorld();
 
 }
 
@@ -78,12 +79,25 @@ void Game::pollEvents()
 		case sf::Event::KeyPressed:
 			if (this->ev.key.code == sf::Keyboard::Escape)
 				this->window->close();
+			else if(this->ev.key.code == sf::Keyboard::Space)
+				if (states == States::inGame) {
+					std::cout << "oooooooooooooooooooo";
+					states = States(2);
+				}
+				else if (states == States::inExclavation) {
+					std::cout << "aaaaaaaaaaaaaaaaaaa";
+					states = States(1);
+				}	
 			break;
 		}
 	}
 
+
 	player->updateInput();
-	wall->checkInteract();
+	for (auto &wall : walls) {
+		wall->checkInteract();
+	}
+
 
 }
 
@@ -98,9 +112,11 @@ void Game::render()
 {
 
 	this->window->clear();
-
-	this->wall->draw((this->window));
+	for (auto& wall : walls) {
+		wall->draw((this->window));
+	}
 	this->player->playerDraw((this->window));
 
 	this->window->display();
 }
+

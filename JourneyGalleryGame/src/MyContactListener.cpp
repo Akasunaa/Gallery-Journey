@@ -16,6 +16,7 @@ void MyContactListener::BeginContact(b2Contact* contact) {
             ptrB->interact();
         }
     }
+    std::cout << "poutch";
 }
 
 void MyContactListener::EndContact(b2Contact* contact) {
@@ -33,4 +34,5 @@ void MyContactListener::EndContact(b2Contact* contact) {
             ptrB->dontInteract();
         }
     }
+    std::cout << "poutch";
 }

@@ -7,7 +7,7 @@
 
 class InterractableObject {
 public :
-	explicit InterractableObject(b2World* world, b2Vec2 pos, float height, float width);
+	explicit InterractableObject(b2World* world, float x, float y, float height, float width);
 	void setposition(b2Vec2 pos);
 	void draw(sf::RenderWindow* window);	
 	b2Vec2 getPosition() const;
