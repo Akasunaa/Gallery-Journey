@@ -72,7 +72,6 @@
 build
 # Ignore directories used by CLion for project generation
 .idea
-<<<<<<< HEAD
 cmake-build-debug
 
 ##Je deteste VS
@@ -474,6 +473,3 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-=======
-cmake-build-debug
->>>>>>> 850541cec5a795592ac662f379b5bbf2599c0428
