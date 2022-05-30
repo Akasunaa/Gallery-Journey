@@ -13,7 +13,7 @@ public :
 	b2Vec2 getPosition() const;
 	virtual void interact();
 	virtual void dontInteract();
-	virtual void checkInteract();
+	virtual bool checkInteract();
 
 
 private:

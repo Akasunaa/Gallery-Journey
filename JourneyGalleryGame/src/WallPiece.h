@@ -13,9 +13,6 @@ class WallPiece : public InterractableObject
 {
 public:
 	explicit WallPiece(b2World* world, float x,float y);
-	void interact() override;
-	void dontInteract() override;
-	void checkInteract() override;
 
 private:
 

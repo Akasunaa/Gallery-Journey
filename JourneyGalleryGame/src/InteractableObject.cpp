@@ -46,16 +46,17 @@ b2Vec2 InterractableObject::getPosition() const
 
 void InterractableObject::interact()
 {
-	std::cout << "miaou";
+	canInteract = true;
 }
 
 void InterractableObject::dontInteract()
 {
-	std::cout << "not miaou";
+	canInteract = false;
 }
 
-void InterractableObject::checkInteract()
+bool InterractableObject::checkInteract()
 {
+	return canInteract;
 }
 
 void InterractableObject::draw(sf::RenderWindow* window) {

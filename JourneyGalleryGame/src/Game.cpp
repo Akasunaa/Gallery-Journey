@@ -79,7 +79,7 @@ void Game::pollEvents()
 		case sf::Event::KeyPressed:
 			if (this->ev.key.code == sf::Keyboard::Escape)
 				this->window->close();
-			else if(this->ev.key.code == sf::Keyboard::Space)
+			else if (this->ev.key.code == sf::Keyboard::Space) {
 				if (states == States::inGame) {
 					std::cout << "oooooooooooooooooooo";
 					states = States(2);
@@ -87,7 +87,17 @@ void Game::pollEvents()
 				else if (states == States::inExclavation) {
 					std::cout << "aaaaaaaaaaaaaaaaaaa";
 					states = States(1);
-				}	
+				}
+			}
+
+			else if (this->ev.key.code == sf::Keyboard::E) {
+				std::cout << "wshhhhhhhhhh";
+				for (auto& wall : walls) {
+					if (wall->checkInteract()) {
+						std::cout << "ca fonctionne !";
+					}
+				}
+			}
 			break;
 		}
 	}
