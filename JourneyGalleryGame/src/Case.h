@@ -5,16 +5,21 @@
 #include <SFML/Window/Event.hpp>
 #include <stdio.h>
 #include <InteractableObject.h>
+
+
 enum class Contenu {vide, plein};
 enum class Etat {intact, creuse};
 
 class Case
 {
 public:
-	explicit Case();
+	explicit Case(int x,int y, float height, float width, float nb_case);
+	void draw(sf::RenderWindow* window);
+	void setValue(int val);
 
 private:
 	sf::RectangleShape rect;
 	int x;
 	int y;
+	int value;
 };
