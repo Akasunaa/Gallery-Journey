@@ -2,21 +2,17 @@
 #include <iostream>
 
 
-Case::Case(int x, int y,float height, float width, float nb_case)
+Case::Case(int x, int y,float height, float width, float nb_case,int value)
 {
 	this->x = x;
 	this->y = y;
+	this->value = value;
 	this->rect.setSize(sf::Vector2f(height/nb_case,width/nb_case));
-	if (x % 2) {
-		this->rect.setFillColor(sf::Color::Red);
-	}
-	else {
-		this->rect.setFillColor(sf::Color::Blue);
-	}
-
+	this->rect.setFillColor(sf::Color::Red);
 	this->rect.setPosition(sf::Vector2f(x * height /nb_case, y * width/nb_case));
 	this->rect.setOutlineColor(sf::Color::Black);
 	this->rect.setOutlineThickness(-3);
+	this->isDig = false;
 
 }
 
@@ -25,9 +21,12 @@ void Case::draw(sf::RenderWindow* window)
 	window->draw(rect);
 }
 
-void Case::setValue(int val)
+void Case::dig()
 {
-	value = val;
+	isDig = true;
+	this->rect.setFillColor(sf::Color::Blue);
+
 }
+
 
 

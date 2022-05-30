@@ -18,7 +18,8 @@ class Excavation
 public:
 	explicit Excavation(sf::RenderWindow* window);
 	void draw(sf::RenderWindow* window);
-	void clickMouse(sf::RenderWindow* window);
+	int posMouse(sf::RenderWindow* window);
+	void updateInput(sf::RenderWindow* window);
 
 private:
 	sf::RectangleShape rect;

@@ -102,7 +102,8 @@ void Game::pollEvents()
 void Game::update() 
 {
 	this->pollEvents();
-	player->updateInput();
+	if(states==States::inGame)
+		player->updateInput();
 	for (auto& wall : walls) {
 		wall->checkInteract();
 	}

@@ -7,19 +7,18 @@
 #include <InteractableObject.h>
 
 
-enum class Contenu {vide, plein};
-enum class Etat {intact, creuse};
-
 class Case
 {
 public:
-	explicit Case(int x,int y, float height, float width, float nb_case);
+	explicit Case(int x,int y, float height, float width, float nb_case, int value);
 	void draw(sf::RenderWindow* window);
-	void setValue(int val);
+	void dig();
 
 private:
 	sf::RectangleShape rect;
 	int x;
 	int y;
 	int value;
+	bool asTresure;
+	bool isDig;
 };
