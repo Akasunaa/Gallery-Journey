@@ -13,6 +13,7 @@ Case::Case(int x, int y,float height, float width, float nb_case,int value)
 	this->rect.setOutlineColor(sf::Color::Black);
 	this->rect.setOutlineThickness(-3);
 	this->isDig = false;
+	this->asTresure = false;
 
 }
 
@@ -24,8 +25,23 @@ void Case::draw(sf::RenderWindow* window)
 void Case::dig()
 {
 	isDig = true;
-	this->rect.setFillColor(sf::Color::Blue);
+	if(asTresure){
+		this->rect.setFillColor(sf::Color::Yellow);
+	}
+	else {
+		this->rect.setFillColor(sf::Color::Blue);
+	}
 
+}
+
+bool Case::getTresure()
+{
+	return asTresure;
+}
+
+void Case::setTresure()
+{
+	asTresure = true;
 }
 
 

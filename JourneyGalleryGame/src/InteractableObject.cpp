@@ -41,7 +41,7 @@ void InterractableObject::setposition(b2Vec2 pos)
 
 b2Vec2 InterractableObject::getPosition() const
 {
-	return b2Vec2();
+	return body->GetPosition();
 }
 
 void InterractableObject::interact()

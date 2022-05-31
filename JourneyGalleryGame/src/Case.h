@@ -13,6 +13,8 @@ public:
 	explicit Case(int x,int y, float height, float width, float nb_case, int value);
 	void draw(sf::RenderWindow* window);
 	void dig();
+	void setTresure();
+	bool getTresure();
 
 private:
 	sf::RectangleShape rect;
