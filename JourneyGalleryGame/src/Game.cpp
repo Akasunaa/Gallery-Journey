@@ -26,14 +26,15 @@ void Game::initWorld()
 	states = States::inGame;
 
 	//init level
-	this->player = new Player(world, { 100.0f, 0.0f });
-	this->excavation = new Excavation(this->window);
+	this->player = new Player(world, { 200.0f, 0.0f });
 
 	//init walls
 
-
-	std::unique_ptr<WallPiece> wall = std::make_unique<WallPiece>(world, 0.0f, 0.0f);
+	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 0.0f, 0.0f,this->window);
+	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 300.0f, 0.0f, this->window);
+	//std::unique_ptr<WallPiece> wallsef = std::make_unique<WallPiece>(world, 0.0f, 0.0f);
 	walls.push_back(std::move(wall));
+	walls.push_back(std::move(walltwo));
 	//Init ground
 	/*b2BodyDef groundBodyDef;
 	groundBodyDef.position.Set(0.0f,-200.0f);
@@ -82,14 +83,16 @@ void Game::pollEvents()
 			else if (this->ev.key.code == sf::Keyboard::E) {
 				if (states == States::inGame) {
 					for (auto& wall : walls) {
-						if (wall->checkInteract()) {
+						if (wall->wallPiece.checkInteract()) {
 							states = States::inExcavation;
+							toDraw = &(wall->excavation);
 						}
 					}
 				}
 			}
 			else if (this->ev.key.code == sf::Keyboard::Q) {
 				if (states == States::inExcavation) {
+					toDraw = nullptr;
 					states = States::inGame;
 				}
 				break;
@@ -104,9 +107,6 @@ void Game::update()
 	this->pollEvents();
 	if(states==States::inGame)
 		player->updateInput();
-	for (auto& wall : walls) {
-		wall->checkInteract();
-	}
 }
 
 
@@ -115,13 +115,14 @@ void Game::render()
 {
 	this->window->clear();
 	for (auto& wall : walls) {
-		wall->draw((this->window));
+		wall->wallPiece.draw((this->window));
 	}
 	this->player->playerDraw((this->window));
 	if (states == States::inExcavation) {
-		excavation->draw(this->window);
+		toDraw->draw(this->window);
 	}
 	
 	this->window->display();
 }
+
 
