@@ -20,6 +20,7 @@ public:
 	explicit Excavation(sf::RenderWindow* window);
 	void draw(sf::RenderWindow* window);
 	int posMouse(sf::RenderWindow* window);
+	void digIn(int val);
 	void updateInput(sf::RenderWindow* window);
 
 private:

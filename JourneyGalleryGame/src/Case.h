@@ -12,7 +12,8 @@ class Case
 public:
 	explicit Case(int x,int y, float height, float width, float nb_case, int value);
 	void draw(sf::RenderWindow* window);
-	void dig();
+	void setDig();
+	bool getDig();
 	void setTresure();
 	bool getTresure();
 

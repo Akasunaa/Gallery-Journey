@@ -22,7 +22,7 @@ void Case::draw(sf::RenderWindow* window)
 	window->draw(rect);
 }
 
-void Case::dig()
+void Case::setDig()
 {
 	isDig = true;
 	if(asTresure){
@@ -37,6 +37,11 @@ void Case::dig()
 bool Case::getTresure()
 {
 	return asTresure;
+}
+
+bool Case::getDig()
+{
+	return isDig;
 }
 
 void Case::setTresure()

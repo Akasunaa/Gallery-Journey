@@ -32,9 +32,10 @@ void Game::initWorld()
 
 	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 0.0f, 0.0f,this->window);
 	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 300.0f, 0.0f, this->window);
-	//std::unique_ptr<WallPiece> wallsef = std::make_unique<WallPiece>(world, 0.0f, 0.0f);
 	walls.push_back(std::move(wall));
 	walls.push_back(std::move(walltwo));
+
+	table = std::make_unique<Table>(world, 400.0f, 0.0f);
 	//Init ground
 	/*b2BodyDef groundBodyDef;
 	groundBodyDef.position.Set(0.0f,-200.0f);
@@ -80,13 +81,16 @@ void Game::pollEvents()
 		case sf::Event::KeyPressed:
 			if (this->ev.key.code == sf::Keyboard::Escape)
 				this->window->close();
-			else if (this->ev.key.code == sf::Keyboard::E) {
+			else if (this->ev.key.code == sf::Keyboard::E) { //Boucle d'interaction avec les objets 
 				if (states == States::inGame) {
-					for (auto& wall : walls) {
+					for (auto& wall : walls) { //Murs
 						if (wall->wallPiece.checkInteract()) {
 							states = States::inExcavation;
 							toDraw = &(wall->excavation);
 						}
+					}
+					if (table->checkInteract()) { //Table
+						std::cout << "bro wat";
 					}
 				}
 			}
@@ -121,6 +125,7 @@ void Game::render()
 	if (states == States::inExcavation) {
 		toDraw->draw(this->window);
 	}
+	this->table->draw(this->window);
 	
 	this->window->display();
 }

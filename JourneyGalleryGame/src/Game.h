@@ -11,6 +11,8 @@
 #include <memory>
 #include <vector>
 #include "Excavation.h"
+#include <Table.h>
+
 class Game;
 
 enum class States { inGame = 1, inExcavation = 2};
@@ -35,6 +37,7 @@ private:
 	b2World* world;
 	Player* player;
 
+	unique_ptr<Table> table;
 	std::vector<std::unique_ptr<Wall>> walls;
 	Excavation* toDraw;
 

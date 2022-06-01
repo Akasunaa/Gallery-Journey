@@ -9,7 +9,7 @@ class InterractableObject {
 public :
 	explicit InterractableObject(b2World* world, float x, float y, float height, float width);
 	void setposition(b2Vec2 pos);
-	void draw(sf::RenderWindow* window);	
+	virtual void draw(sf::RenderWindow* window);	
 	b2Vec2 getPosition() const;
 	virtual void interact();
 	virtual void dontInteract();
@@ -19,9 +19,9 @@ public :
 private:
 	b2Body* body;
 	b2BodyDef bodyDef;
-	sf::RectangleShape rect;
 
 protected:
 	bool canInteract;
+	sf::RectangleShape rect;
 
 };
