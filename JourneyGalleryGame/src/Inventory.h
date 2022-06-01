@@ -1,0 +1,8 @@
+//
+// Created by Alexandre Laferrère on 01/06/2022.
+//
+
+#ifndef GALLERYJOURNEY_INVENTORY_H
+#define GALLERYJOURNEY_INVENTORY_H
+
+#endif //GALLERYJOURNEY_INVENTORY_H
