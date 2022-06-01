@@ -20,8 +20,11 @@ enum class States { inGame = 1, inExcavation = 2};
 struct Wall {
 	WallPiece wallPiece;
 	Excavation excavation;
+	int prio=0;
+	bool isActiv=true;
 	Wall(b2World* world, float x, float y, sf::RenderWindow* window) :
 		wallPiece(world, x, y),excavation(window){}
+
 };
 
 class Game {

@@ -29,13 +29,16 @@ void Game::initWorld()
 	this->player = new Player(world, { 200.0f, 0.0f });
 
 	//init walls
-
 	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 0.0f, 0.0f,this->window);
-	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 300.0f, 0.0f, this->window);
+	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 0.0f, this->window);
+	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 300.0f, 0.0f, this->window);
 	walls.push_back(std::move(wall));
 	walls.push_back(std::move(walltwo));
+	walls.push_back(std::move(wallthree));
 
+	//table de craft
 	table = std::make_unique<Table>(world, 400.0f, 0.0f);
+
 	//Init ground
 	/*b2BodyDef groundBodyDef;
 	groundBodyDef.position.Set(0.0f,-200.0f);
@@ -117,10 +120,15 @@ void Game::update()
 	this->pollEvents();
 	if(states==States::inGame)
 		player->updateInput();
-	if (states == States::inExcavation) {
+	if (states == States::inExcavation) { 
+		//Verifie qu'on peut toujours creuser, sinon on se fait virer du mur
 		if (!(walls[digIndex]->excavation.getIsActiv())) {
 			walls[digIndex]->wallPiece.setCanBeDug(false);
-			states = States::inGame;
+			states = States::inGame; 
+			//Si on retourne en jeu, on cherche un autre mur à rendre actif
+			//Boucle sur les non actifs pour trouver celui à reveiller #sprint 1 d'os moins bien codé
+
+			walls[digIndex]->prio = 1;
 		}
 	}
 }
