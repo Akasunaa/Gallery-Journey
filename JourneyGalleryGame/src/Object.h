@@ -15,6 +15,7 @@ public:
     void decrease_copies(int nb);
     bool has_enough(int nb_cop);
     std::string get_name();
+    std::string get_sprite_path();
     int get_nb_copies();
 protected:
     std::string name;

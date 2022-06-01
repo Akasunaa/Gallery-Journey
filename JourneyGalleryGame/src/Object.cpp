@@ -26,6 +26,10 @@ std::string Object::get_name() {
     return name;
 }
 
+std::string Object::get_sprite_path() {
+    return sprite_path;
+}
+
 int Object::get_nb_copies() {
     return nb_copies;
 }
