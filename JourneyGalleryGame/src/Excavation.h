@@ -6,6 +6,7 @@
 #include <SFML/Window/Event.hpp>
 #include <stdio.h>
 #include <InteractableObject.h>
+#include <random>
 using namespace std;
 
 
@@ -22,6 +23,8 @@ public:
 	int posMouse(sf::RenderWindow* window);
 	void digIn(int val);
 	void updateInput(sf::RenderWindow* window);
+	int init();
+	void reset();
 
 private:
 	sf::RectangleShape rect;
@@ -32,7 +35,8 @@ private:
 	int offsetX; //offset de x sur la grille
 	int offsetY; //offset de y sur la grille
 
-	int tryDig; //nombre de tentative possible
+	int tryDig; //nombre de tentative
+	int canDig; //nombre de tentative possible
 	int found; //nombre de morceau de trésor trouvé
 	int toFound; //nombre de morceau a trouvé
 };
