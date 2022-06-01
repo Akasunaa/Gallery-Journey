@@ -11,7 +11,7 @@ int random_a_to_b(int const a, int const b)
 }
 
 Excavation::Excavation(sf::RenderWindow* window) {
-	isActiv = true;
+	canDig = true; 
 	//Construction de la grille de base avec un vecteur de cases
 	this->rect.setSize(sf::Vector2f(widthExc, hightExc));
 	for (int i = 0; i < nb_case * nb_case; i++) {
@@ -41,6 +41,7 @@ void Excavation::digIn(int val) //Creuse une case et vérifie si on a trouvé le t
 				found++;
 				if (found == toFound) {
 					std::cout << "FOUND";
+					canDig = false;
 				}
 			}
 		}
@@ -60,10 +61,10 @@ void Excavation::updateInput(sf::RenderWindow* window)
 
 void Excavation::init()
 {
-	isActiv = true;
+	nbDig = true;
 	//Nombre de possibilité de creuser
 	int pos = random_a_to_b(5, 10);
-	canDig = pos;
+	nbDig = pos;
 	tryDig = 0;
 
 	//Recherche d'un objet aléatoire
@@ -85,7 +86,7 @@ void Excavation::init()
 
 void Excavation::reset()
 {
-	isActiv = false;
+	canDig = false;
 	//reset des cases
 	for (int i = 0; i < nb_case * nb_case; i++) {
 		cases[i].setUndig();
@@ -94,9 +95,9 @@ void Excavation::reset()
 
 }
 
-bool Excavation::getIsActiv()
+bool Excavation::getCanDig()
 {
-	return isActiv;
+	return canDig;
 }
 
 
@@ -106,7 +107,7 @@ void Excavation::draw(sf::RenderWindow* window)
 	for (int i = 0; i < nb_case * nb_case; i++) {
 		cases[i].draw(window);
 	}
-	if (tryDig > canDig) {
+	if (tryDig > nbDig) {
 		reset();
 		tryDig = 0;	
 	}

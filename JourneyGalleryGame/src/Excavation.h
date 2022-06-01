@@ -25,21 +25,20 @@ public:
 	void updateInput(sf::RenderWindow* window);
 	void init();
 	void reset();
-	bool getIsActiv();
+	bool getCanDig();
 
 private:
 	sf::RectangleShape rect;
 	std::vector<Case> cases;
 
-	//Si j'ai le temps : faire de ceci une structure
 	vector<std::tuple<int, int> > object; //objet a trouver
 	int offsetX; //offset de x sur la grille
 	int offsetY; //offset de y sur la grille
 
 	int tryDig; //nombre de tentative
-	int canDig; //nombre de tentative possible
+	int nbDig; //nombre de tentative possible
 	int found; //nombre de morceau de trésor trouvé
 	int toFound; //nombre de morceau a trouvé
 
-	bool isActiv;
+	bool canDig; //Si on peut creuser
 };

@@ -2,7 +2,6 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <Player.h>
-#include <WallPiece.h>
 #include "box2d/box2d.h"
 #include <stdio.h>
 #include <assert.h>
@@ -10,21 +9,14 @@
 #include <MyContactListener.h>
 #include <memory>
 #include <vector>
-#include "Excavation.h"
+#include <Wall.h>
 #include <Table.h>
 
 class Game;
 
 enum class States { inGame = 1, inExcavation = 2};
 
-struct Wall {
-	WallPiece wallPiece;
-	Excavation excavation;
-	int prio=1;
-	Wall(b2World* world, float x, float y, sf::RenderWindow* window) :
-		wallPiece(world, x, y),excavation(window){}
 
-};
 
 class Game {
 private:

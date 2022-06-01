@@ -1,8 +1,6 @@
 #include "Game.h"
 
 
-
-
 void Game::initWindow()
 {
 	//init fenetre
@@ -36,7 +34,7 @@ void Game::initWorld()
 	walls.push_back(std::move(walltwo));
 	walls.push_back(std::move(wallthree));
 	indispo = 0;
-	//table de craft
+	//init table
 	table = std::make_unique<Table>(world, 400.0f, 0.0f);
 
 	//Init ground
@@ -70,7 +68,6 @@ const bool Game::running() const
 void Game::pollEvents()
 {
 	MyContactListener myContactListenerInstance;
-
 	this->world->Step(timeStep, velocityIterations, positionIterations);
 	world->SetContactListener(&myContactListenerInstance);
 
@@ -87,14 +84,12 @@ void Game::pollEvents()
 			else if (this->ev.key.code == sf::Keyboard::E) { //Boucle d'interaction avec les objets 
 				if (states == States::inGame) {
 					//Interraction avec les murs
-
 					for (int i = 0; i < walls.size(); i++)
 					{
-						if (walls[i]->wallPiece.checkInteract()) {
-							if (walls[i]->excavation.getIsActiv()) {
-
+						if (walls[i]->getWallPiece()->checkInteract()) {
+							if (walls[i]->getExcavation()->getCanDig()) {
 								states = States::inExcavation;
-								digIndex = i;
+								digIndex = i; //Mur que l'on est en train de creuser
 							}
 						}
 					}
@@ -120,6 +115,7 @@ void Game::update()
 {
 	//Interaction input
 	this->pollEvents();
+
 	//InGame
 	if (states == States::inGame)
 		player->updateInput();
@@ -127,36 +123,15 @@ void Game::update()
 	//InExcavation -> code à déplacer?
 	if (states == States::inExcavation) {
 		//Verifie qu'on peut toujours creuser, sinon on se fait virer du mur
-		if (!(walls[digIndex]->excavation.getIsActiv())) {
-			indispo++;
-			std::cout << "indispo: " << indispo << '\n';
-			walls[digIndex]->wallPiece.setCanBeDug(false);
+		if (!(walls[digIndex]->getExcavation()->getCanDig())) {
+			walls[digIndex]->getWallPiece()->setCanBeDug(false);
 			states = States::inGame;
 			//Si on retourne en jeu, on cherche un autre mur à rendre actif
-			//Boucle sur les non actifs pour trouver celui à reveiller #sprint 1 d'os moins bien codé
-			if (indispo > 2) {
-				int max = digIndex; //indice du mur à reactiver
-				std::cout << "max: " << max << '\n';
-				for (int i = 0; i < walls.size(); i++)
-				{
-					if (!(walls[i]->wallPiece.getCanBeDug())) {
-						walls[i]->prio++;
-
-						if (walls[i]->prio > walls[max]->prio) {
-							max = i;
-						}
-					}
-					walls[max]->prio = 0;
-					walls[max]->excavation.init();
-					walls[max]->wallPiece.setCanBeDug(true);
-
-				}
-				indispo--;
-			}
-			
+			//Boucle sur les non actifs pour trouver celui à reveiller #sprint 1 d'os moins bien codé			
 		}
 	}
 }
+
 
 
 
@@ -164,11 +139,11 @@ void Game::render()
 {
 	this->window->clear();
 	for (auto& wall : walls) {
-		wall->wallPiece.draw((this->window));
+		wall->getWallPiece()->draw((this->window));
 	}
 	this->player->playerDraw((this->window));
 	if (states == States::inExcavation) {
-		walls[digIndex]->excavation.draw(this->window);
+		walls[digIndex]->getExcavation()->draw(this->window);
 	}
 	this->table->draw(this->window);
 	
