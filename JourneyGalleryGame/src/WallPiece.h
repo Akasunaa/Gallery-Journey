@@ -14,6 +14,7 @@ class WallPiece : public InterractableObject
 public:
 	explicit WallPiece(b2World* world, float x,float y);
 	void setCanBeDug(bool state);
+	bool getCanBeDug();
 	void draw(sf::RenderWindow* window) override;
 
 private:

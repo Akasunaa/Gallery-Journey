@@ -20,8 +20,7 @@ enum class States { inGame = 1, inExcavation = 2};
 struct Wall {
 	WallPiece wallPiece;
 	Excavation excavation;
-	int prio=0;
-	bool isActiv=true;
+	int prio=1;
 	Wall(b2World* world, float x, float y, sf::RenderWindow* window) :
 		wallPiece(world, x, y),excavation(window){}
 
@@ -43,6 +42,7 @@ private:
 	unique_ptr<Table> table;
 	std::vector<std::unique_ptr<Wall>> walls;
 	int digIndex; //mur en cours de creusage
+	int indispo;
 
 
 	void initWindow();

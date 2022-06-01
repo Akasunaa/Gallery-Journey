@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-int random_a_to_b(int const a,int const b)
+int random_a_to_b(int const a, int const b)
 {
 	static std::random_device rd;
 	static std::default_random_engine engine(rd());
@@ -14,18 +14,18 @@ Excavation::Excavation(sf::RenderWindow* window) {
 	isActiv = true;
 	//Construction de la grille de base avec un vecteur de cases
 	this->rect.setSize(sf::Vector2f(widthExc, hightExc));
-	for (int i = 0; i < nb_case*nb_case; i++) {
-		Case thisCase(i / nb_case,i%nb_case,hightExc,widthExc,nb_case,i);
+	for (int i = 0; i < nb_case * nb_case; i++) {
+		Case thisCase(i / nb_case, i % nb_case, hightExc, widthExc, nb_case, i);
 		cases.push_back(thisCase);
 	}
 	init();
-	
+
 }
- 
+
 int Excavation::posMouse(sf::RenderWindow* window) //Retourne la position i de la case sur laquelle la souris est
 {
 	sf::Vector2i position = sf::Mouse::getPosition(*window);
-	int x = position.x / (hightExc/nb_case);
+	int x = position.x / (hightExc / nb_case);
 	int y = position.y / (widthExc / nb_case);
 	int value = x * nb_case + y;
 	return value;
@@ -60,6 +60,7 @@ void Excavation::updateInput(sf::RenderWindow* window)
 
 void Excavation::init()
 {
+	isActiv = true;
 	//Nombre de possibilité de creuser
 	int pos = random_a_to_b(5, 10);
 	canDig = pos;
@@ -90,7 +91,6 @@ void Excavation::reset()
 		cases[i].setUndig();
 		cases[i].setUntresure();
 	}
-	init();
 
 }
 
@@ -103,13 +103,12 @@ bool Excavation::getIsActiv()
 void Excavation::draw(sf::RenderWindow* window)
 {
 	updateInput(window);
-	for (int i = 0; i < nb_case*nb_case;i++) {
-		cases[i].draw(window);	
+	for (int i = 0; i < nb_case * nb_case; i++) {
+		cases[i].draw(window);
 	}
 	if (tryDig > canDig) {
-		tryDig = 0;
 		reset();
+		tryDig = 0;	
 	}
 
 }
-
