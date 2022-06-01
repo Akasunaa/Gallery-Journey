@@ -25,6 +25,7 @@ public:
 	void updateInput(sf::RenderWindow* window);
 	void init();
 	void reset();
+	bool getIsActiv();
 
 private:
 	sf::RectangleShape rect;
@@ -39,4 +40,6 @@ private:
 	int canDig; //nombre de tentative possible
 	int found; //nombre de morceau de trésor trouvé
 	int toFound; //nombre de morceau a trouvé
+
+	bool isActiv;
 };

@@ -83,20 +83,26 @@ void Game::pollEvents()
 				this->window->close();
 			else if (this->ev.key.code == sf::Keyboard::E) { //Boucle d'interaction avec les objets 
 				if (states == States::inGame) {
-					for (auto& wall : walls) { //Murs
-						if (wall->wallPiece.checkInteract()) {
-							states = States::inExcavation;
-							toDraw = &(wall->excavation);
+					//Interraction avec les murs
+
+					for (int i = 0; i < walls.size(); i++)
+					{
+						if (walls[i]->wallPiece.checkInteract()) {
+							if (walls[i]->excavation.getIsActiv()) {
+								states = States::inExcavation;
+								digIndex = i;
+							}
 						}
 					}
-					if (table->checkInteract()) { //Table
+					//Interraction avec la table
+					if (table->checkInteract()) { 
 						std::cout << "bro wat";
 					}
 				}
 			}
 			else if (this->ev.key.code == sf::Keyboard::Q) {
 				if (states == States::inExcavation) {
-					toDraw = nullptr;
+					digIndex = -1;
 					states = States::inGame;
 				}
 				break;
@@ -111,6 +117,12 @@ void Game::update()
 	this->pollEvents();
 	if(states==States::inGame)
 		player->updateInput();
+	if (states == States::inExcavation) {
+		if (!(walls[digIndex]->excavation.getIsActiv())) {
+			walls[digIndex]->wallPiece.setCanBeDug(false);
+			states = States::inGame;
+		}
+	}
 }
 
 
@@ -123,7 +135,7 @@ void Game::render()
 	}
 	this->player->playerDraw((this->window));
 	if (states == States::inExcavation) {
-		toDraw->draw(this->window);
+		walls[digIndex]->excavation.draw(this->window);
 	}
 	this->table->draw(this->window);
 	

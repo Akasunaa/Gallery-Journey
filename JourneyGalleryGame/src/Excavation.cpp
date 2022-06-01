@@ -11,6 +11,7 @@ int random_a_to_b(int const a,int const b)
 }
 
 Excavation::Excavation(sf::RenderWindow* window) {
+	isActiv = true;
 	//Construction de la grille de base avec un vecteur de cases
 	this->rect.setSize(sf::Vector2f(widthExc, hightExc));
 	for (int i = 0; i < nb_case*nb_case; i++) {
@@ -19,9 +20,6 @@ Excavation::Excavation(sf::RenderWindow* window) {
 	}
 	init();
 	
-
-	
-
 }
  
 int Excavation::posMouse(sf::RenderWindow* window) //Retourne la position i de la case sur laquelle la souris est
@@ -86,6 +84,7 @@ void Excavation::init()
 
 void Excavation::reset()
 {
+	isActiv = false;
 	//reset des cases
 	for (int i = 0; i < nb_case * nb_case; i++) {
 		cases[i].setUndig();
@@ -93,6 +92,11 @@ void Excavation::reset()
 	}
 	init();
 
+}
+
+bool Excavation::getIsActiv()
+{
+	return isActiv;
 }
 
 

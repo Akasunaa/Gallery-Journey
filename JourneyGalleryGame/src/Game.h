@@ -39,7 +39,7 @@ private:
 
 	unique_ptr<Table> table;
 	std::vector<std::unique_ptr<Wall>> walls;
-	Excavation* toDraw;
+	int digIndex; //mur en cours de creusage
 
 
 	void initWindow();
