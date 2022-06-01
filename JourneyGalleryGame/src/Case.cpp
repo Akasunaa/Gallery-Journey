@@ -44,9 +44,20 @@ bool Case::getDig()
 	return isDig;
 }
 
+void Case::setUndig()
+{
+	isDig = false();
+	this->rect.setFillColor(sf::Color::Red);
+}
+
 void Case::setTresure()
 {
 	asTresure = true;
+}
+
+void Case::setUntresure()
+{
+	asTresure = false;
 }
 
 

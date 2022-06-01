@@ -23,7 +23,7 @@ public:
 	int posMouse(sf::RenderWindow* window);
 	void digIn(int val);
 	void updateInput(sf::RenderWindow* window);
-	int init();
+	void init();
 	void reset();
 
 private:

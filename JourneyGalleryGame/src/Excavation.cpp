@@ -17,9 +17,8 @@ Excavation::Excavation(sf::RenderWindow* window) {
 		Case thisCase(i / nb_case,i%nb_case,hightExc,widthExc,nb_case,i);
 		cases.push_back(thisCase);
 	}
-	canDig = init();
+	init();
 	
-	std::cout << canDig << '\n';
 
 	
 
@@ -61,9 +60,13 @@ void Excavation::updateInput(sf::RenderWindow* window)
 	}
 }
 
-int Excavation::init()
+void Excavation::init()
 {
+	//Nombre de possibilité de creuser
+	int pos = random_a_to_b(5, 10);
+	canDig = pos;
 	tryDig = 0;
+
 	//Recherche d'un objet aléatoire
 	object.push_back(make_tuple(0, 1));
 	object.push_back(make_tuple(1, 1));
@@ -73,20 +76,22 @@ int Excavation::init()
 	toFound = 3;
 	found = 0;
 
-	//Nombre de possibilité 
-	int pos = random_a_to_b(5, 10);
-	std::cout << pos << '\n';
-
 	//Mise en place de l'objet 
 	for (auto& coor : object) {
 		int val = (get<0>(coor) + offsetX) * nb_case + get<1>(coor) + offsetY;
 		cases[val].setTresure();
 	}
-	return pos;
+
 }
 
 void Excavation::reset()
 {
+	//reset des cases
+	for (int i = 0; i < nb_case * nb_case; i++) {
+		cases[i].setUndig();
+		cases[i].setUntresure();
+	}
+	init();
 
 }
 
@@ -94,12 +99,12 @@ void Excavation::reset()
 void Excavation::draw(sf::RenderWindow* window)
 {
 	updateInput(window);
-	std::cout << tryDig << '\n';
 	for (int i = 0; i < nb_case*nb_case;i++) {
 		cases[i].draw(window);	
 	}
 	if (tryDig > canDig) {
-		std::cout << "omg";
+		tryDig = 0;
+		reset();
 	}
 
 }

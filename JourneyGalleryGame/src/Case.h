@@ -14,7 +14,11 @@ public:
 	void draw(sf::RenderWindow* window);
 	void setDig();
 	bool getDig();
+	void setUndig();
+
+
 	void setTresure();
+	void setUntresure();
 	bool getTresure();
 
 private:
