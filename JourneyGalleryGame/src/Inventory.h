@@ -19,11 +19,12 @@ public:
     void init_inventory(pugi::xml_node node);
     void add_object_type(std::unique_ptr<Equipment> equip_type);
     void add_object_type(std::unique_ptr<Material> mat_type);
-    void remove_object_type(const std::string obj_key);
-    void add_material(const std::string mat_key, const int nb_copies);
-    void consume_material(const std::string mat_key, const int nb_copies);
-    bool is_craftable(const std::string equip_key);
-    void craft(const std::string equip_key);
+    void remove_object_type(const std::string & obj_key);
+    void add_material(const std::string& mat_key, const int & nb_copies);
+    void consume_material(const std::string & mat_key, const int & nb_copies);
+    bool is_craftable(const std::string & equip_key);
+    bool is_crafted(const std::string & equip_key);
+    void craft(const std::string & equip_key);
     void display_equipment();
     void display_materials();
     void display_all();

@@ -15,6 +15,7 @@ public:
     explicit Equipment(std::string name, std::string sprite_path, int nb_copies,
               std::vector<std::tuple<std::string, int>> required_mats);
     explicit Equipment(pugi::xml_node node);
+    std::vector<std::tuple<std::string, int>> & get_required_mats();
     bool possessed();
 private:
     std::vector<std::tuple<std::string, int>> required_mats;

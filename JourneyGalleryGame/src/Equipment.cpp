@@ -10,6 +10,9 @@ Equipment::Equipment(std::string name, std::string sprite_path, int nb_copies,
                      required_mats(required_mats)
                      {}
 
+std::vector<std::tuple<std::string, int>> & Equipment::get_required_mats() {
+    return required_mats;
+}
 bool Equipment::possessed() {
     return get_nb_copies() > 0;
 }

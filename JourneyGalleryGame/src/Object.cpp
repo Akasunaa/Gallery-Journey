@@ -19,7 +19,7 @@ void Object::increase_copies(int nb) {
 }
 
 bool Object::has_enough(int nb_cop) {
-    return nb_copies > nb_cop;
+    return nb_copies >= nb_cop;
 }
 
 std::string Object::get_name() {
