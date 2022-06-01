@@ -7,10 +7,12 @@
 #include "Object.h"
 #include <vector>
 #include <tuple>
+#include "pugixml.hpp"
 
 class Material : public Object {
 public:
     explicit Material(std::string name, std::string sprite_path, int nb_copies, std::vector<std::tuple<int,int>> shape);
+    explicit Material(pugi::xml_node node);
 private :
     std::vector<std::tuple<int,int>> shape;
 };

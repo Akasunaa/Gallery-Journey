@@ -8,11 +8,13 @@
 #include "Object.h"
 #include <vector>
 #include <tuple>
+#include "pugixml.hpp"
 
 class Equipment : public Object {
 public:
     explicit Equipment(std::string name, std::string sprite_path, int nb_copies,
               std::vector<std::tuple<std::string, int>> required_mats);
+    explicit Equipment(pugi::xml_node node);
     bool possessed();
 private:
     std::vector<std::tuple<std::string, int>> required_mats;
