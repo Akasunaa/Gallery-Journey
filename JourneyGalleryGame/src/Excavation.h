@@ -18,7 +18,7 @@ using namespace std;
 class Excavation
 {
 public:
-	explicit Excavation(sf::RenderWindow* window);
+	explicit Excavation(sf::RenderWindow* window,GameAssets* ga);
 	void draw(sf::RenderWindow* window);
 	int posMouse(sf::RenderWindow* window);
 	void digIn(int val);
@@ -28,6 +28,8 @@ public:
 	bool getCanDig();
 
 private:
+	GameAssets* ga;
+
 	sf::RectangleShape rect;
 	std::vector<Case> cases;
 

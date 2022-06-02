@@ -2,8 +2,9 @@
 #include <iostream>
 
 
-Case::Case(int x, int y,float height, float width, float nb_case,int value)
+Case::Case(int x, int y,float height, float width, float nb_case,int value,GameAssets* ga)
 {
+	ga = ga;
 	this->x = x;
 	this->y = y;
 	this->value = value;
@@ -14,15 +15,15 @@ Case::Case(int x, int y,float height, float width, float nb_case,int value)
 	this->rect.setOutlineThickness(-3);
 	this->isDig = false;
 	this->asTresure = false;
-	stringSprite = "resources/images/undig.png";
-	texture.loadFromFile(stringSprite);
+	texture = ga->wallUndig;
+	//texture.loadFromFile(stringSprite);
 }
 
 void Case::draw(sf::RenderWindow* window)
 {
 	sprite.setTexture(texture);
 	window->draw(rect);
-	//window->draw(sprite);
+	window->draw(sprite);
 }
 
 void Case::setDig()

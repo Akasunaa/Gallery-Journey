@@ -11,7 +11,6 @@ int myMain()
     //Init game
     Game game;
 
-
     sf::Clock globalClock;
     while (game.running())
     {

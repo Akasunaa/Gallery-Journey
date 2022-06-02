@@ -10,12 +10,14 @@ int random_a_to_b(int const a, int const b)
 	return distribution(engine);
 }
 
-Excavation::Excavation(sf::RenderWindow* window) {
+Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga) {
+	ga = ga;
+
 	canDig = true; 
 	//Construction de la grille de base avec un vecteur de cases
 	this->rect.setSize(sf::Vector2f(widthExc, hightExc));
 	for (int i = 0; i < nb_case * nb_case; i++) {
-		Case thisCase(i / nb_case, i % nb_case, hightExc, widthExc, nb_case, i);
+		Case thisCase(i / nb_case, i % nb_case, hightExc, widthExc, nb_case, i,ga);
 		cases.push_back(thisCase);
 	}
 	init();

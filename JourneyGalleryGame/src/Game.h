@@ -11,6 +11,7 @@
 #include <vector>
 #include <Wall.h>
 #include <Table.h>
+#include <GameAssets.h>
 
 class Game;
 
@@ -30,6 +31,8 @@ private:
 
 	b2World* world;
 	Player* player;
+
+	GameAssets* ga;
 
 	unique_ptr<Table> table;
 	std::vector<std::unique_ptr<Wall>> walls;

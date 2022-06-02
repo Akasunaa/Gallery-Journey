@@ -11,6 +11,10 @@ void Game::initWindow()
 
 void Game::initWorld()
 {
+	//init asset
+	
+	ga = new GameAssets();
+
 	//init world
 	b2Vec2 gravity(0.0f, 0.0f);
 	this->world = new b2World(gravity);
@@ -27,9 +31,9 @@ void Game::initWorld()
 	this->player = new Player(world, { 200.0f, 0.0f });
 
 	//init walls
-	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 0.0f, 0.0f,this->window);
-	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 0.0f, this->window);
-	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 300.0f, 0.0f, this->window);
+	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 0.0f, 0.0f,this->window,ga);
+	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 0.0f, this->window,ga);
+	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 300.0f, 0.0f, this->window,ga);
 	walls.push_back(std::move(wall));
 	walls.push_back(std::move(walltwo));
 	walls.push_back(std::move(wallthree));

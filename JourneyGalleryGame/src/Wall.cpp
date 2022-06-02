@@ -1,9 +1,9 @@
 #include "Wall.h"
 
-Wall::Wall(b2World* world, float x, float y, sf::RenderWindow* window)
+Wall::Wall(b2World* world, float x, float y, sf::RenderWindow* window, GameAssets* ga)
 {
 	wallPiece = new WallPiece(world, x, y);
-	excavation = new Excavation(window);
+	excavation = new Excavation(window,ga);
 	prio = 0;
 }
 

@@ -6,12 +6,13 @@
 #include <stdio.h>
 #include <InteractableObject.h>
 #include <string.h>
+#include <GameAssets.h>
 
 
 class Case
 {
 public:
-	explicit Case(int x,int y, float height, float width, float nb_case, int value);
+	explicit Case(int x,int y, float height, float width, float nb_case, int value, GameAssets* ga);
 	void draw(sf::RenderWindow* window);
 	void setDig();
 	bool getDig();
@@ -29,8 +30,11 @@ private:
 	int value;
 	bool asTresure;
 	bool isDig;
+
 	std::string stringSprite;
 	sf::Texture texture;
 	sf::Sprite sprite;
+
+	GameAssets* ga;
 
 };

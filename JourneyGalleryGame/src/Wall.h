@@ -12,7 +12,7 @@
 class Wall
 {
 public:
-	Wall(b2World* world, float x, float y, sf::RenderWindow* window);
+	Wall(b2World* world, float x, float y, sf::RenderWindow* window, GameAssets* ga);
 	int getPrio();
 	WallPiece* getWallPiece();
 	Excavation* getExcavation();
@@ -22,5 +22,7 @@ private:
 	WallPiece* wallPiece;
 	Excavation* excavation;
 	int prio;
+
+	GameAssets* ga;
 
 };
