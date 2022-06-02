@@ -5,16 +5,32 @@
 #include <SFML/Window/Event.hpp>
 #include <stdio.h>
 #include <InteractableObject.h>
-enum class Contenu {vide, plein};
-enum class Etat {intact, creuse};
+#include <string.h>
+
 
 class Case
 {
 public:
-	explicit Case();
+	explicit Case(int x,int y, float height, float width, float nb_case, int value);
+	void draw(sf::RenderWindow* window);
+	void setDig();
+	bool getDig();
+	void setUndig();
+
+
+	void setTresure();
+	void setUntresure();
+	bool getTresure();
 
 private:
 	sf::RectangleShape rect;
 	int x;
 	int y;
+	int value;
+	bool asTresure;
+	bool isDig;
+	std::string stringSprite;
+	sf::Texture texture;
+	sf::Sprite sprite;
+
 };

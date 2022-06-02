@@ -1,8 +1,6 @@
 #include "Game.h"
 
 
-
-
 void Game::initWindow()
 {
 	//init fenetre
@@ -26,14 +24,19 @@ void Game::initWorld()
 	states = States::inGame;
 
 	//init level
-	this->player = new Player(world, { 100.0f, 0.0f });
-	this->excavation = new Excavation(this->window);
+	this->player = new Player(world, { 200.0f, 0.0f });
 
 	//init walls
-
-
-	std::unique_ptr<WallPiece> wall = std::make_unique<WallPiece>(world, 0.0f, 0.0f);
+	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 0.0f, 0.0f,this->window);
+	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 0.0f, this->window);
+	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 300.0f, 0.0f, this->window);
 	walls.push_back(std::move(wall));
+	walls.push_back(std::move(walltwo));
+	walls.push_back(std::move(wallthree));
+	indispo = 0;
+	//init table
+	table = std::make_unique<Table>(world, 400.0f, 0.0f);
+
 	//Init ground
 	/*b2BodyDef groundBodyDef;
 	groundBodyDef.position.Set(0.0f,-200.0f);
@@ -65,7 +68,6 @@ const bool Game::running() const
 void Game::pollEvents()
 {
 	MyContactListener myContactListenerInstance;
-
 	this->world->Step(timeStep, velocityIterations, positionIterations);
 	world->SetContactListener(&myContactListenerInstance);
 
@@ -79,17 +81,27 @@ void Game::pollEvents()
 		case sf::Event::KeyPressed:
 			if (this->ev.key.code == sf::Keyboard::Escape)
 				this->window->close();
-			else if (this->ev.key.code == sf::Keyboard::E) {
+			else if (this->ev.key.code == sf::Keyboard::E) { //Boucle d'interaction avec les objets 
 				if (states == States::inGame) {
-					for (auto& wall : walls) {
-						if (wall->checkInteract()) {
-							states = States::inExcavation;
+					//Interraction avec les murs
+					for (int i = 0; i < walls.size(); i++)
+					{
+						if (walls[i]->getWallPiece()->checkInteract()) {
+							if (walls[i]->getExcavation()->getCanDig()) {
+								states = States::inExcavation;
+								digIndex = i; //Mur que l'on est en train de creuser
+							}
 						}
+					}
+					//Interraction avec la table
+					if (table->checkInteract()) { 
+						std::cout << "bro wat";
 					}
 				}
 			}
 			else if (this->ev.key.code == sf::Keyboard::Q) {
 				if (states == States::inExcavation) {
+					digIndex = -1;
 					states = States::inGame;
 				}
 				break;
@@ -99,28 +111,49 @@ void Game::pollEvents()
 
 }
 
-void Game::update() 
+void Game::update()
 {
+	//Interaction input
 	this->pollEvents();
-	player->updateInput();
-	for (auto& wall : walls) {
-		wall->checkInteract();
+
+	//InGame
+	if (states == States::inGame)
+		player->updateInput();
+
+	//InExcavation -> code à déplacer?
+	if (states == States::inExcavation) {
+		//Verifie qu'on peut toujours creuser, sinon on se fait virer du mur
+		if (!(walls[digIndex]->getExcavation()->getCanDig())) {
+			walls[digIndex]->getWallPiece()->setCanBeDug(false);
+			states = States::inGame;
+			//Si on retourne en jeu, on cherche un autre mur à rendre actif
+			//Boucle sur les non actifs pour trouver celui à reveiller #sprint 1 d'os moins bien codé			
+		}
 	}
 }
+
 
 
 
 void Game::render()
 {
 	this->window->clear();
+
+	//Dessin de la table
+	this->table->draw(this->window);
+	//Dessin des walls
 	for (auto& wall : walls) {
-		wall->draw((this->window));
+		wall->getWallPiece()->draw((this->window));
 	}
+	//Dessin du player
 	this->player->playerDraw((this->window));
+	//Dessin de l'extraction
 	if (states == States::inExcavation) {
-		excavation->draw(this->window);
+		walls[digIndex]->getExcavation()->draw(this->window);
 	}
+
 	
 	this->window->display();
 }
+
 
