@@ -5,6 +5,7 @@
 #include <SFML/Window/Event.hpp>
 #include <stdio.h>
 #include <InteractableObject.h>
+#include <string.h>
 
 
 class Case
@@ -28,4 +29,8 @@ private:
 	int value;
 	bool asTresure;
 	bool isDig;
+	std::string stringSprite;
+	sf::Texture texture;
+	sf::Sprite sprite;
+
 };

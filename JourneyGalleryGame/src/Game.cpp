@@ -138,14 +138,20 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear();
+
+	//Dessin de la table
+	this->table->draw(this->window);
+	//Dessin des walls
 	for (auto& wall : walls) {
 		wall->getWallPiece()->draw((this->window));
 	}
+	//Dessin du player
 	this->player->playerDraw((this->window));
+	//Dessin de l'extraction
 	if (states == States::inExcavation) {
 		walls[digIndex]->getExcavation()->draw(this->window);
 	}
-	this->table->draw(this->window);
+
 	
 	this->window->display();
 }
