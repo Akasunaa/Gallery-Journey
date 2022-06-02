@@ -110,7 +110,7 @@ void Inventory::craft(const std::string & equip_key) {
 }
 
 void Inventory::display_equipment() {
-    std::cout << "--------- Equipement & Trésors ---------" << std::endl ;
+    std::cout << "----- Equipement & Trésors -----" << std::endl ;
     for(const auto & equip : equipment ){
         std::cout << "• " << equip.first << " ( "  << equip.second->get_nb_copies() << " ) " << std::endl;
     }
@@ -118,7 +118,7 @@ void Inventory::display_equipment() {
 }
 
 void Inventory::display_materials() {
-    std::cout << "--------- Matériaux ---------" << std::endl ;
+    std::cout << "---------- Matériaux ----------" << std::endl ;
     for(const auto & mat : materials ){
         std::cout << "• " << mat.first << " ( "  << mat.second->get_nb_copies() << " ) " << std::endl;
     }

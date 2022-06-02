@@ -50,7 +50,7 @@ bool Case::getDig()
 
 void Case::setUndig()
 {
-	isDig = false();
+	isDig = false;
 	this->rect.setFillColor(sf::Color::Red);
 }
 
