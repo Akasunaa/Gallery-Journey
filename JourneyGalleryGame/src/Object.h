@@ -13,10 +13,10 @@ public:
     explicit Object(std::string name, std::string sprite_path, int nb_copies);
     void increase_copies(int nb);
     void decrease_copies(int nb);
-    bool has_enough(int nb_cop);
-    std::string get_name();
-    std::string get_sprite_path();
-    int get_nb_copies();
+    bool has_enough(int nb_cop) const;
+    std::string get_name() const;
+    std::string get_sprite_path() const;
+    int get_nb_copies() const;
 protected:
     std::string name;
     std::string sprite_path;

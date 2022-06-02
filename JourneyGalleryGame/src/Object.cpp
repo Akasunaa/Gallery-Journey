@@ -18,18 +18,18 @@ void Object::increase_copies(int nb) {
     nb_copies += nb;
 }
 
-bool Object::has_enough(int nb_cop) {
+bool Object::has_enough(int nb_cop) const {
     return nb_copies >= nb_cop;
 }
 
-std::string Object::get_name() {
+std::string Object::get_name() const {
     return name;
 }
 
-std::string Object::get_sprite_path() {
+std::string Object::get_sprite_path() const {
     return sprite_path;
 }
 
-int Object::get_nb_copies() {
+int Object::get_nb_copies() const {
     return nb_copies;
 }

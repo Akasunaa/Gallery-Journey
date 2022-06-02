@@ -28,6 +28,9 @@ public:
     void display_equipment();
     void display_materials();
     void display_all();
+    std::map<std::string, std::unique_ptr<Material>> & get_materials();
+    std::map<std::string, std::unique_ptr<Equipment>> & get_equipment();
+
 private :
     std::map<std::string, std::unique_ptr<Material>> materials;
     std::map<std::string, std::unique_ptr<Equipment>> equipment;

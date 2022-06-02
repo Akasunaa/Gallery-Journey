@@ -3,11 +3,29 @@
 //
 
 #include "Inventory.h"
+#include <string_view>
 #include <iostream>
+
+using namespace std::literals;
 
 Inventory::Inventory(){
     materials = std::map<std::string, std::unique_ptr<Material>>();
     equipment = std::map<std::string, std::unique_ptr<Equipment>>();
+}
+
+void Inventory::init_inventory(pugi::xml_node node) {
+    for(auto child : node.children()){
+        if (child.name() == "Material"sv)
+        {
+            std::cout << "Adding " << child.name() << " to materials\n";
+            add_object_type(std::make_unique<Material>(child));
+        }
+        else if (child.name() == "Equipment"sv)
+        {
+            std::cout << "Adding " << child.name() << " to equipment\n";
+            add_object_type(std::make_unique<Equipment>(child));
+        }
+    }
 }
 
 void Inventory::add_object_type(std::unique_ptr<Material> mat_type) {
@@ -113,4 +131,12 @@ void Inventory::display_all() {
     display_equipment();
     display_materials();
     std::cout << "================================" << std::endl;
+}
+
+std::map<std::string, std::unique_ptr<Material>> &Inventory::get_materials() {
+    return materials;
+}
+
+std::map<std::string, std::unique_ptr<Equipment>> &Inventory::get_equipment() {
+    return equipment;
 }
