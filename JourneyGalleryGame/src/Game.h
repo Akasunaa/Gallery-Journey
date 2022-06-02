@@ -2,7 +2,6 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <Player.h>
-#include <WallPiece.h>
 #include "box2d/box2d.h"
 #include <stdio.h>
 #include <assert.h>
@@ -10,10 +9,14 @@
 #include <MyContactListener.h>
 #include <memory>
 #include <vector>
-#include "Excavation.h"
+#include <Wall.h>
+#include <Table.h>
+
+class Game;
 
 enum class States { inGame = 1, inExcavation = 2};
- 
+
+
 
 class Game {
 private:
@@ -27,8 +30,11 @@ private:
 
 	b2World* world;
 	Player* player;
-	Excavation* excavation;
-	std::vector<std::unique_ptr<WallPiece>> walls;
+
+	unique_ptr<Table> table;
+	std::vector<std::unique_ptr<Wall>> walls;
+	int digIndex; //mur en cours de creusage
+	int indispo;
 
 
 	void initWindow();

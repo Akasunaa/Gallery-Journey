@@ -5,7 +5,7 @@
 
 #define movHorizontal 10000
 #define movVertical 10000
-#define maxSpeed 100000
+#define maxSpeed 1000
 
 #define playerWidth 100
 #define playerHight 100
