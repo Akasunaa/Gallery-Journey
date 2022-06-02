@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "pugixml.hpp"
 #include "Material.h"
+#include "Equipment.h"
 
 
 TEST(TestReadXML, TestMaterial) {
@@ -40,6 +41,17 @@ TEST(TestReadXML, TestEquipment) {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_string(xml.c_str());
     EXPECT_NE(0, result);
+    Equipment equip{doc.child("Equipment")};
+    EXPECT_EQ("testEquipment", equip.get_name());
+    EXPECT_EQ("None", equip.get_sprite_path());
+    EXPECT_EQ(0, equip.get_nb_copies());
+
+    auto required = equip.get_required_mats();
+    EXPECT_EQ("Material1", std::get<0>(required[0]));
+    EXPECT_EQ(2, std::get<1>(required[0]));
+    EXPECT_EQ("Material2", std::get<0>(required[1]));
+    EXPECT_EQ(1, std::get<1>(required[1]));
+
 }
 
 TEST(TestReadXML, TestInitInventory){
