@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include <InteractableObject.h>
 #include <random>
+#include <Inventory.h>
+#include <Material.h>
+#include <memory>
 using namespace std;
 
 
@@ -18,7 +21,7 @@ using namespace std;
 class Excavation
 {
 public:
-	explicit Excavation(sf::RenderWindow* window,GameAssets* ga);
+	explicit Excavation(sf::RenderWindow* window,GameAssets* ga, Inventory* inventory);
 	void draw(sf::RenderWindow* window);
 	int posMouse(sf::RenderWindow* window);
 	void digIn(int val);
@@ -33,7 +36,10 @@ private:
 	sf::RectangleShape rect;
 	std::vector<Case> cases;
 
-	vector<std::tuple<int, int> > object; //objet a trouver
+	Inventory* inventory; 
+	vector<std::tuple<int, int> > objCoor; //objet a trouver
+
+
 	int offsetX; //offset de x sur la grille
 	int offsetY; //offset de y sur la grille
 

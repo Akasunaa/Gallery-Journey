@@ -3,8 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include <stdio.h>
 
-#define movHorizontal 10000
-#define movVertical 10000
+#define movHorizontal 10000000
 #define maxSpeed 1000
 
 #define playerWidth 100

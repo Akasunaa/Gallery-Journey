@@ -9,7 +9,7 @@ public:
     GameAssets();
 
     sf::Texture wallUndig;
-
+    sf::Texture wallDig;
 
 
 };

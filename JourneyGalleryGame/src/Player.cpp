@@ -24,25 +24,23 @@ Player::Player(b2World* world, b2Vec2 pos)
 
 void Player::updateInput()
 {
+	b2Vec2 vel = body->GetLinearVelocity();
+	float force = 0;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		b2Vec2 impulse(-movHorizontal, 0.0f);
-		body->ApplyForceToCenter(impulse, true);
+		if (vel.x > -maxSpeed) force = -movHorizontal;
+		body->ApplyForceToCenter(b2Vec2(force, 0), true);
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		b2Vec2 impulse(movHorizontal, 0.0f);
-		body->ApplyForceToCenter(impulse, true);
+		if (vel.x < maxSpeed) force = movHorizontal;
+		body->ApplyForceToCenter(b2Vec2(force, 0), true);
+	}
+	force =0;
+	body->SetLinearVelocity(b2Vec2(0, 0));
+	body->ApplyForceToCenter(b2Vec2(force, 0), true);
 
-	}
-	b2Vec2 velocity = body->GetLinearVelocity();
-	if (velocity.LengthSquared() > maxSpeed * maxSpeed)
-	{
-		velocity.Normalize();
-		velocity = b2Vec2(velocity.x * maxSpeed, velocity.y * maxSpeed);
-		body->SetLinearVelocity(velocity);
-	}
 }
 
 b2Vec2 Player::getPosition() const

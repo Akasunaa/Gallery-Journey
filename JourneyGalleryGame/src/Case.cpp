@@ -4,7 +4,7 @@
 
 Case::Case(int x, int y,float height, float width, float nb_case,int value,GameAssets* ga)
 {
-	ga = ga;
+	ga=ga;
 	this->x = x;
 	this->y = y;
 	this->value = value;
@@ -15,15 +15,30 @@ Case::Case(int x, int y,float height, float width, float nb_case,int value,GameA
 	this->rect.setOutlineThickness(-3);
 	this->isDig = false;
 	this->asTresure = false;
-	texture = ga->wallUndig;
-	//texture.loadFromFile(stringSprite);
+	textureUndig = ga->wallUndig;
+	spriteUndig.setPosition(sf::Vector2f(x * height / nb_case, y * width / nb_case));
+	spriteUndig.setScale((height / nb_case)/textureUndig.getSize().x, (width / nb_case) / textureUndig.getSize().y);
+	
+	textureDig = ga->wallDig;
+	spriteDig.setPosition(sf::Vector2f(x * height / nb_case, y * width / nb_case));
+	spriteDig.setScale((height / nb_case) / textureDig.getSize().x, (width / nb_case) / textureDig.getSize().y);
 }
 
 void Case::draw(sf::RenderWindow* window)
 {
-	sprite.setTexture(texture);
-	window->draw(rect);
-	window->draw(sprite);
+	spriteUndig.setTexture(textureUndig);
+	spriteDig.setTexture(textureDig);
+	if (isDig) {
+		window->draw(spriteDig);
+	}
+	else {
+		window->draw(spriteUndig);
+	}
+	if (asTresure) {
+		this->rect.setFillColor(sf::Color::Yellow);
+	}
+	
+	
 }
 
 void Case::setDig()

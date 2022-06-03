@@ -31,9 +31,11 @@ private:
 	bool asTresure;
 	bool isDig;
 
-	std::string stringSprite;
-	sf::Texture texture;
-	sf::Sprite sprite;
+	sf::Texture textureUndig;
+	sf::Sprite spriteUndig;
+
+	sf::Texture textureDig;
+	sf::Sprite spriteDig;
 
 	GameAssets* ga;
 

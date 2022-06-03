@@ -10,8 +10,9 @@ int random_a_to_b(int const a, int const b)
 	return distribution(engine);
 }
 
-Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga) {
+Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga, Inventory* inventory) {
 	ga = ga;
+	inventory = inventory;
 
 	canDig = true; 
 	//Construction de la grille de base avec un vecteur de cases
@@ -70,16 +71,24 @@ void Excavation::init()
 	tryDig = 0;
 
 	//Recherche d'un objet aléatoire
-	object.push_back(make_tuple(0, 1));
-	object.push_back(make_tuple(1, 1));
-	object.push_back(make_tuple(1, 2));
+	
+	auto & materials = inventory->get_materials();
+	int obj = random_a_to_b(0, materials.size());
+	//int test = materials[obj]->get_nb_copies();
+
+	
+
+
+	objCoor.push_back(make_tuple(0, 1));
+	objCoor.push_back(make_tuple(1, 1));
+	objCoor.push_back(make_tuple(1, 2));
 	offsetX = 1;
 	offsetY = 0;
 	toFound = 3;
 	found = 0;
 
 	//Mise en place de l'objet 
-	for (auto& coor : object) {
+	for (auto& coor : objCoor) {
 		int val = (get<0>(coor) + offsetX) * nb_case + get<1>(coor) + offsetY;
 		cases[val].setTresure();
 	}
