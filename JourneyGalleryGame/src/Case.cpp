@@ -36,6 +36,7 @@ void Case::draw(sf::RenderWindow* window)
 	}
 	if (asTresure) {
 		this->rect.setFillColor(sf::Color::Yellow);
+		window->draw(rect);
 	}
 	
 	

@@ -10,9 +10,9 @@ int random_a_to_b(int const a, int const b)
 	return distribution(engine);
 }
 
-Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga, Inventory* inventory) {
+Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga, 
+	std::unique_ptr<Inventory>& inventory ) : inventory(inventory) {
 	ga = ga;
-	inventory = inventory;
 
 	canDig = true; 
 	//Construction de la grille de base avec un vecteur de cases
@@ -72,19 +72,24 @@ void Excavation::init()
 
 	//Recherche d'un objet aléatoire
 	
-	auto & materials = inventory->get_materials();
-	int obj = random_a_to_b(0, materials.size());
+	auto& materials = inventory->get_materials();
+	std::vector<string> keys;
+	for (auto const& material : materials)
+		keys.push_back(material.first);
+	int rand = random_a_to_b(0, materials.size());
+	materialToFound = keys[rand];
+
 	//int test = materials[obj]->get_nb_copies();
 
-	
+	auto shape = materials[materialToFound]->get_shape();
 
+	for (auto& coor : shape) {
+		objCoor.push_back(coor);
+	}
 
-	objCoor.push_back(make_tuple(0, 1));
-	objCoor.push_back(make_tuple(1, 1));
-	objCoor.push_back(make_tuple(1, 2));
-	offsetX = 1;
+	offsetX = 0;
 	offsetY = 0;
-	toFound = 3;
+	toFound = objCoor.size();
 	found = 0;
 
 	//Mise en place de l'objet 

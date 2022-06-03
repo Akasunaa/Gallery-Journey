@@ -10,6 +10,7 @@
 #include <Inventory.h>
 #include <Material.h>
 #include <memory>
+
 using namespace std;
 
 
@@ -21,7 +22,7 @@ using namespace std;
 class Excavation
 {
 public:
-	explicit Excavation(sf::RenderWindow* window,GameAssets* ga, Inventory* inventory);
+	explicit Excavation(sf::RenderWindow* window,GameAssets* ga, std::unique_ptr<Inventory>& inventory);
 	void draw(sf::RenderWindow* window);
 	int posMouse(sf::RenderWindow* window);
 	void digIn(int val);
@@ -36,7 +37,8 @@ private:
 	sf::RectangleShape rect;
 	std::vector<Case> cases;
 
-	Inventory* inventory; 
+	std::unique_ptr<Inventory>& inventory;
+	string materialToFound;
 	vector<std::tuple<int, int> > objCoor; //objet a trouver
 
 
