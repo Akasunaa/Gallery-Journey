@@ -30,14 +30,16 @@ void Case::draw(sf::RenderWindow* window)
 	spriteDig.setTexture(textureDig);
 	if (isDig) {
 		window->draw(spriteDig);
+		if (asTresure) {
+			this->rect.setFillColor(sf::Color::Yellow);
+			window->draw(rect);
+		}
 	}
 	else {
 		window->draw(spriteUndig);
+
 	}
-	if (asTresure) {
-		this->rect.setFillColor(sf::Color::Yellow);
-		window->draw(rect);
-	}
+
 	
 	
 }

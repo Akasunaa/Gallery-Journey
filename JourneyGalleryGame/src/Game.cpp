@@ -7,8 +7,8 @@
 void Game::initWindow()
 {
 	//init fenetre
-	this->videoMode.height = 600;
-	this->videoMode.width = 800;
+	this->videoMode.height = 1080;
+	this->videoMode.width = 1920;
 	this->window= new sf::RenderWindow(this->videoMode, "SFML window", sf::Style::Titlebar | sf::Style::Close);
 }
 

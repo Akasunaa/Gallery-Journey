@@ -44,6 +44,9 @@ void Excavation::digIn(int val) //Creuse une case et vérifie si on a trouvé le t
 				found++;
 				if (found == toFound) {
 					std::cout << "FOUND";
+					inventory->display_all();
+					inventory->add_material(materialToFound,1);
+					inventory->display_all();
 					canDig = false;
 				}
 			}
@@ -76,11 +79,10 @@ void Excavation::init()
 	std::vector<string> keys;
 	for (auto const& material : materials)
 		keys.push_back(material.first);
-	int rand = random_a_to_b(0, materials.size());
+	int rand = random_a_to_b(0, materials.size()-1);
 	materialToFound = keys[rand];
 
-	//int test = materials[obj]->get_nb_copies();
-
+	//Placement de l'objet
 	auto shape = materials[materialToFound]->get_shape();
 
 	for (auto& coor : shape) {
@@ -92,7 +94,6 @@ void Excavation::init()
 	toFound = objCoor.size();
 	found = 0;
 
-	//Mise en place de l'objet 
 	for (auto& coor : objCoor) {
 		int val = (get<0>(coor) + offsetX) * nb_case + get<1>(coor) + offsetY;
 		cases[val].setTresure();
