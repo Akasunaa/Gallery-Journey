@@ -21,13 +21,13 @@
     <Material name="Célestine" sprite="None" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
-        <Shape x="3" y="0"/>
+        <Shape x="2" y="0"/>
         <Shape x="0" y="1"/>
         <Shape x="1" y="1"/>
-        <Shape x="3" y="1"/>
+        <Shape x="2" y="1"/>
         <Shape x="0" y="2"/>
         <Shape x="1" y="2"/>
-        <Shape x="3" y="2"/>
+        <Shape x="2" y="2"/>
     </Material>
     <!-- ANCIENT RUNES -->
     <Material name="Rune Poussérieuse 1" sprite="None" nb="0">
