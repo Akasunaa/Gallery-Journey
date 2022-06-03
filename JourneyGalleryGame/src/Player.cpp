@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(b2World* world, b2Vec2 pos)
+Player::Player(b2World* world, b2Vec2 pos, pugi::xml_node inventory_xml)
 {
 	//box2d
 	bodyDef.type = b2_dynamicBody;
@@ -14,6 +14,10 @@ Player::Player(b2World* world, b2Vec2 pos)
 	fixtureDef.density = 1.f;
 	fixtureDef.friction = 0.f;
 	body->CreateFixture(&fixtureDef);
+
+    //inventory
+    inventory = std::make_unique<Inventory>();
+    inventory->init_inventory(inventory_xml);
 
 	//sprite
 	this->rect.setSize(sf::Vector2f(playerWidth, playerHight));
@@ -54,6 +58,10 @@ void Player::setposition(b2Vec2 pos)
 {
 	body->SetTransform(pos, 0.0f);
 	body->SetLinearVelocity({ 0.0f,0.0f });
+}
+
+std::unique_ptr<Inventory> &Player::get_inventory() {
+    return inventory;
 }
 
 void Player::playerDraw(sf::RenderWindow* window)
