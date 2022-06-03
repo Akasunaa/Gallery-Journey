@@ -1,4 +1,7 @@
 #include "Game.h"
+#include "pugixml.hpp"
+#include <cstdlib>
+#define INVENTORY_XML_PATH "resources/xml_files/inventory.xml"
 
 
 void Game::initWindow()
@@ -27,8 +30,15 @@ void Game::initWorld()
 	//init state
 	states = States::inGame;
 
-	//init level
-	this->player = new Player(world, { 200.0f, 0.0f });
+	//init player & its inventory
+    pugi::xml_document inventory_doc;
+    pugi::xml_parse_result result = inventory_doc.load_file(INVENTORY_XML_PATH);
+    if (!result)
+    {
+        std::cerr << "Could not open file inventory.xml because " << result.description() << std::endl;
+        exit(1);
+    }
+	this->player = new Player(world, { 200.0f, 0.0f }, inventory_doc.child("Inventory"));
 
 	//init walls
 	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 0.0f, 0.0f,this->window,ga);
@@ -124,14 +134,14 @@ void Game::update()
 	if (states == States::inGame)
 		player->updateInput();
 
-	//InExcavation -> code à déplacer?
+	//InExcavation -> code ï¿½ dï¿½placer?
 	if (states == States::inExcavation) {
 		//Verifie qu'on peut toujours creuser, sinon on se fait virer du mur
 		if (!(walls[digIndex]->getExcavation()->getCanDig())) {
 			walls[digIndex]->getWallPiece()->setCanBeDug(false);
 			states = States::inGame;
-			//Si on retourne en jeu, on cherche un autre mur à rendre actif
-			//Boucle sur les non actifs pour trouver celui à reveiller #sprint 1 d'os moins bien codé			
+			//Si on retourne en jeu, on cherche un autre mur ï¿½ rendre actif
+			//Boucle sur les non actifs pour trouver celui ï¿½ reveiller #sprint 1 d'os moins bien codï¿½			
 		}
 	}
 }

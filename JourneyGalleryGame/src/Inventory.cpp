@@ -8,21 +8,22 @@
 
 using namespace std::literals;
 
-Inventory::Inventory(){
-    materials = std::map<std::string, std::unique_ptr<Material>>();
-    equipment = std::map<std::string, std::unique_ptr<Equipment>>();
+Inventory::Inventory() :
+materials(std::map<std::string, std::unique_ptr<Material>>()),
+equipment(std::map<std::string, std::unique_ptr<Equipment>>()){
+
 }
 
 void Inventory::init_inventory(pugi::xml_node node) {
     for(auto child : node.children()){
         if (child.name() == "Material"sv)
         {
-            std::cout << "Adding " << child.name() << " to materials\n";
+            std::cout << "Adding " << child.attribute("name").value() << " to materials\n";
             add_object_type(std::make_unique<Material>(child));
         }
         else if (child.name() == "Equipment"sv)
         {
-            std::cout << "Adding " << child.name() << " to equipment\n";
+            std::cout << "Adding " << child.attribute("name").value() << " to equipment\n";
             add_object_type(std::make_unique<Equipment>(child));
         }
     }
@@ -110,24 +111,21 @@ void Inventory::craft(const std::string & equip_key) {
 }
 
 void Inventory::display_equipment() {
-    std::cout << "--------- Equipement & Trésors ---------" << std::endl ;
+    std::cout << "----- Equipement & Trésors -----" << std::endl ;
     for(const auto & equip : equipment ){
         std::cout << "• " << equip.first << " ( "  << equip.second->get_nb_copies() << " ) " << std::endl;
     }
-    std::cout << std::endl;
 }
 
 void Inventory::display_materials() {
-    std::cout << "--------- Matériaux ---------" << std::endl ;
+    std::cout << "---------- Matériaux ----------" << std::endl ;
     for(const auto & mat : materials ){
         std::cout << "• " << mat.first << " ( "  << mat.second->get_nb_copies() << " ) " << std::endl;
     }
-    std::cout << std::endl;
 }
 
 void Inventory::display_all() {
     std::cout << "========== INVENTAIRE ==========" << std::endl;
-    std::cout << std::endl;
     display_equipment();
     display_materials();
     std::cout << "================================" << std::endl;
