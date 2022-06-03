@@ -145,10 +145,6 @@ TEST(TestCraft, TestAddMaterials) {
         <Shape x="3" y="0"/>
         <Shape x="4" y="0"/>
     </Material>
-    <Equipment name="testEquipment" sprite="None" nb="0">
-        <Required mat="Material1" need="2"/>
-        <Required mat="Material2" need="1"/>
-    </Equipment>
 </Inventory>
 )";
     pugi::xml_document doc;
@@ -157,7 +153,6 @@ TEST(TestCraft, TestAddMaterials) {
     auto invent = Inventory();
     invent.init_inventory(doc.child("Inventory"));
     auto &mats = invent.get_materials();
-    auto &equips = invent.get_equipment();
     invent.add_material("Material2", 3);
     EXPECT_EQ(2, mats["Material1"]->get_nb_copies());
     EXPECT_EQ(3, mats["Material2"]->get_nb_copies());
@@ -268,6 +263,94 @@ TEST(TestCraft, TestIsCraftable2) {
     auto can_craft = invent.is_craftable("testEquipment");
     EXPECT_EQ(true, can_craft);
     invent.display_all();
+}
+
+TEST(TestCraft, TestIsCraft1) {
+    std::cout << "\n~ TEST CRAFT EQUIPMENT ~\n";
+    std::string xml = R"(
+<?xml version = "1.0"?>
+<Inventory>
+    <Material name="Material1" sprite="None" nb="2">
+        <Shape x="0" y="0"/>
+        <Shape x="1" y="0"/>
+        <Shape x="0" y="1"/>
+    </Material>
+    <Material name="Material2" sprite="None" nb="4">
+        <Shape x="0" y="0"/>
+        <Shape x="1" y="0"/>
+        <Shape x="2" y="0"/>
+        <Shape x="3" y="0"/>
+        <Shape x="4" y="0"/>
+    </Material>
+    <Equipment name="testEquipment" sprite="None" nb="0">
+        <Required mat="Material1" need="2"/>
+        <Required mat="Material2" need="1"/>
+    </Equipment>
+</Inventory>
+)";
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_string(xml.c_str());
+    EXPECT_NE(0, result);
+    auto invent = Inventory();
+    invent.init_inventory(doc.child("Inventory"));
+    auto &mats = invent.get_materials();
+    auto &equips = invent.get_equipment();
+
+    std::cout << "~ (Before craft) ~\n";
+    EXPECT_EQ(2, mats["Material1"]->get_nb_copies());
+    EXPECT_EQ(4, mats["Material2"]->get_nb_copies());
+    invent.display_all();
+
+    invent.craft("testEquipment");
+
+    std::cout << "~ (After craft) ~\n";
+    invent.display_all();
+    EXPECT_EQ(0, mats["Material1"]->get_nb_copies());
+    EXPECT_EQ(3, mats["Material2"]->get_nb_copies());
+}
+
+TEST(TestCraft, TestIsCraft2) {
+    std::cout << "\n~ TEST CRAFT EQUIPMENT ~\n";
+    std::string xml = R"(
+<?xml version = "1.0"?>
+<Inventory>
+    <Material name="Material1" sprite="None" nb="2">
+        <Shape x="0" y="0"/>
+        <Shape x="1" y="0"/>
+        <Shape x="0" y="1"/>
+    </Material>
+    <Material name="Material2" sprite="None" nb="4">
+        <Shape x="0" y="0"/>
+        <Shape x="1" y="0"/>
+        <Shape x="2" y="0"/>
+        <Shape x="3" y="0"/>
+        <Shape x="4" y="0"/>
+    </Material>
+    <Equipment name="testEquipment" sprite="None" nb="1">
+        <Required mat="Material1" need="2"/>
+        <Required mat="Material2" need="1"/>
+    </Equipment>
+</Inventory>
+)";
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_string(xml.c_str());
+    EXPECT_NE(0, result);
+    auto invent = Inventory();
+    invent.init_inventory(doc.child("Inventory"));
+    auto &mats = invent.get_materials();
+    auto &equips = invent.get_equipment();
+
+    std::cout << "~ (Before craft ?) ~\n";
+    EXPECT_EQ(2, mats["Material1"]->get_nb_copies());
+    EXPECT_EQ(4, mats["Material2"]->get_nb_copies());
+    invent.display_all();
+
+    invent.craft("testEquipment");
+
+    std::cout << "~ (After craft ?) ~\n";
+    invent.display_all();
+    EXPECT_EQ(2, mats["Material1"]->get_nb_copies());
+    EXPECT_EQ(4, mats["Material2"]->get_nb_copies());
 }
 
 
