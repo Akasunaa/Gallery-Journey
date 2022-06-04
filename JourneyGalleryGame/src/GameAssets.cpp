@@ -12,4 +12,6 @@ GameAssets::GameAssets()
     player.loadFromFile(resourceDirectory + "player.png");
 
     cadre.loadFromFile(resourceDirectory + "cadre.png");
+
+    wallpiece.loadFromFile(resourceDirectory + "wallpiece.png");
 }

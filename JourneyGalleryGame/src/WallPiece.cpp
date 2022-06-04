@@ -1,9 +1,13 @@
 #include "WallPiece.h"
 #include <iostream>
 
-WallPiece::WallPiece(b2World* world, float x, float y) : InterractableObject{world, x,y,heightWall, widthWall}
+WallPiece::WallPiece(b2World* world, float x, float y, GameAssets* ga) : 
+	InterractableObject{world, x,y,heightWall, widthWall, ga}
 {
 	canBeDug = true;
+	texture = ga->wallpiece;
+	sprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y));
+	sprite.setScale((float)widthWall /texture.getSize().x, (float)heightWall / texture.getSize().y);
 }
 
 void WallPiece::setCanBeDug(bool state)
@@ -18,14 +22,12 @@ bool WallPiece::getCanBeDug()
 
 void WallPiece::draw(sf::RenderWindow* window)
 {	
-	if (!canBeDug) {
-		this->rect.setFillColor(sf::Color::Red);
+	if (canBeDug) {
+		sprite.setTexture(texture);
+		window->draw(sprite);
 	}
-	else {
-		this->rect.setFillColor(sf::Color::Blue);
-	}
-	rect.setPosition(sf::Vector2f(getPosition().x, getPosition().y));
-	window->draw(rect);
+
+	
 }
 
 

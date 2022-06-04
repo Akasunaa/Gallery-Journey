@@ -1,14 +1,15 @@
 #include "Table.h"
 #include <iostream>
 
-Table::Table(b2World* world, float x, float y) : InterractableObject{ world, x,y,heightTable, widthTable }
+Table::Table(b2World* world, float x, float y, GameAssets* ga) : 
+	InterractableObject{ world, x,y,heightTable, widthTable, ga }
 {
 
 }
 
 void Table::draw(sf::RenderWindow* window)
 {
-	this->rect.setFillColor(sf::Color::Red);
-	rect.setPosition(sf::Vector2f(getPosition().x, getPosition().y));
-	window->draw(rect);
+
+	//rect.setPosition(sf::Vector2f(getPosition().x, getPosition().y));
+	//window->draw(rect);
 }

@@ -46,15 +46,15 @@ void Game::initWorld()
 	this->player = new Player(world, { 1000.0f, 650.0f }, inventory_doc.child("Inventory"),ga);
 
 	//init walls
-	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 1000.0f, 650.0f,this->window,ga,player->get_inventory());
-	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 800.0f, 650.0f, this->window,ga,player->get_inventory());
-	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 1200.0f, 650.0f, this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 400.0f, 400.0f,this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 400.0f, this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 600.0f, 400.0f, this->window,ga,player->get_inventory());
 	walls.push_back(std::move(wall));
 	walls.push_back(std::move(walltwo));
 	walls.push_back(std::move(wallthree));
 	indispo = 0;
 	//init table
-	table = std::make_unique<Table>(world, 400.0f, 0.0f);
+	table = std::make_unique<Table>(world, 400.0f, 0.0f,ga);
 
 	//Init ground
 	/*b2BodyDef groundBodyDef;
@@ -107,6 +107,7 @@ void Game::pollEvents()
 					{
 						if (walls[i]->getWallPiece()->checkInteract()) {
 							if (walls[i]->getExcavation()->getCanDig()) {
+								player->stop();
 								states = States::inExcavation;
 								digIndex = i; //Mur que l'on est en train de creuser
 							}

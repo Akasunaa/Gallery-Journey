@@ -60,6 +60,11 @@ void Player::setposition(b2Vec2 pos)
 	body->SetLinearVelocity({ 0.0f,0.0f });
 }
 
+void Player::stop()
+{
+	body->SetLinearVelocity(b2Vec2(0, 0));
+}
+
 std::unique_ptr<Inventory> &Player::get_inventory() {
     return inventory;
 }

@@ -6,17 +6,18 @@
 #include <stdio.h>
 #include <InteractableObject.h>
 
-#define heightWall 100
-#define widthWall 100
+#define heightWall 360
+#define widthWall 240
 
 class WallPiece : public InterractableObject
 {
 public:
-	explicit WallPiece(b2World* world, float x,float y);
+	explicit WallPiece(b2World* world, float x,float y, GameAssets* ga);
 	void setCanBeDug(bool state);
 	bool getCanBeDug();
 	void draw(sf::RenderWindow* window) override;
 
 private:
 	bool canBeDug;
+
 };

@@ -1,9 +1,11 @@
 #include "InteractableObject.h"
 #include <iostream>
 
-InterractableObject::InterractableObject(b2World* world,float x, float y, float height, float width)
+InterractableObject::InterractableObject(b2World* world,float x, float y, float height, float width, GameAssets* ga)
 {
+	ga = ga;
 	canInteract = false;
+
 	//box2d
 	bodyDef.type = b2_kinematicBody;
 	b2Vec2 pos{ x,y };
@@ -13,7 +15,7 @@ InterractableObject::InterractableObject(b2World* world,float x, float y, float 
 
 	body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(height / 2, width / 2);
+	dynamicBox.SetAsBox( width / 2, height / 2);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0.f;
@@ -28,9 +30,6 @@ InterractableObject::InterractableObject(b2World* world,float x, float y, float 
 	body->CreateFixture(&fixtureDef);
 
 
-	//sprite
-	this->rect.setSize(sf::Vector2f(height, width));
-	this->rect.setFillColor(sf::Color::Blue);
 }
 
 void InterractableObject::setposition(b2Vec2 pos)
@@ -60,6 +59,5 @@ bool InterractableObject::checkInteract()
 }
 
 void InterractableObject::draw(sf::RenderWindow* window) {
-	rect.setPosition(sf::Vector2f(getPosition().x, getPosition().y));
-	window->draw(rect);
+	
 }

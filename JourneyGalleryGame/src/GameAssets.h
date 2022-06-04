@@ -17,5 +17,7 @@ public:
 
     sf::Texture cadre;
 
+    sf::Texture wallpiece;
+
 
 };
