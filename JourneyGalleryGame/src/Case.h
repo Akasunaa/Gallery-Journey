@@ -12,7 +12,8 @@
 class Case
 {
 public:
-	explicit Case(int x,int y, float height, float width, float nb_case, int value, GameAssets* ga);
+	explicit Case(int x,int y, float height, float width, float nb_case, int value, 
+		GameAssets* ga, float offsetWindowX,float offsetWindowY);
 	void draw(sf::RenderWindow* window);
 	void setDig();
 	bool getDig();
@@ -30,6 +31,9 @@ private:
 	int value;
 	bool asTresure;
 	bool isDig;
+
+	float offsetWindowX;
+	float offsetWindowY;
 
 	sf::Texture textureUndig;
 	sf::Sprite spriteUndig;

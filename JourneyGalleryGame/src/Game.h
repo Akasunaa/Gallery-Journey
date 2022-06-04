@@ -32,6 +32,10 @@ private:
 	b2World* world;
 	Player* player;
 
+	sf::Texture textBackground;
+	sf::Sprite spriteBackground;
+
+
 	GameAssets* ga;
 
 	unique_ptr<Table> table;

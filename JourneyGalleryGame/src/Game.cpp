@@ -30,6 +30,11 @@ void Game::initWorld()
 	//init state
 	states = States::inGame;
 
+	//init background
+	textBackground = ga->background;
+	spriteBackground.setPosition(sf::Vector2f(0, 0));
+	spriteBackground.setScale(0.5,0.5);
+
 	//init player & its inventory
     pugi::xml_document inventory_doc;
     pugi::xml_parse_result result = inventory_doc.load_file(INVENTORY_XML_PATH);
@@ -38,12 +43,12 @@ void Game::initWorld()
         std::cerr << "Could not open file inventory.xml because " << result.description() << std::endl;
         exit(1);
     }
-	this->player = new Player(world, { 200.0f, 0.0f }, inventory_doc.child("Inventory"));
+	this->player = new Player(world, { 1000.0f, 650.0f }, inventory_doc.child("Inventory"),ga);
 
 	//init walls
-	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 0.0f, 0.0f,this->window,ga,player->get_inventory());
-	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 0.0f, this->window,ga,player->get_inventory());
-	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 300.0f, 0.0f, this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 1000.0f, 650.0f,this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 800.0f, 650.0f, this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 1200.0f, 650.0f, this->window,ga,player->get_inventory());
 	walls.push_back(std::move(wall));
 	walls.push_back(std::move(walltwo));
 	walls.push_back(std::move(wallthree));
@@ -152,6 +157,9 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear();
+
+	spriteBackground.setTexture(textBackground);
+	this->window->draw(spriteBackground);
 
 	//Dessin de la table
 	this->table->draw(this->window);

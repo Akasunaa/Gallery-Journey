@@ -16,11 +16,19 @@ Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
 
 	canDig = true; 
 	//Construction de la grille de base avec un vecteur de cases
-	this->rect.setSize(sf::Vector2f(widthExc, hightExc));
+
 	for (int i = 0; i < nb_case * nb_case; i++) {
-		Case thisCase(i / nb_case, i % nb_case, hightExc, widthExc, nb_case, i,ga);
+		Case thisCase(i / nb_case, i % nb_case, hightExc, widthExc, nb_case, i,
+			ga,(float)offsetWindowX, (float)offsetWindowY);
 		cases.push_back(thisCase);
 	}
+
+
+
+	textCadre = ga->cadre;
+	spriteCadre.setScale(1.5f,1.5f);
+	spriteCadre.setPosition(sf::Vector2f(offsetWindowX-100, offsetWindowY-100));
+
 	init();
 
 }
@@ -28,8 +36,8 @@ Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
 int Excavation::posMouse(sf::RenderWindow* window) //Retourne la position i de la case sur laquelle la souris est
 {
 	sf::Vector2i position = sf::Mouse::getPosition(*window);
-	int x = position.x / (hightExc / nb_case);
-	int y = position.y / (widthExc / nb_case);
+	int x = (position.x - offsetWindowX) / (hightExc / nb_case) ;
+	int y = (position.y - offsetWindowY) / (widthExc / nb_case) ;
 	int value = x * nb_case + y;
 	return value;
 }
@@ -99,6 +107,7 @@ void Excavation::init()
 		cases[val].setTresure();
 	}
 
+
 }
 
 void Excavation::reset()
@@ -128,5 +137,6 @@ void Excavation::draw(sf::RenderWindow* window)
 		reset();
 		tryDig = 0;	
 	}
-
+	spriteCadre.setTexture(textCadre);
+	//window->draw(spriteCadre);
 }

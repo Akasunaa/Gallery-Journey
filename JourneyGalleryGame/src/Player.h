@@ -5,17 +5,18 @@
 #include "Inventory.h"
 #include <stdio.h>
 #include <memory>
+#include <GameAssets.h>
 
-#define movHorizontal 10000000
-#define maxSpeed 1000
+#define movHorizontal 1000000000
+#define maxSpeed 10000
 
-#define playerWidth 100
-#define playerHight 100
+#define playerHeight 240
+#define playerWidth 120
 
 class Player
 {
 public:
-	explicit Player(b2World* world, b2Vec2 pos, pugi::xml_node inventory_xml);
+	explicit Player(b2World* world, b2Vec2 pos, pugi::xml_node inventory_xml,GameAssets* ga);
 	void updateInput();
 	void playerDraw(sf::RenderWindow* window);
 	b2Vec2 getPosition() const;
@@ -25,6 +26,10 @@ public:
 private:
 	b2Body* body;
 	b2BodyDef bodyDef;
-	sf::RectangleShape rect;
+
     std::unique_ptr<Inventory> inventory;
+
+	GameAssets* ga;
+	sf::Sprite sprite;
+	sf::Texture texture;
 };

@@ -14,8 +14,11 @@
 using namespace std;
 
 
-#define hightExc 400
-#define widthExc 400
+#define hightExc 800
+#define widthExc 800
+
+#define offsetWindowX 560
+#define offsetWindowY 140
 
 #define nb_case 4
 
@@ -34,7 +37,6 @@ public:
 private:
 	GameAssets* ga;
 
-	sf::RectangleShape rect;
 	std::vector<Case> cases;
 
 	std::unique_ptr<Inventory>& inventory;
@@ -51,4 +53,7 @@ private:
 	int toFound; //nombre de morceau a trouvé
 
 	bool canDig; //Si on peut creuser
+
+	sf::Texture textCadre;
+	sf::Sprite spriteCadre;
 };
