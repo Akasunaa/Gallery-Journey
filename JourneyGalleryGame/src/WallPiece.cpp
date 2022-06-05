@@ -26,7 +26,10 @@ void WallPiece::draw(sf::RenderWindow* window)
 		sprite.setTexture(texture);
 		window->draw(sprite);
 	}
+	if (canInteract) {
 
+		window->draw(textInteract);
+	}
 	
 }
 

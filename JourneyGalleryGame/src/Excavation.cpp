@@ -111,7 +111,7 @@ void Excavation::init()
 	}
 
 	//Nombre de possibilité de creuser
-	int pos = random_a_to_b(toFound, toFound+5);
+	int pos = random_a_to_b(toFound, toFound+2*nb_case);
 	nbDig = pos;
 	tryDig = 0;
 

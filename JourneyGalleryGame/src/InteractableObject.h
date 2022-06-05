@@ -28,4 +28,8 @@ protected:
 	sf::Texture texture;
 	sf::Sprite sprite;
 
+
+	sf::Font fontInteract;
+	sf::Text textInteract;
+
 };

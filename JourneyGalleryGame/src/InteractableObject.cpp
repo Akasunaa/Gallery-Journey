@@ -26,6 +26,12 @@ InterractableObject::InterractableObject(b2World* world,float x, float y, float 
 	//Sensor
 	fixtureDef.isSensor = true;
 
+	//Text
+	fontInteract.loadFromFile("resources/font/ARIAL.ttf");
+	textInteract.setFont(fontInteract);
+	textInteract.setString("Press E");
+	textInteract.setCharacterSize(24);
+	textInteract.setPosition(x+width/2,y+height);
 
 	body->CreateFixture(&fixtureDef);
 
@@ -59,5 +65,5 @@ bool InterractableObject::checkInteract()
 }
 
 void InterractableObject::draw(sf::RenderWindow* window) {
-	
+
 }
