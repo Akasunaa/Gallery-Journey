@@ -12,23 +12,27 @@
 class Case
 {
 public:
-	explicit Case(int x,int y, float height, float width, float nb_case, int value, 
+	explicit Case(int x,int y, float height, float width, float nb_case, 
 		GameAssets* ga, float offsetWindowX,float offsetWindowY);
 	void draw(sf::RenderWindow* window);
 	void setDig(bool state);
 	bool getDig();
 
 
-	void setTresure(std::string stringTreasure);
+	void setTresure(std::string stringTreasure, int maxX, int maxY, int coorX, int coorY);
 	void setUntresure();
 	bool getTresure();
 
 private:
 	int x;
 	int y;
-	int value;
 	bool asTresure;
 	bool isDig;
+
+	float height;
+	float width; 
+	float nb_case;
+
 
 	float offsetWindowX;
 	float offsetWindowY;

@@ -58,6 +58,9 @@ void Game::initWorld()
 	//init table
 	table = std::make_unique<Table>(world, 1600.0f, 550.0f,ga);
 
+
+
+
 }
 
 
@@ -169,7 +172,6 @@ void Game::render()
 	if (states == States::inExcavation) {
 		walls[digIndex]->getExcavation()->draw(this->window);
 	}
-
 	
 	this->window->display();
 }

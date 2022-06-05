@@ -17,7 +17,7 @@ Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
 	canDig = true; 
 	//Construction de la grille de base avec un vecteur de cases
 	for (int i = 0; i < nb_case * nb_case; i++) {
-		Case thisCase(i / nb_case, i % nb_case, hightExc, widthExc, nb_case, i,
+		Case thisCase(i / nb_case, i % nb_case, hightExc, widthExc, nb_case,
 			ga,(float)offsetWindowX, (float)offsetWindowY);
 		cases.push_back(thisCase);
 	}
@@ -107,13 +107,8 @@ void Excavation::init()
 	string stringSprite = materials[materialToFound]->get_sprite_path();
 	for (auto& coor : objCoor) {
 		int val = (get<0>(coor) + offsetX) * nb_case + get<1>(coor) + offsetY;
-		cases[val].setTresure(stringSprite);
+		cases[val].setTresure(stringSprite,maxX,maxY, get<0>(coor), get<1>(coor));
 	}
-
-	
-
-	//spriteTresor.setPosition(offsetWindowX+offsetX*(widthExc/nb_case), offsetWindowY + offsetY* (widthExc / nb_case));
-	//spriteTresor.setScale(0.3,0.3);
 
 	//Nombre de possibilité de creuser
 	int pos = random_a_to_b(toFound, toFound+5);
