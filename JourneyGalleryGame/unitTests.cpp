@@ -125,7 +125,7 @@ TEST(TestReadXML, TestInitInventory){
     EXPECT_EQ(2, std::get<1>(required[0]));
     EXPECT_EQ("Material2", std::get<0>(required[1]));
     EXPECT_EQ(1, std::get<1>(required[1]));
-    invent.display_all();
+    invent.display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 }
 
 TEST(TestCraft, TestAddMaterials) {
@@ -156,7 +156,7 @@ TEST(TestCraft, TestAddMaterials) {
     invent.add_material("Material2", 3);
     EXPECT_EQ(2, mats["Material1"]->get_nb_copies());
     EXPECT_EQ(3, mats["Material2"]->get_nb_copies());
-    invent.display_all();
+    invent.display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 }
 
 TEST(TestCraft, TestConsumeMaterials) {
@@ -192,7 +192,7 @@ TEST(TestCraft, TestConsumeMaterials) {
     invent.consume_material("Material1", 1);
     EXPECT_EQ(1, mats["Material1"]->get_nb_copies());
     EXPECT_EQ(0, mats["Material2"]->get_nb_copies());
-    invent.display_all();
+    invent.display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 }
 
 TEST(TestCraft, TestIsCraftable1) {
@@ -227,7 +227,7 @@ TEST(TestCraft, TestIsCraftable1) {
     auto &equips = invent.get_equipment();
     auto can_craft = invent.is_craftable("testEquipment");
     EXPECT_EQ(false, can_craft);
-    invent.display_all();
+    invent.display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 }
 
 TEST(TestCraft, TestIsCraftable2) {
@@ -262,7 +262,7 @@ TEST(TestCraft, TestIsCraftable2) {
     auto &equips = invent.get_equipment();
     auto can_craft = invent.is_craftable("testEquipment");
     EXPECT_EQ(true, can_craft);
-    invent.display_all();
+    invent.display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 }
 
 TEST(TestCraft, TestIsCraft1) {
@@ -299,12 +299,12 @@ TEST(TestCraft, TestIsCraft1) {
     std::cout << "~ (Before craft) ~\n";
     EXPECT_EQ(2, mats["Material1"]->get_nb_copies());
     EXPECT_EQ(4, mats["Material2"]->get_nb_copies());
-    invent.display_all();
+    invent.display_all(DISPLAY_POSSESSED_MAT, DISPLAY_ACQUIRED_EQUIP);
 
     invent.craft("testEquipment");
 
     std::cout << "~ (After craft) ~\n";
-    invent.display_all();
+    invent.display_all(DISPLAY_POSSESSED_MAT, DISPLAY_ACQUIRED_EQUIP);
     EXPECT_EQ(0, mats["Material1"]->get_nb_copies());
     EXPECT_EQ(3, mats["Material2"]->get_nb_copies());
 }
@@ -343,12 +343,12 @@ TEST(TestCraft, TestIsCraft2) {
     std::cout << "~ (Before craft ?) ~\n";
     EXPECT_EQ(2, mats["Material1"]->get_nb_copies());
     EXPECT_EQ(4, mats["Material2"]->get_nb_copies());
-    invent.display_all();
-
+    invent.display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
+    invent.display_required("testEquipment");
     invent.craft("testEquipment");
 
     std::cout << "~ (After craft ?) ~\n";
-    invent.display_all();
+    invent.display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
     EXPECT_EQ(2, mats["Material1"]->get_nb_copies());
     EXPECT_EQ(4, mats["Material2"]->get_nb_copies());
 }
