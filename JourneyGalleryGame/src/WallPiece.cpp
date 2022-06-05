@@ -2,7 +2,7 @@
 #include <iostream>
 
 WallPiece::WallPiece(b2World* world, float x, float y, GameAssets* ga) : 
-	InterractableObject{world, x,y,heightWall, widthWall, ga}
+	InterractableObject{world, x,y, widthWall,heightWall, ga}
 {
 	canBeDug = true;
 	texture = ga->wallpiece;

@@ -12,12 +12,12 @@ Case::Case(int x, int y,float height, float width, float nb_case,
 	asTresure = false;
 
 	textureUndig = ga->wallUndig;
-	spriteUndig.setPosition(sf::Vector2f((x * height / nb_case) + offsetWindowX, (y * width / nb_case) + offsetWindowY));
-	spriteUndig.setScale((height / nb_case)/textureUndig.getSize().x, (width / nb_case) / textureUndig.getSize().y);
+	spriteUndig.setPosition(sf::Vector2f((x *   width / nb_case) + offsetWindowX, (y * height / nb_case) + offsetWindowY));
+	spriteUndig.setScale((width / nb_case)/textureUndig.getSize().x, ( height / nb_case) / textureUndig.getSize().y);
 	
 	textureDig = ga->wallDig;
-	spriteDig.setPosition(sf::Vector2f((x * height / nb_case) + offsetWindowX, (y * width / nb_case) + offsetWindowY));
-	spriteDig.setScale((height / nb_case) / textureDig.getSize().x, (width / nb_case) / textureDig.getSize().y);
+	spriteDig.setPosition(sf::Vector2f((x * width / nb_case) + offsetWindowX, (y *  height / nb_case) + offsetWindowY));
+	spriteDig.setScale((width / nb_case) / textureDig.getSize().x, ( height / nb_case) / textureDig.getSize().y);
 }
 
 void Case::draw(sf::RenderWindow* window)
@@ -63,7 +63,7 @@ void Case::setTresure(std::string stringTreasure, int maxX, int maxY, int coorX,
 	asTresure = true;
 	textTreasure.loadFromFile("resources/images/" + stringTreasure);
 
-	spriteTreasure.setPosition(sf::Vector2f((x * height / nb_case) + offsetWindowX, (y * width / nb_case) + offsetWindowY));
+	spriteTreasure.setPosition(sf::Vector2f((x * width / nb_case) + offsetWindowX, (y *   height / nb_case) + offsetWindowY));
 
 
 	int originX = textTreasure.getSize().x * (float)coorX / (float)maxX;

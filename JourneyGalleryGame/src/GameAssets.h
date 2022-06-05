@@ -21,6 +21,4 @@ public:
 
     sf::Texture table;
 
-    sf::Texture celestine;
-
 };

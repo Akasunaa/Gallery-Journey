@@ -6,8 +6,9 @@
 #include <stdio.h>
 #include <InteractableObject.h>
 
-#define heightWall 360
 #define widthWall 240
+#define heightWall 360
+
 
 class WallPiece : public InterractableObject
 {

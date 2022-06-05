@@ -17,7 +17,5 @@ GameAssets::GameAssets()
 
     table.loadFromFile(resourceDirectory + "table.png");
 
-    celestine.loadFromFile(resourceDirectory + "blue.png");
-
 
 }

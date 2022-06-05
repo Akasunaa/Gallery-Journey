@@ -1,9 +1,9 @@
 #include "InteractableObject.h"
 #include <iostream>
 
-InterractableObject::InterractableObject(b2World* world,float x, float y, float height, float width, GameAssets* ga)
+InterractableObject::InterractableObject(b2World* world,float x, float y, float width, float height, GameAssets* ga) :
+	ga(ga)
 {
-	ga = ga;
 	canInteract = false;
 
 	//box2d
@@ -15,7 +15,7 @@ InterractableObject::InterractableObject(b2World* world,float x, float y, float 
 
 	body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox( width / 2, height / 2);
+	dynamicBox.SetAsBox( width /2, height / 2); //Pourquoi ?
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0.f;

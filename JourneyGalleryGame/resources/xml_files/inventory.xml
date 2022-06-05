@@ -6,13 +6,13 @@
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
     </Material>
-    <Material name="Olivine" sprite="blue.png" nb="0">
+    <Material name="Olivine" sprite="green.png" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
         <Shape x="0" y="1"/>
         <Shape x="1" y="1"/>
     </Material>
-    <Material name="Kubinite" sprite="blue.png" nb="0">
+    <Material name="Kubinite" sprite="pink.png" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
         <Shape x="0" y="1"/>
@@ -30,13 +30,13 @@
         <Shape x="2" y="2"/>
     </Material>
     <!-- ANCIENT RUNES -->
-    <Material name="Rune Poussérieuse 1" sprite="none" nb="0">
+    <Material name="Rune Poussérieuse 1" sprite="rune1" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="0" y="1"/>
         <Shape x="0" y="2"/>
         <Shape x="0" y="3"/>
     </Material>
-    <Material name="Rune Poussérieuse 2" sprite="none" nb="0">
+    <Material name="Rune Poussérieuse 2" sprite="runes2" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="0" y="1"/>
         <Shape x="1" y="0"/>

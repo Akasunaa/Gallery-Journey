@@ -51,9 +51,9 @@ void Game::initWorld()
 	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 600.0f, 400.0f, this->window,ga,player->get_inventory());
 	std::unique_ptr<Wall> wallfour = std::make_unique<Wall>(world, 800.0f, 400.0f, this->window, ga, player->get_inventory());
 	walls.push_back(std::move(wall));
-	walls.push_back(std::move(walltwo));
-	walls.push_back(std::move(wallthree));
-	walls.push_back(std::move(wallfour));
+	//walls.push_back(std::move(walltwo));
+	//walls.push_back(std::move(wallthree));
+	//walls.push_back(std::move(wallfour));
 	indispo = 0;
 	//init table
 	table = std::make_unique<Table>(world, 1600.0f, 550.0f,ga);
