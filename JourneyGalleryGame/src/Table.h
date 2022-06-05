@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <InteractableObject.h>
 
-#define heightTable 100
-#define widthTable 100
+#define heightTable 180
+#define widthTable 270
 
 class Table : public InterractableObject
 {

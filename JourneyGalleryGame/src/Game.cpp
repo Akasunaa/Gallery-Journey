@@ -49,20 +49,15 @@ void Game::initWorld()
 	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 400.0f, 400.0f,this->window,ga,player->get_inventory());
 	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 400.0f, this->window,ga,player->get_inventory());
 	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 600.0f, 400.0f, this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> wallfour = std::make_unique<Wall>(world, 800.0f, 400.0f, this->window, ga, player->get_inventory());
 	walls.push_back(std::move(wall));
 	walls.push_back(std::move(walltwo));
 	walls.push_back(std::move(wallthree));
+	walls.push_back(std::move(wallfour));
 	indispo = 0;
 	//init table
-	table = std::make_unique<Table>(world, 400.0f, 0.0f,ga);
+	table = std::make_unique<Table>(world, 1600.0f, 550.0f,ga);
 
-	//Init ground
-	/*b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f,-200.0f);
-	b2Body* groundBody = world->CreateBody(&groundBodyDef);
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(10000.0f, 10.0f);
-	groundBody->CreateFixture(&groundBox, 0.0f);*/
 }
 
 

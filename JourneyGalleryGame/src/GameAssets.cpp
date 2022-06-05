@@ -14,4 +14,10 @@ GameAssets::GameAssets()
     cadre.loadFromFile(resourceDirectory + "cadre.png");
 
     wallpiece.loadFromFile(resourceDirectory + "wallpiece.png");
+
+    table.loadFromFile(resourceDirectory + "table.png");
+
+    celestine.loadFromFile(resourceDirectory + "blue.png");
+
+
 }

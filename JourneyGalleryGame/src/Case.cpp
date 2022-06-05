@@ -9,11 +9,9 @@ Case::Case(int x, int y,float height, float width, float nb_case,int value,
 	this->x = x;
 	this->y = y;
 	this->value = value;
-	this->rect.setSize(sf::Vector2f(height/nb_case,width/nb_case));
-	this->rect.setFillColor(sf::Color::Red);
-	this->rect.setPosition(sf::Vector2f((x * height /nb_case) +offsetWindowX, (y * width/nb_case)+offsetWindowY));
-	this->rect.setOutlineColor(sf::Color::Black);
-	this->rect.setOutlineThickness(-3);
+	//this->rect.setSize(sf::Vector2f(height/nb_case,width/nb_case));
+	//this->rect.setPosition(sf::Vector2f((x * height /nb_case) +offsetWindowX, (y * width/nb_case)+offsetWindowY));
+
 	this->isDig = false;
 	this->asTresure = false;
 
@@ -27,6 +25,9 @@ Case::Case(int x, int y,float height, float width, float nb_case,int value,
 	textureDig = ga->wallDig;
 	spriteDig.setPosition(sf::Vector2f((x * height / nb_case) + offsetWindowX, (y * width / nb_case) + offsetWindowY));
 	spriteDig.setScale((height / nb_case) / textureDig.getSize().x, (width / nb_case) / textureDig.getSize().y);
+
+	spriteTreasure.setPosition(sf::Vector2f((x * height / nb_case) + offsetWindowX, (y * width / nb_case) + offsetWindowY));
+	spriteDig.setScale((height / nb_case) / textureDig.getSize().x, (width / nb_case) / textureDig.getSize().y);
 }
 
 void Case::draw(sf::RenderWindow* window)
@@ -36,12 +37,13 @@ void Case::draw(sf::RenderWindow* window)
 	if (isDig) {
 		window->draw(spriteDig);
 		if (asTresure) {
-			this->rect.setFillColor(sf::Color::Yellow);
-			window->draw(rect);
+			spriteTreasure.setTexture(textTreasure);
+			window->draw(spriteTreasure);
 		}
 	}
 	else {
 		window->draw(spriteUndig);
+
 
 	}
 
@@ -49,15 +51,9 @@ void Case::draw(sf::RenderWindow* window)
 	
 }
 
-void Case::setDig()
+void Case::setDig(bool state)
 {
-	isDig = true;
-	if(asTresure){
-		this->rect.setFillColor(sf::Color::Yellow);
-	}
-	else {
-		this->rect.setFillColor(sf::Color::Blue);
-	}
+	isDig = state;
 
 }
 
@@ -71,15 +67,13 @@ bool Case::getDig()
 	return isDig;
 }
 
-void Case::setUndig()
-{
-	isDig = false;
-	this->rect.setFillColor(sf::Color::Red);
-}
 
-void Case::setTresure()
+void Case::setTresure(std::string stringTreasure)
 {
 	asTresure = true;
+	textTreasure.loadFromFile("resources/images/" + stringTreasure);
+
+
 }
 
 void Case::setUntresure()

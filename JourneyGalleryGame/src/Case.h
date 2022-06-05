@@ -15,17 +15,15 @@ public:
 	explicit Case(int x,int y, float height, float width, float nb_case, int value, 
 		GameAssets* ga, float offsetWindowX,float offsetWindowY);
 	void draw(sf::RenderWindow* window);
-	void setDig();
+	void setDig(bool state);
 	bool getDig();
-	void setUndig();
 
 
-	void setTresure();
+	void setTresure(std::string stringTreasure);
 	void setUntresure();
 	bool getTresure();
 
 private:
-	sf::RectangleShape rect;
 	int x;
 	int y;
 	int value;
@@ -40,6 +38,9 @@ private:
 
 	sf::Texture textureDig;
 	sf::Sprite spriteDig;
+
+	sf::Texture textTreasure;
+	sf::Sprite spriteTreasure;
 
 	GameAssets* ga;
 

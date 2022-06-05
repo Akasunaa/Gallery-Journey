@@ -2,23 +2,23 @@
 <Inventory>
     <!-- List of all materials of the game -->
     <!-- MINERALS -->
-    <Material name="Fer" sprite="None" nb="0">
+    <Material name="Fer" sprite="blue.png" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
     </Material>
-    <Material name="Olivine" sprite="None" nb="0">
-        <Shape x="0" y="0"/>
-        <Shape x="1" y="0"/>
-        <Shape x="0" y="1"/>
-        <Shape x="1" y="1"/>
-    </Material>
-    <Material name="Kubinite" sprite="None" nb="0">
+    <Material name="Olivine" sprite="blue.png" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
         <Shape x="0" y="1"/>
         <Shape x="1" y="1"/>
     </Material>
-    <Material name="Célestine" sprite="None" nb="0">
+    <Material name="Kubinite" sprite="blue.png" nb="0">
+        <Shape x="0" y="0"/>
+        <Shape x="1" y="0"/>
+        <Shape x="0" y="1"/>
+        <Shape x="1" y="1"/>
+    </Material>
+    <Material name="Célestine" sprite="blue.png" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
         <Shape x="2" y="0"/>
@@ -30,20 +30,20 @@
         <Shape x="2" y="2"/>
     </Material>
     <!-- ANCIENT RUNES -->
-    <Material name="Rune Poussérieuse 1" sprite="None" nb="0">
+    <Material name="Rune Poussérieuse 1" sprite="blue.png" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="0" y="1"/>
         <Shape x="0" y="2"/>
         <Shape x="0" y="3"/>
     </Material>
-    <Material name="Rune Poussérieuse 2" sprite="None" nb="0">
+    <Material name="Rune Poussérieuse 2" sprite="blue.png" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="0" y="1"/>
         <Shape x="1" y="0"/>
         <Shape x="1" y="1"/>
         <Shape x="2" y="0"/>
     </Material>
-    <Material name="Rune Poussérieuse 3" sprite="None" nb="0">
+    <Material name="Rune Poussérieuse 3" sprite="blue.png" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="0" y="1"/>
         <Shape x="1" y="1"/>

@@ -19,5 +19,8 @@ public:
 
     sf::Texture wallpiece;
 
+    sf::Texture table;
+
+    sf::Texture celestine;
 
 };

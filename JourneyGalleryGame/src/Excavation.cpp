@@ -16,19 +16,17 @@ Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
 
 	canDig = true; 
 	//Construction de la grille de base avec un vecteur de cases
-
 	for (int i = 0; i < nb_case * nb_case; i++) {
 		Case thisCase(i / nb_case, i % nb_case, hightExc, widthExc, nb_case, i,
 			ga,(float)offsetWindowX, (float)offsetWindowY);
 		cases.push_back(thisCase);
 	}
 
-
-
+	//Tracé du cadre
 	textCadre = ga->cadre;
 	spriteCadre.setScale(1.5f,1.5f);
 	spriteCadre.setPosition(sf::Vector2f(offsetWindowX-100, offsetWindowY-100));
-
+	//Appelle de la fonction init
 	init();
 
 }
@@ -47,7 +45,7 @@ void Excavation::digIn(int val) //Creuse une case et vérifie si on a trouvé le t
 	if (val >= 0 && val < nb_case * nb_case) {
 		if (!(cases[val].getDig())) {
 			tryDig++;
-			cases[val].setDig();
+			cases[val].setDig(true);
 			if (cases[val].getTresure()) {
 				found++;
 				if (found == toFound) {
@@ -73,16 +71,16 @@ void Excavation::updateInput(sf::RenderWindow* window)
 	}
 }
 
+
+
 void Excavation::init()
 {
 	nbDig = true;
-	//Nombre de possibilité de creuser
-	int pos = random_a_to_b(5, 10);
-	nbDig = pos;
-	tryDig = 0;
+	maxX = 0;
+	maxY = 0;
 
-	//Recherche d'un objet aléatoire
-	
+
+	//Recherche d'un objet aléatoire	
 	auto& materials = inventory->get_materials();
 	std::vector<string> keys;
 	for (auto const& material : materials)
@@ -95,18 +93,32 @@ void Excavation::init()
 
 	for (auto& coor : shape) {
 		objCoor.push_back(coor);
+		maxX = maxX < get<0>(coor) ? get<0>(coor) : maxX;
+		maxY = maxY < get<0>(coor) ? get<0>(coor) : maxY;
 	}
+	maxX++;
+	maxY++;
 
-	offsetX = 0;
-	offsetY = 0;
+	offsetX = random_a_to_b(0, nb_case-maxX);
+	offsetY = random_a_to_b(0, nb_case - maxY);
 	toFound = objCoor.size();
 	found = 0;
 
+	string stringSprite = materials[materialToFound]->get_sprite_path();
 	for (auto& coor : objCoor) {
 		int val = (get<0>(coor) + offsetX) * nb_case + get<1>(coor) + offsetY;
-		cases[val].setTresure();
+		cases[val].setTresure(stringSprite);
 	}
 
+	
+
+	//spriteTresor.setPosition(offsetWindowX+offsetX*(widthExc/nb_case), offsetWindowY + offsetY* (widthExc / nb_case));
+	//spriteTresor.setScale(0.3,0.3);
+
+	//Nombre de possibilité de creuser
+	int pos = random_a_to_b(toFound, toFound+5);
+	nbDig = pos;
+	tryDig = 0;
 
 }
 
@@ -115,7 +127,7 @@ void Excavation::reset()
 	canDig = false;
 	//reset des cases
 	for (int i = 0; i < nb_case * nb_case; i++) {
-		cases[i].setUndig();
+		cases[i].setDig(false);
 		cases[i].setUntresure();
 	}
 
@@ -125,6 +137,8 @@ bool Excavation::getCanDig()
 {
 	return canDig;
 }
+
+
 
 
 void Excavation::draw(sf::RenderWindow* window)
@@ -139,4 +153,7 @@ void Excavation::draw(sf::RenderWindow* window)
 	}
 	spriteCadre.setTexture(textCadre);
 	//window->draw(spriteCadre);
+
+	
+
 }
