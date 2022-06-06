@@ -14,7 +14,9 @@
 class Door : UnlockableElement
 {
 public:
-	explicit Door(b2World* world, float x, float y, GameAssets* ga, std::unique_ptr<Inventory>& inventory);
+	explicit Door(b2World* world, pugi::xml_node node, GameAssets* ga, 
+		std::unique_ptr<Inventory>& inventory);
+
 	void draw(sf::RenderWindow* window);
 	void setEnable(bool state);
 	void unlock() override;

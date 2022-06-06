@@ -15,10 +15,15 @@
 #include <../imgui_lib/imgui.h>
 #include <../imgui_lib/imgui-SFML.h>
 #include <Door.h>
+#include "pugixml.hpp"
+#include <cstdlib>
+#include <string_view>
+#define INVENTORY_XML_PATH "resources/xml_files/inventory.xml"
+
 
 class Game;
 
-enum class States { inGame = 1, inExcavation = 2, inMuseum=3};
+enum class States { inGame = 1, inExcavation = 2};
 
 
 
@@ -41,8 +46,8 @@ private:
 
 	GameAssets* ga;
 
-	unique_ptr<Table> table;
-	unique_ptr<Door> door;
+	std::vector<std::unique_ptr<Table>> tables;
+	std::vector<std::unique_ptr<Door>> doors;
 	std::vector<std::unique_ptr<Wall>> walls;
 	int digIndex; //mur en cours de creusage
 	int indispo;
@@ -50,8 +55,11 @@ private:
 
 	void initWindow();
 	void initWorld();
+	void loadLevel(b2World* world, Player* player,
+		sf::RenderWindow* window, int levelNumber, GameAssets* ga);
 
 	States states;
+	int indiceLevel;
 
 public :
 	Game();

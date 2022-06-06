@@ -1,6 +1,7 @@
 #include "UnlockableElement.h"
 
-UnlockableElement::UnlockableElement(std::unique_ptr<Inventory>& inventory) : inventory(inventory)
+UnlockableElement::UnlockableElement(std::unique_ptr<Inventory>& inventory) : 
+	inventory(inventory)
 {
 }
 
