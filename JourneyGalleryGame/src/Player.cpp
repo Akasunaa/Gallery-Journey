@@ -1,14 +1,14 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(b2World* world, b2Vec2 pos, pugi::xml_node inventory_xml)
+Player::Player(b2World* world, b2Vec2 pos, pugi::xml_node inventory_xml, GameAssets* ga)
 {
 	//box2d
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(pos.x, pos.y);
 	body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(playerWidth / 2, playerHight / 2);
+	dynamicBox.SetAsBox(playerWidth / 2, playerHeight / 2);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.f;
@@ -20,8 +20,10 @@ Player::Player(b2World* world, b2Vec2 pos, pugi::xml_node inventory_xml)
     inventory->init_inventory(inventory_xml);
 
 	//sprite
-	this->rect.setSize(sf::Vector2f(playerWidth, playerHight));
-	this->rect.setFillColor(sf::Color::Cyan);
+	texture = ga->player;
+	sprite.setScale((float)playerWidth / texture.getSize().x, (float)playerHeight / texture.getSize().y);
+	sprite.setPosition(sf::Vector2f(0,0));
+
 }
 
 
@@ -58,14 +60,20 @@ void Player::setposition(b2Vec2 pos)
 	body->SetLinearVelocity({ 0.0f,0.0f });
 }
 
+void Player::stop()
+{
+	body->SetLinearVelocity(b2Vec2(0, 0));
+}
+
 std::unique_ptr<Inventory> &Player::get_inventory() {
     return inventory;
 }
 
 void Player::playerDraw(sf::RenderWindow* window)
 {
-	rect.setPosition(sf::Vector2f(getPosition().x, getPosition().y));
-	window->draw(rect);
+	sprite.setTexture(texture);
+	sprite.setPosition(sf::Vector2f(getPosition().x, getPosition().y));
+	window->draw(sprite);
 }
 
 

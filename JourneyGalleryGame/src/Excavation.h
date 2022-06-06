@@ -13,10 +13,15 @@
 
 using namespace std;
 
+//Taille de la fenetre
+#define hightExc 800 
+#define widthExc 800
 
-#define hightExc 400
-#define widthExc 400
+//Deplacement de la fenetre
+#define offsetWindowX 560
+#define offsetWindowY 140
 
+//Nombre de case
 #define nb_case 4
 
 class Excavation
@@ -34,14 +39,14 @@ public:
 private:
 	GameAssets* ga;
 
-	sf::RectangleShape rect;
 	std::vector<Case> cases;
 
 	std::unique_ptr<Inventory>& inventory;
 	string materialToFound;
 	vector<std::tuple<int, int> > objCoor; //objet a trouver
 
-
+	int maxX; //largeur max
+	int maxY; //longeur max
 	int offsetX; //offset de x sur la grille
 	int offsetY; //offset de y sur la grille
 
@@ -51,4 +56,7 @@ private:
 	int toFound; //nombre de morceau a trouvé
 
 	bool canDig; //Si on peut creuser
+
+	sf::Texture textCadre;
+	sf::Sprite spriteCadre;
 };

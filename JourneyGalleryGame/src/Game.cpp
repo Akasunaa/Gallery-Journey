@@ -30,6 +30,11 @@ void Game::initWorld()
 	//init state
 	states = States::inGame;
 
+	//init background
+	textBackground = ga->background;
+	spriteBackground.setPosition(sf::Vector2f(0, 0));
+	spriteBackground.setScale(0.5,0.5);
+
 	//init player & its inventory
     pugi::xml_document inventory_doc;
     pugi::xml_parse_result result = inventory_doc.load_file(INVENTORY_XML_PATH);
@@ -38,26 +43,26 @@ void Game::initWorld()
         std::cerr << "Could not open file inventory.xml because " << result.description() << std::endl;
         exit(1);
     }
-	this->player = new Player(world, { 200.0f, 0.0f }, inventory_doc.child("Inventory"));
+	this->player = new Player(world, { 1000.0f, 650.0f }, inventory_doc.child("Inventory"),ga);
 
 	//init walls
-	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 0.0f, 0.0f,this->window,ga,player->get_inventory());
-	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 0.0f, this->window,ga,player->get_inventory());
-	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 300.0f, 0.0f, this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 500.0f, 400.0f,this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 400.0f, this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 1100.0f, 400.0f, this->window,ga,player->get_inventory());
+	std::unique_ptr<Wall> wallfour = std::make_unique<Wall>(world, 800.0f, 400.0f, this->window, ga, player->get_inventory());
 	walls.push_back(std::move(wall));
 	walls.push_back(std::move(walltwo));
 	walls.push_back(std::move(wallthree));
+	walls.push_back(std::move(wallfour));
 	indispo = 0;
 	//init table
-	table = std::make_unique<Table>(world, 400.0f, 0.0f);
+	table = std::make_unique<Table>(world, 1600.0f, 650.0f,ga);
+	door = std::make_unique<Door>(world, 600.0f, 450.0f, ga,player);
 
-	//Init ground
-	/*b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f,-200.0f);
-	b2Body* groundBody = world->CreateBody(&groundBodyDef);
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(10000.0f, 10.0f);
-	groundBody->CreateFixture(&groundBox, 0.0f);*/
+
+
+
+
 }
 
 
@@ -102,6 +107,7 @@ void Game::pollEvents()
 					{
 						if (walls[i]->getWallPiece()->checkInteract()) {
 							if (walls[i]->getExcavation()->getCanDig()) {
+								player->stop();
 								states = States::inExcavation;
 								digIndex = i; //Mur que l'on est en train de creuser
 							}
@@ -153,6 +159,9 @@ void Game::render()
 {
 	this->window->clear();
 
+	spriteBackground.setTexture(textBackground);
+	this->window->draw(spriteBackground);
+
 	//Dessin de la table
 	this->table->draw(this->window);
 	//Dessin des walls
@@ -165,8 +174,7 @@ void Game::render()
 	if (states == States::inExcavation) {
 		walls[digIndex]->getExcavation()->draw(this->window);
 	}
-
-	
+	this->door->draw(this->window);
 	this->window->display();
 }
 

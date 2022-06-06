@@ -2,26 +2,22 @@
 #include <iostream>
 
 
-Case::Case(int x, int y,float height, float width, float nb_case,int value,GameAssets* ga)
+Case::Case(int x, int y,float height, float width, float nb_case,
+	GameAssets* ga, float offsetWindowX, float offsetWindowY) : 
+	x(x),y(y),ga(ga),height(height),width(width),nb_case(nb_case),
+	offsetWindowX(offsetWindowX),offsetWindowY(offsetWindowY)
 {
-	ga=ga;
-	this->x = x;
-	this->y = y;
-	this->value = value;
-	this->rect.setSize(sf::Vector2f(height/nb_case,width/nb_case));
-	this->rect.setFillColor(sf::Color::Red);
-	this->rect.setPosition(sf::Vector2f(x * height /nb_case, y * width/nb_case));
-	this->rect.setOutlineColor(sf::Color::Black);
-	this->rect.setOutlineThickness(-3);
-	this->isDig = false;
-	this->asTresure = false;
+
+	isDig = false;
+	asTresure = false;
+
 	textureUndig = ga->wallUndig;
-	spriteUndig.setPosition(sf::Vector2f(x * height / nb_case, y * width / nb_case));
-	spriteUndig.setScale((height / nb_case)/textureUndig.getSize().x, (width / nb_case) / textureUndig.getSize().y);
+	spriteUndig.setPosition(sf::Vector2f((x *   width / nb_case) + offsetWindowX, (y * height / nb_case) + offsetWindowY));
+	spriteUndig.setScale((width / nb_case)/textureUndig.getSize().x, ( height / nb_case) / textureUndig.getSize().y);
 	
 	textureDig = ga->wallDig;
-	spriteDig.setPosition(sf::Vector2f(x * height / nb_case, y * width / nb_case));
-	spriteDig.setScale((height / nb_case) / textureDig.getSize().x, (width / nb_case) / textureDig.getSize().y);
+	spriteDig.setPosition(sf::Vector2f((x * width / nb_case) + offsetWindowX, (y *  height / nb_case) + offsetWindowY));
+	spriteDig.setScale((width / nb_case) / textureDig.getSize().x, ( height / nb_case) / textureDig.getSize().y);
 }
 
 void Case::draw(sf::RenderWindow* window)
@@ -31,8 +27,9 @@ void Case::draw(sf::RenderWindow* window)
 	if (isDig) {
 		window->draw(spriteDig);
 		if (asTresure) {
-			this->rect.setFillColor(sf::Color::Yellow);
-			window->draw(rect);
+			spriteTreasure.setTexture(textTreasure);
+
+			window->draw(spriteTreasure);
 		}
 	}
 	else {
@@ -44,15 +41,9 @@ void Case::draw(sf::RenderWindow* window)
 	
 }
 
-void Case::setDig()
+void Case::setDig(bool state)
 {
-	isDig = true;
-	if(asTresure){
-		this->rect.setFillColor(sf::Color::Yellow);
-	}
-	else {
-		this->rect.setFillColor(sf::Color::Blue);
-	}
+	isDig = state;
 
 }
 
@@ -66,15 +57,26 @@ bool Case::getDig()
 	return isDig;
 }
 
-void Case::setUndig()
-{
-	isDig = false;
-	this->rect.setFillColor(sf::Color::Red);
-}
 
-void Case::setTresure()
+void Case::setTresure(std::string stringTreasure, int maxX, int maxY, int coorX, int coorY)
 {
 	asTresure = true;
+	textTreasure.loadFromFile("resources/images/" + stringTreasure);
+
+	spriteTreasure.setPosition(sf::Vector2f((x * width / nb_case) + offsetWindowX, (y *   height / nb_case) + offsetWindowY));
+
+
+	int originX = textTreasure.getSize().x * (float)coorX / (float)maxX;
+	int originY = textTreasure.getSize().y * (float)coorY / (float)maxY;
+	int lenghtX = textTreasure.getSize().x * 1  / maxX;
+	int lenghtY = textTreasure.getSize().y * 1 /maxY;
+	spriteTreasure.setTextureRect(sf::IntRect(
+		originX,
+		originY,
+		lenghtX,
+		lenghtY));
+
+	spriteTreasure.setScale((width / nb_case) * maxX / textTreasure.getSize().x, (width / nb_case) * maxY / textTreasure.getSize().y);
 }
 
 void Case::setUntresure()

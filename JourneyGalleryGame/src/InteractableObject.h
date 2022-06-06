@@ -4,10 +4,11 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <stdio.h>
+#include <GameAssets.h>
 
 class InterractableObject {
 public :
-	explicit InterractableObject(b2World* world, float x, float y, float height, float width);
+	explicit InterractableObject(b2World* world, float x, float y, float width, float height,GameAssets* ga);
 	void setposition(b2Vec2 pos);
 	virtual void draw(sf::RenderWindow* window);	
 	b2Vec2 getPosition() const;
@@ -15,13 +16,17 @@ public :
 	virtual void dontInteract();
 	virtual bool checkInteract();
 
-
-private:
+protected:
 	b2Body* body;
 	b2BodyDef bodyDef;
-
-protected:
 	bool canInteract;
-	sf::RectangleShape rect;
+
+	GameAssets* ga;
+	sf::Texture texture;
+	sf::Sprite sprite;
+
+
+	sf::Font fontInteract;
+	sf::Text textInteract;
 
 };
