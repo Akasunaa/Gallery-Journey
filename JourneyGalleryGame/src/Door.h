@@ -5,20 +5,17 @@
 #include <SFML/Window/Event.hpp>
 #include <stdio.h>
 #include <InteractableObject.h>
+#include <Player.h>
 
-#define widthWall 240
-#define heightWall 360
+#define heightDoor 180
+#define widthDoor 270
 
-
-class WallPiece : public InterractableObject
+class Door : public InterractableObject
 {
 public:
-	explicit WallPiece(b2World* world, float x,float y, GameAssets* ga);
-	void setCanBeDug(bool state);
-	bool getCanBeDug();
+	explicit Door(b2World* world, float x, float y, GameAssets* ga,Player* player);
 	void draw(sf::RenderWindow* window) override;
 
 private:
-	bool canBeDug;
-
+	sf::RectangleShape rect;
 };

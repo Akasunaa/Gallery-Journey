@@ -11,5 +11,14 @@ public:
     sf::Texture wallUndig;
     sf::Texture wallDig;
 
+    sf::Texture background;
+
+    sf::Texture player;
+
+    sf::Texture cadre;
+
+    sf::Texture wallpiece;
+
+    sf::Texture table;
 
 };

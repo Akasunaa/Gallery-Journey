@@ -3,7 +3,7 @@
 Wall::Wall(b2World* world, float x, float y, sf::RenderWindow* window, 
 	GameAssets* ga, std::unique_ptr<Inventory>& inventory)
 {
-	wallPiece = new WallPiece(world, x, y);
+	wallPiece = new WallPiece(world, x, y,ga);
 	excavation = new Excavation(window,ga,inventory);
 	prio = 0;
 }
