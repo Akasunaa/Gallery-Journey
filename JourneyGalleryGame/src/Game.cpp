@@ -46,7 +46,7 @@ void Game::initWorld()
     }
 	this->player = new Player(world, { 1000.0f, 650.0f }, inventory_doc.child("Inventory"),ga);
 
-	//init walls
+	//init element
 	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 500.0f, 400.0f,this->window,ga,player->get_inventory());
 	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 400.0f, this->window,ga,player->get_inventory());
 	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 1100.0f, 400.0f, this->window,ga,player->get_inventory());
@@ -56,9 +56,9 @@ void Game::initWorld()
 	walls.push_back(std::move(wallthree));
 	walls.push_back(std::move(wallfour));
 	indispo = 0;
-	//init table
 	table = std::make_unique<Table>(world, 1600.0f, 650.0f,ga);
-	door = std::make_unique<Door>(world, 600.0f, 450.0f, ga,player);
+
+	door = std::make_unique<Door>(world, 0.0f, 450.0f, ga, player->get_inventory());
 
 
 
@@ -126,6 +126,9 @@ void Game::pollEvents()
 					digIndex = -1;
 					states = States::inGame;
 				}
+				else {
+					door->unlock();
+				}
 				break;
 			}
 		}
@@ -139,8 +142,26 @@ void Game::update()
 	this->pollEvents();
 
 	//InGame
-	if (states == States::inGame)
+	if (states == States::inGame || states==States::inMuseum) {
 		player->updateInput();
+		if (player->getPosition().x > 1800) {
+			player->setPosition(b2Vec2(200.0f, player->getPosition().y));
+			door->setEnable(false);
+			states = States::inMuseum;
+
+		}
+	}
+
+	//InMuseum
+	if (states == States::inMuseum) {
+		if (player->getPosition().x < 100) {
+			player->setPosition(b2Vec2(1700.0f, player->getPosition().y));
+			door->setEnable(true);
+			states = States::inGame;
+		}
+	}
+
+
 
 	//InExcavation -> code � d�placer?
 	if (states == States::inExcavation) {
@@ -152,6 +173,8 @@ void Game::update()
 			//Boucle sur les non actifs pour trouver celui � reveiller #sprint 1 d'os moins bien cod�			
 		}
 	}
+
+
 }
 
 
@@ -167,11 +190,14 @@ void Game::render()
 	spriteBackground.setTexture(textBackground);
 	this->window->draw(spriteBackground);
 
-	//Dessin de la table
-	this->table->draw(this->window);
-	//Dessin des walls
-	for (auto& wall : walls) {
-		wall->getWallPiece()->draw((this->window));
+	if (states == States::inGame) {
+		//Dessin de la table
+		this->table->draw(this->window);
+		//Dessin des walls
+		for (auto& wall : walls) {
+			wall->getWallPiece()->draw((this->window));
+		}
+		this->door->draw(this->window);
 	}
 	//Dessin du player
 	this->player->playerDraw((this->window));
@@ -182,7 +208,7 @@ void Game::render()
 
 
     ImGui::SFML::Render(*window);
-	this->door->draw(this->window);
+
 	this->window->display();
 }
 
