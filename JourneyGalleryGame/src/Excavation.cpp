@@ -94,7 +94,7 @@ void Excavation::init()
 	for (auto& coor : shape) {
 		objCoor.push_back(coor);
 		maxX = maxX < get<0>(coor) ? get<0>(coor) : maxX;
-		maxY = maxY < get<0>(coor) ? get<0>(coor) : maxY;
+		maxY = maxY < get<1>(coor) ? get<1>(coor) : maxY;
 	}
 	maxX++;
 	maxY++;
