@@ -27,6 +27,12 @@ Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
 	spriteCadre.setScale(1.5f,1.5f);
 	spriteCadre.setPosition(sf::Vector2f(offsetWindowX-100, offsetWindowY-100));
 	//Appelle de la fonction init
+	textPelle1 = ga->shovel1;
+	spritePelle1.setPosition(sf::Vector2f(widthExc +600  , hightExc-200));
+	textPelle2 = ga->shovel2;
+	spritePelle2.setPosition(sf::Vector2f(widthExc + 600, hightExc - 200));
+	textPelle3 = ga->shovel3;
+	spritePelle3.setPosition(sf::Vector2f(widthExc + 600, hightExc - 200));
 	init();
 
 }
@@ -148,6 +154,20 @@ void Excavation::draw(sf::RenderWindow* window)
 	}
 	spriteCadre.setTexture(textCadre);
 	//window->draw(spriteCadre);
+	spritePelle1.setTexture(textPelle1);
+	spritePelle2.setTexture(textPelle2);
+	spritePelle3.setTexture(textPelle3);
+	float ratio = (float)tryDig / (float)nbDig;
+	if (ratio<0.30f) {
+		window->draw(spritePelle1);
+	}
+	else if (ratio < 0.60f && ratio > 0.30f ) {
+		window->draw(spritePelle2);
+	}
+	else {
+		window->draw(spritePelle3);
+	}
+
 
 	
 

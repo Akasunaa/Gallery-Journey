@@ -59,4 +59,12 @@ private:
 
 	sf::Texture textCadre;
 	sf::Sprite spriteCadre;
+
+	sf::Texture textPelle1;
+	sf::Sprite spritePelle1;
+	sf::Texture textPelle2;
+	sf::Sprite spritePelle2;
+	sf::Texture textPelle3;
+	sf::Sprite spritePelle3;
+
 };
