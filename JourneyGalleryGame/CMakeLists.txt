@@ -23,6 +23,7 @@ FetchContent_MakeAvailable(pugixml)
 if(APPLE)
   find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
   include_directories(${SFML_INCLUDE_DIRS})
+  find_package(OpenGL REQUIRED)
 else()
   # Linux or Windows
   FetchContent_Declare(
@@ -50,6 +51,7 @@ set(CMAKE_CXX_STANDARD 20)
 #
 add_subdirectory(mainLauncher)
 add_subdirectory(src)
+add_subdirectory(imgui_lib)
 
 ###################################################################################################
 #

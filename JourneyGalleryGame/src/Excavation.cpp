@@ -22,7 +22,7 @@ Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
 		cases.push_back(thisCase);
 	}
 
-	//Tracé du cadre
+	//TracÃ© du cadre
 	textCadre = ga->cadre;
 	spriteCadre.setScale(1.5f,1.5f);
 	spriteCadre.setPosition(sf::Vector2f(offsetWindowX-100, offsetWindowY-100));
@@ -40,7 +40,7 @@ int Excavation::posMouse(sf::RenderWindow* window) //Retourne la position i de l
 	return value;
 }
 
-void Excavation::digIn(int val) //Creuse une case et vérifie si on a trouvé le trésor
+void Excavation::digIn(int val) //Creuse une case et vÃ¯Â¿Â½rifie si on a trouvÃ¯Â¿Â½ le trÃ¯Â¿Â½sor
 {
 	if (val >= 0 && val < nb_case * nb_case) {
 		if (!(cases[val].getDig())) {
@@ -50,9 +50,9 @@ void Excavation::digIn(int val) //Creuse une case et vérifie si on a trouvé le t
 				found++;
 				if (found == toFound) {
 					std::cout << "FOUND";
-					inventory->display_all();
+					inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 					inventory->add_material(materialToFound,1);
-					inventory->display_all();
+					inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 					canDig = false;
 				}
 			}
@@ -63,7 +63,7 @@ void Excavation::digIn(int val) //Creuse une case et vérifie si on a trouvé le t
 
 void Excavation::updateInput(sf::RenderWindow* window)
 {
-	//Creuse la case sur laquelle on est et verifie si on le débloque
+	//Creuse la case sur laquelle on est et verifie si on le dÃ¯Â¿Â½bloque
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		int caseIndex = posMouse(window);
@@ -80,7 +80,7 @@ void Excavation::init()
 	maxY = 0;
 
 
-	//Recherche d'un objet aléatoire	
+	//Recherche d'un objet alÃ©atoire	
 	auto& materials = inventory->get_materials();
 	std::vector<string> keys;
 	for (auto const& material : materials)
@@ -110,7 +110,7 @@ void Excavation::init()
 		cases[val].setTresure(stringSprite,maxX,maxY, get<0>(coor), get<1>(coor));
 	}
 
-	//Nombre de possibilité de creuser
+	//Nombre de possibilitÃ© de creuser
 	int pos = random_a_to_b(toFound, toFound+2*nb_case);
 	nbDig = pos;
 	tryDig = 0;

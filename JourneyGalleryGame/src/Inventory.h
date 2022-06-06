@@ -11,6 +11,11 @@
 #include "pugixml.hpp"
 #include "Material.h"
 #include "Equipment.h"
+#define DISPLAY_ALL_MAT 0
+#define DISPLAY_POSSESSED_MAT 1
+#define DISPLAY_ALL_EQUIP 0
+#define DISPLAY_ACQUIRED_EQUIP 1
+#define DISPLAY_NOT_ACQUIRED_EQUIP 2
 
 
 class Inventory {
@@ -25,9 +30,10 @@ public:
     bool is_craftable(const std::string & equip_key);
     bool is_crafted(const std::string & equip_key);
     void craft(const std::string & equip_key);
-    void display_equipment();
-    void display_materials();
-    void display_all();
+    void display_equipment(int mode);
+    void display_required(const std::string & equip_key);
+    void display_materials(int mode);
+    void display_all(int material_mode, int equipement_mode);
     std::map<std::string, std::unique_ptr<Material>> & get_materials();
     std::map<std::string, std::unique_ptr<Equipment>> & get_equipment();
 

@@ -6,6 +6,7 @@
 #include <string_view>
 #include <iostream>
 
+
 using namespace std::literals;
 
 Inventory::Inventory() :
@@ -110,24 +111,56 @@ void Inventory::craft(const std::string & equip_key) {
     }
 }
 
-void Inventory::display_equipment() {
+void Inventory::display_equipment(int mode) {
     std::cout << "----- Equipement & Trésors -----" << std::endl ;
     for(const auto & equip : equipment ){
-        std::cout << "• " << equip.first << " ( "  << equip.second->get_nb_copies() << " ) " << std::endl;
+
+        if(mode == DISPLAY_ALL_EQUIP
+        || (mode == DISPLAY_ACQUIRED_EQUIP && is_crafted(equip.first))
+        || (mode == DISPLAY_NOT_ACQUIRED_EQUIP && !(is_crafted(equip.first)) ) ){
+
+            std::cout << "• " << equip.first ;
+            if(mode == DISPLAY_ALL_EQUIP){
+                std::cout << " ( "  << equip.second->get_nb_copies() << " ) ";
+            }
+            std::cout << std::endl;
+
+        }
+
     }
 }
 
-void Inventory::display_materials() {
+void Inventory::display_required(const std::string & equip_key) {
+    if(!equipment.contains(equip_key)){
+        std::cout << "(display_required) ERROR : No equipment/collectible of this type defined \n" ;
+        exit(1);
+    }
+    std::cout << "----- Matériaux requis -----" << std::endl;
+    for(const auto & [mat_req, nb_required] : equipment[equip_key]->get_required_mats()){
+        if(!materials.contains(mat_req)){
+            std::cout << "(is_craftable) ERROR : the required material " << mat_req << " is not defined \n" ;
+            exit(1);
+        }
+        const auto & material = materials[mat_req];
+        std::cout << "• " << material->get_name() << " "
+        << material->get_nb_copies() << "/" << nb_required << std::endl;
+    }
+}
+
+void Inventory::display_materials(int mode) {
     std::cout << "---------- Matériaux ----------" << std::endl ;
     for(const auto & mat : materials ){
-        std::cout << "• " << mat.first << " ( "  << mat.second->get_nb_copies() << " ) " << std::endl;
+        if(mode == DISPLAY_ALL_MAT
+        ||(mode == DISPLAY_POSSESSED_MAT && mat.second->has_enough(1)) ) {
+            std::cout << "• " << mat.first << " ( " << mat.second->get_nb_copies() << " ) " << std::endl;
+        }
     }
 }
 
-void Inventory::display_all() {
+void Inventory::display_all(int mode_material, int mode_equipment) {
     std::cout << "========== INVENTAIRE ==========" << std::endl;
-    display_equipment();
-    display_materials();
+    display_equipment(mode_equipment);
+    display_materials(mode_material);
     std::cout << "================================" << std::endl;
 }
 
