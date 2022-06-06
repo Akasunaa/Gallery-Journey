@@ -10,6 +10,7 @@ void Game::initWindow()
 	this->videoMode.height = 1080;
 	this->videoMode.width = 1920;
 	this->window= new sf::RenderWindow(this->videoMode, "SFML window", sf::Style::Titlebar | sf::Style::Close);
+    ImGui::SFML::Init(*window);
 }
 
 void Game::initWorld()
@@ -87,6 +88,7 @@ void Game::pollEvents()
 
 	while (this->window->pollEvent(this->ev))
 	{
+        ImGui::SFML::ProcessEvent(ev);
 		switch (this->ev.type)
 		{
 		case sf::Event::Closed:
@@ -152,6 +154,9 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear();
+    ImGui::Begin("Hello, world!");
+    ImGui::Button("Look at this pretty button");
+    ImGui::End();
 
 	//Dessin de la table
 	this->table->draw(this->window);
@@ -166,8 +171,12 @@ void Game::render()
 		walls[digIndex]->getExcavation()->draw(this->window);
 	}
 
-	
+    ImGui::SFML::Render(*window);
 	this->window->display();
+}
+
+sf::RenderWindow* &Game::get_window() {
+    return window;
 }
 
 

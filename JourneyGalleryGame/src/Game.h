@@ -12,6 +12,8 @@
 #include <Wall.h>
 #include <Table.h>
 #include <GameAssets.h>
+#include <../imgui_lib/imgui.h>
+#include <../imgui_lib/imgui-SFML.h>
 
 class Game;
 
@@ -55,5 +57,7 @@ public :
 	void pollEvents();
 	void update();
 	void render();
+
+    sf::RenderWindow* & get_window();
 
 };

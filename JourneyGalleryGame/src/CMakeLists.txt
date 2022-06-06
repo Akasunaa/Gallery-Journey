@@ -5,4 +5,4 @@ add_library(src ${SOURCES}  "Player.h" "Player.cpp" "Game.h" "WallPiece.h" "MyCo
 
 target_include_directories(src PUBLIC ./)
 
-target_link_libraries(src PUBLIC pugixml sfml-graphics box2d)
+target_link_libraries(src PUBLIC pugixml sfml-graphics box2d imgui_lib glfw OpenGL)

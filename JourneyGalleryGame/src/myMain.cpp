@@ -15,8 +15,9 @@ int myMain()
     while (game.running())
     {
         game.update();
+        ImGui::SFML::Update(*game.get_window(), globalClock.restart());
         game.render();
     }
-
+    ImGui::SFML::Shutdown();
     return 0;
 }
