@@ -12,6 +12,7 @@
 #include <Wall.h>
 #include <Table.h>
 #include <GameAssets.h>
+#include <Door.h>
 
 class Game;
 
@@ -39,6 +40,7 @@ private:
 	GameAssets* ga;
 
 	unique_ptr<Table> table;
+	unique_ptr<Door> door;
 	std::vector<std::unique_ptr<Wall>> walls;
 	int digIndex; //mur en cours de creusage
 	int indispo;

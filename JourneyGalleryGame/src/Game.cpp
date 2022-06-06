@@ -56,7 +56,8 @@ void Game::initWorld()
 	walls.push_back(std::move(wallfour));
 	indispo = 0;
 	//init table
-	table = std::make_unique<Table>(world, 1600.0f, 550.0f,ga);
+	table = std::make_unique<Table>(world, 1600.0f, 650.0f,ga);
+	door = std::make_unique<Door>(world, 600.0f, 450.0f, ga,player);
 
 
 
@@ -173,7 +174,7 @@ void Game::render()
 	if (states == States::inExcavation) {
 		walls[digIndex]->getExcavation()->draw(this->window);
 	}
-	
+	this->door->draw(this->window);
 	this->window->display();
 }
 

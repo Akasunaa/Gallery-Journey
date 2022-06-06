@@ -25,11 +25,12 @@ void WallPiece::draw(sf::RenderWindow* window)
 	if (canBeDug) {
 		sprite.setTexture(texture);
 		window->draw(sprite);
-	}
-	if (canInteract) {
+		if (canInteract) {
 
-		window->draw(textInteract);
+			window->draw(textInteract);
+		}
 	}
+
 	
 }
 

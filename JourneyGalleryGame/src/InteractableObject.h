@@ -16,12 +16,9 @@ public :
 	virtual void dontInteract();
 	virtual bool checkInteract();
 
-
-private:
+protected:
 	b2Body* body;
 	b2BodyDef bodyDef;
-
-protected:
 	bool canInteract;
 
 	GameAssets* ga;
