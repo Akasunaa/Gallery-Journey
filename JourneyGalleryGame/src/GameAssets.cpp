@@ -17,5 +17,6 @@ GameAssets::GameAssets()
 
     table.loadFromFile(resourceDirectory + "table.png");
 
-
+    openDoor.loadFromFile(resourceDirectory + "opendoor.png");
+    closeDoor.loadFromFile(resourceDirectory + "closedoor.png");
 }

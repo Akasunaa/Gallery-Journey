@@ -8,8 +8,8 @@
 #include <Player.h>
 #include <UnlockableElement.h>
 
-#define heightDoor 600
-#define widthDoor 100
+#define heightDoor 360
+#define widthDoor 240
 
 class Door : UnlockableElement
 {
@@ -27,4 +27,10 @@ private:
 	b2BodyDef bodyDef;
 
 	bool isEnable;
+
+	sf::Sprite spriteOpenDoor;
+	sf::Texture textureOpenDoor;
+
+	sf::Sprite spriteCloseDoor;
+	sf::Texture textureCloseDoor;
 };

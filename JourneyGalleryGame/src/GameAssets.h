@@ -21,4 +21,7 @@ public:
 
     sf::Texture table;
 
+    sf::Texture openDoor;
+    sf::Texture closeDoor;
+
 };
