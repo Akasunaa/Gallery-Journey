@@ -21,9 +21,10 @@
 #define INVENTORY_XML_PATH "resources/xml_files/inventory.xml"
 
 
+
 class Game;
 
-enum class States { inGame = 1, inExcavation = 2};
+enum class States { inGame = 1, inExcavation = 2, inFinishExcavation=3};
 
 
 
@@ -73,5 +74,8 @@ public :
 	void render();
 
     sf::RenderWindow* & get_window();
+
+
+	time_t start;
 
 };

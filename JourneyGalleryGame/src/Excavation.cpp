@@ -26,13 +26,15 @@ Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
 	textCadre = ga->cadre;
 	spriteCadre.setScale((float)(widthExc+100)/textCadre.getSize().y,(float) (hightExc+100)/textCadre.getSize().y);
 	spriteCadre.setPosition(sf::Vector2f(offsetWindowX-50, offsetWindowY-50));
-	//Appelle de la fonction init
+	//Pelle !
 	textPelle1 = ga->shovel1;
 	spritePelle1.setPosition(sf::Vector2f(widthExc +600  , hightExc-200));
 	textPelle2 = ga->shovel2;
 	spritePelle2.setPosition(sf::Vector2f(widthExc + 600, hightExc - 200));
 	textPelle3 = ga->shovel3;
 	spritePelle3.setPosition(sf::Vector2f(widthExc + 600, hightExc - 200));
+	//Appelle de la fonction init
+
 	init();
 
 }
@@ -52,15 +54,10 @@ void Excavation::digIn(int val) //Creuse une case et vï¿½rifie si on a trouv�
 		if (!(cases[val].getDig())) {
 			tryDig++;
 			cases[val].setDig(true);
+			std::cout << "try: " << tryDig << '\n';
 			if (cases[val].getTresure()) {
 				found++;
-				if (found == toFound) {
-					std::cout << "FOUND";
-					inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
-					inventory->add_material(materialToFound,1);
-					inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
-					canDig = false;
-				}
+				foundTreasure(); 
 			}
 		}
 
@@ -81,7 +78,7 @@ void Excavation::updateInput(sf::RenderWindow* window)
 
 void Excavation::init()
 {
-	nbDig = true;
+	canDig = true;
 	maxX = 0;
 	maxY = 0;
 
@@ -126,17 +123,37 @@ void Excavation::init()
 void Excavation::reset()
 {
 	canDig = false;
+	tryDig = 0;
+	nbDig = 0;
 	//reset des cases
 	for (int i = 0; i < nb_case * nb_case; i++) {
 		cases[i].setDig(false);
 		cases[i].setUntresure();
 	}
-
 }
 
 bool Excavation::getCanDig()
 {
 	return canDig;
+}
+
+void Excavation::foundTreasure()
+{
+	if (found == toFound) {
+		std::cout << "FOUND";
+		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
+		inventory->add_material(materialToFound, 1);
+		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
+
+		canDig = false;
+		reset();
+
+	}
+}
+
+void Excavation::setCanDig(bool state)
+{
+	canDig = state;
 }
 
 
@@ -149,8 +166,8 @@ void Excavation::draw(sf::RenderWindow* window)
 		cases[i].draw(window);
 	}
 	if (tryDig > nbDig) {
+		canDig = false;
 		reset();
-		tryDig = 0;	
 	}
 	spriteCadre.setTexture(textCadre);
 	window->draw(spriteCadre);

@@ -23,6 +23,11 @@ int Wall::getPrio()
 	return prio;
 }
 
+void Wall::setPrio(int val)
+{
+	prio = val;
+}
+
 WallPiece* Wall::getWallPiece()
 {
 	return wallPiece;
@@ -31,6 +36,14 @@ WallPiece* Wall::getWallPiece()
 Excavation* Wall::getExcavation()
 {
 	return excavation;
+}
+
+void Wall::reactiv()
+{
+	excavation->init();
+	wallPiece->setCanBeDug(true);
+	excavation->setCanDig(true);
+	prio = 0;
 }
 
 void Wall::update()

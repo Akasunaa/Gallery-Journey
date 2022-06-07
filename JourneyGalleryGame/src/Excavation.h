@@ -10,6 +10,12 @@
 #include <Inventory.h>
 #include <Material.h>
 #include <memory>
+#include <chrono>
+#include <thread>
+
+using namespace std::this_thread;     // sleep_for, sleep_until
+using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
+using std::chrono::system_clock;
 
 using namespace std;
 
@@ -35,6 +41,8 @@ public:
 	void init();
 	void reset();
 	bool getCanDig();
+	void foundTreasure();
+	void setCanDig(bool state);
 
 private:
 	GameAssets* ga;
@@ -66,5 +74,8 @@ private:
 	sf::Sprite spritePelle2;
 	sf::Texture textPelle3;
 	sf::Sprite spritePelle3;
+
+
+
 
 };

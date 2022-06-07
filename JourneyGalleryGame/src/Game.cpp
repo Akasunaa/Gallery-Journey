@@ -79,6 +79,8 @@ void Game::initWorld()
 	indiceLevel=1;
 	loadLevel(world, player, window, indiceLevel, ga);
 
+	indispo = 0;
+
 }
 
 
@@ -164,11 +166,38 @@ void Game::update()
 		//Verifie qu'on peut toujours creuser, sinon on se fait virer du mur
 		if (!(walls[digIndex]->getExcavation()->getCanDig())) {
 			walls[digIndex]->getWallPiece()->setCanBeDug(false);
-			states = States::inGame;
-			//Si on retourne en jeu, on cherche un autre mur � rendre actif
-			//Boucle sur les non actifs pour trouver celui � reveiller #sprint 1 d'os moins bien cod�			
+			indispo++;
+			states = States::inFinishExcavation;
+			time(&start);
+			//#sprint d'os #j'ai la flemme #ca prend trop de place dans le game
+			if (indispo > 2) {
+				//Initialisation
+				int maxPrio = walls[digIndex]->getPrio();
+				int toReactive = digIndex;
+				//Boucle pour trouver celui a reactiver
+				for(int i = 0; i < walls.size();i++) {
+					if (!(walls[i]->getExcavation()->getCanDig())) {
+						walls[i]->setPrio(walls[i]->getPrio() + 1);
+						if (walls[i]->getPrio() > maxPrio) {
+							toReactive = i;
+							maxPrio = walls[i]->getPrio();
+						}
+					}
+				}
+				//walls[toReactive]->reactiv();
+				indispo--;
+			}
 		}
-	}
+		if (states == States::inFinishExcavation) {
+			time_t end;
+			do time(&end); while (difftime(end, start) <= 2.5);
+			states = States::inGame;
+
+			}
+
+		}
+	
+	//Nouvel etat ->memorier une heure de depart (elapsed time), nouvelle mesure enverifiant temps > temps +1 
 
 	if (player->getPosition().x < 50) {
 		player->setPosition(b2Vec2(1700, player->getPosition().y));
