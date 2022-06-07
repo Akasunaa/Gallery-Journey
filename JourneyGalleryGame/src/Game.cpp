@@ -184,11 +184,12 @@ void Game::update()
 						}
 					}
 				}
-				//walls[toReactive]->reactiv();
+				walls[toReactive]->reactiv();
 				indispo--;
 			}
 		}
 		if (states == States::inFinishExcavation) {
+			//TODO :popup 
 			time_t end;
 			do time(&end); while (difftime(end, start) <= 2.5);
 			states = States::inGame;
@@ -196,8 +197,6 @@ void Game::update()
 			}
 
 		}
-	
-	//Nouvel etat ->memorier une heure de depart (elapsed time), nouvelle mesure enverifiant temps > temps +1 
 
 	if (player->getPosition().x < 50) {
 		player->setPosition(b2Vec2(1700, player->getPosition().y));

@@ -42,7 +42,6 @@ void Wall::reactiv()
 {
 	excavation->init();
 	wallPiece->setCanBeDug(true);
-	excavation->setCanDig(true);
 	prio = 0;
 }
 

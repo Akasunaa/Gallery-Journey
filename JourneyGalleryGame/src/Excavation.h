@@ -63,7 +63,7 @@ private:
 	int found; //nombre de morceau de trésor trouvé
 	int toFound; //nombre de morceau a trouvé
 
-	bool canDig; //Si on peut creuser
+	bool canDig; //Si on peut creuser -> lui qui fait passer au state inendexcavation
 
 	sf::Texture textCadre;
 	sf::Sprite spriteCadre;

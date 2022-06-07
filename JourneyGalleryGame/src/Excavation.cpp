@@ -125,6 +125,7 @@ void Excavation::reset()
 	canDig = false;
 	tryDig = 0;
 	nbDig = 0;
+	objCoor.clear();
 	//reset des cases
 	for (int i = 0; i < nb_case * nb_case; i++) {
 		cases[i].setDig(false);
@@ -145,7 +146,6 @@ void Excavation::foundTreasure()
 		inventory->add_material(materialToFound, 1);
 		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 
-		canDig = false;
 		reset();
 
 	}
@@ -166,7 +166,6 @@ void Excavation::draw(sf::RenderWindow* window)
 		cases[i].draw(window);
 	}
 	if (tryDig > nbDig) {
-		canDig = false;
 		reset();
 	}
 	spriteCadre.setTexture(textCadre);
@@ -178,7 +177,7 @@ void Excavation::draw(sf::RenderWindow* window)
 	if (ratio<0.30f) {
 		window->draw(spritePelle1);
 	}
-	else if (ratio < 0.60f && ratio > 0.30f ) {
+	else if (ratio < 0.80f && ratio > 0.30f ) {
 		window->draw(spritePelle2);
 	}
 	else {
