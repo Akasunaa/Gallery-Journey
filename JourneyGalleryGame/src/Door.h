@@ -6,16 +6,31 @@
 #include <stdio.h>
 #include <InteractableObject.h>
 #include <Player.h>
+#include <UnlockableElement.h>
 
-#define heightDoor 180
-#define widthDoor 270
+#define heightDoor 360
+#define widthDoor 240
 
-class Door : public InterractableObject
+class Door : UnlockableElement
 {
 public:
-	explicit Door(b2World* world, float x, float y, GameAssets* ga,Player* player);
-	void draw(sf::RenderWindow* window) override;
+	explicit Door(b2World* world, pugi::xml_node node, GameAssets* ga, 
+		std::unique_ptr<Inventory>& inventory);
+
+	void draw(sf::RenderWindow* window);
+	void setEnable(bool state);
+	void unlock() override;
 
 private:
 	sf::RectangleShape rect;
+	b2Body* body;
+	b2BodyDef bodyDef;
+
+	bool isEnable;
+
+	sf::Sprite spriteOpenDoor;
+	sf::Texture textureOpenDoor;
+
+	sf::Sprite spriteCloseDoor;
+	sf::Texture textureCloseDoor;
 };

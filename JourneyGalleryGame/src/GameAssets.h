@@ -21,4 +21,11 @@ public:
 
     sf::Texture table;
 
+    sf::Texture openDoor;
+    sf::Texture closeDoor;
+
+    sf::Texture shovel1;
+    sf::Texture shovel2;
+    sf::Texture shovel3;
+
 };

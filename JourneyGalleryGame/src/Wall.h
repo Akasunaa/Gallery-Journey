@@ -14,9 +14,12 @@ class Wall
 {
 public:
 	Wall(b2World* world, float x, float y, sf::RenderWindow* window, GameAssets* ga,std::unique_ptr<Inventory>& inventory);
+	Wall(b2World* world, pugi::xml_node node, sf::RenderWindow* window, GameAssets* ga, std::unique_ptr<Inventory>& inventory);
 	int getPrio();
+	void setPrio(int val);
 	WallPiece* getWallPiece();
 	Excavation* getExcavation();
+	void reactiv();
 
 	void update();
 

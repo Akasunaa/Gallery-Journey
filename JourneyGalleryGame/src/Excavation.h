@@ -10,6 +10,12 @@
 #include <Inventory.h>
 #include <Material.h>
 #include <memory>
+#include <chrono>
+#include <thread>
+
+using namespace std::this_thread;     // sleep_for, sleep_until
+using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
+using std::chrono::system_clock;
 
 using namespace std;
 
@@ -35,6 +41,8 @@ public:
 	void init();
 	void reset();
 	bool getCanDig();
+	void foundTreasure();
+	void setCanDig(bool state);
 
 private:
 	GameAssets* ga;
@@ -55,8 +63,19 @@ private:
 	int found; //nombre de morceau de trésor trouvé
 	int toFound; //nombre de morceau a trouvé
 
-	bool canDig; //Si on peut creuser
+	bool canDig; //Si on peut creuser -> lui qui fait passer au state inendexcavation
 
 	sf::Texture textCadre;
 	sf::Sprite spriteCadre;
+
+	sf::Texture textPelle1;
+	sf::Sprite spritePelle1;
+	sf::Texture textPelle2;
+	sf::Sprite spritePelle2;
+	sf::Texture textPelle3;
+	sf::Sprite spritePelle3;
+
+
+
+
 };

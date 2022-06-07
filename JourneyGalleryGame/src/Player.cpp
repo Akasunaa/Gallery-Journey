@@ -12,7 +12,7 @@ Player::Player(b2World* world, b2Vec2 pos, pugi::xml_node inventory_xml, GameAss
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.f;
-	fixtureDef.friction = 0.f;
+	fixtureDef.friction = 1.f;
 	body->CreateFixture(&fixtureDef);
 
     //inventory
@@ -54,10 +54,11 @@ b2Vec2 Player::getPosition() const
 	return body->GetPosition();
 }
 
-void Player::setposition(b2Vec2 pos)
+void Player::setPosition(b2Vec2 pos)
 {
 	body->SetTransform(pos, 0.0f);
-	body->SetLinearVelocity({ 0.0f,0.0f });
+	body->SetLinearVelocity(b2Vec2(0, 0));
+	body->ApplyForceToCenter(b2Vec2(0, 0), true);
 }
 
 void Player::stop()
