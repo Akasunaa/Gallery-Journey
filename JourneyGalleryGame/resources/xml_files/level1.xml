@@ -8,5 +8,5 @@
 	<Wall posX="200" posY="400"/>
 	<Wall posX="1100" posY="400"/>
 	<Wall posX="800" posY="400"/>
-
+	<Table posX="1600" posY="700"/>
 </LevelData>

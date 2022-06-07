@@ -144,8 +144,8 @@ void Excavation::foundTreasure()
 		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 		inventory->add_material(materialToFound, 1);
 		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
-
-		reset();
+		canDig = false;
+		//reset();
 
 	}
 }
@@ -165,7 +165,8 @@ void Excavation::draw(sf::RenderWindow* window)
 		cases[i].draw(window);
 	}
 	if (tryDig > nbDig) {
-		reset();
+		//reset();
+		canDig = false;
 	}
 	spriteCadre.setTexture(textCadre);
 	window->draw(spriteCadre);

@@ -45,6 +45,12 @@ void Wall::reactiv()
 	prio = 0;
 }
 
+void Wall::reset()
+{
+	wallPiece->setCanBeDug(false);
+	excavation->reset();
+}
+
 void Wall::update()
 {
 	//nothing to do here

@@ -20,6 +20,7 @@ public:
 	WallPiece* getWallPiece();
 	Excavation* getExcavation();
 	void reactiv();
+	void reset();
 
 	void update();
 

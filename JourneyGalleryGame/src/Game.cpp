@@ -23,7 +23,7 @@ void Game::loadLevel(b2World* world, Player* player,
 			std::unique_ptr<Door> door = std::make_unique<Door>(world, child, ga, player->get_inventory());
 			doors.push_back(std::move(door));
 		}
-		if (child.name() == "Table") {
+		if (child.name() == "Table"sv) {
 			std::unique_ptr<Table> table = std::make_unique<Table>(world, child,ga);
 			tables.push_back(std::move(table));
 		}
@@ -37,7 +37,7 @@ void Game::initWindow()
 	//init fenetre
 	this->videoMode.height = 1080;
 	this->videoMode.width = 1920;
-	this->window= new sf::RenderWindow(this->videoMode, "SFML window", sf::Style::Titlebar | sf::Style::Close);
+	this->window= new sf::RenderWindow(this->videoMode, "Gallery Journey", sf::Style::Titlebar | sf::Style::Close);
     ImGui::SFML::Init(*window);
 }
 
@@ -99,6 +99,47 @@ Game::~Game() {
 const bool Game::running() const
 {
 	return this->window->isOpen();
+}
+
+void Game::electWall()
+{
+	if (indispo > 2) {
+		//Initialisation
+		int maxPrio = walls[digIndex]->getPrio();
+		int toReactive = digIndex;
+		//Boucle pour trouver celui a reactiver
+		for (int i = 0; i < walls.size(); i++) {
+			if (!(walls[i]->getExcavation()->getCanDig())) {
+				walls[i]->setPrio(walls[i]->getPrio() + 1);
+				if (walls[i]->getPrio() > maxPrio) {
+					toReactive = i;
+					maxPrio = walls[i]->getPrio();
+				}
+			}
+		}
+		walls[toReactive]->reactiv();
+		indispo--;
+	}
+}
+
+void Game::switchLevel()
+{
+	if (player->getPosition().x < 50) {
+		player->setPosition(b2Vec2(1700, player->getPosition().y));
+		walls.clear();
+		doors.clear();
+		tables.clear();
+		loadLevel(world, player, window, indiceLevel + 1, ga);
+		indiceLevel++;
+	}
+	if (player->getPosition().x > 1750) {
+		player->setPosition(b2Vec2(100, player->getPosition().y));
+		walls.clear();
+		doors.clear();
+		tables.clear();
+		loadLevel(world, player, window, indiceLevel - 1, ga);
+		indiceLevel--;
+	}
 }
 
 void Game::pollEvents()
@@ -180,56 +221,24 @@ void Game::update()
 	if (states == States::inExcavation) {
 		//Verifie qu'on peut toujours creuser, sinon on se fait virer du mur
 		if (!(walls[digIndex]->getExcavation()->getCanDig())) {
-			walls[digIndex]->getWallPiece()->setCanBeDug(false);
+			walls[digIndex]->reset();
 			indispo++;
 			states = States::inFinishExcavation;
 			time(&start);
-			//#sprint d'os #j'ai la flemme #ca prend trop de place dans le game
-			if (indispo > 2) {
-				//Initialisation
-				int maxPrio = walls[digIndex]->getPrio();
-				int toReactive = digIndex;
-				//Boucle pour trouver celui a reactiver
-				for(int i = 0; i < walls.size();i++) {
-					if (!(walls[i]->getExcavation()->getCanDig())) {
-						walls[i]->setPrio(walls[i]->getPrio() + 1);
-						if (walls[i]->getPrio() > maxPrio) {
-							toReactive = i;
-							maxPrio = walls[i]->getPrio();
-						}
-					}
-				}
-				walls[toReactive]->reactiv();
-				indispo--;
-			}
+			electWall();
 		}
 		if (states == States::inFinishExcavation) {
 			//TODO :popup 
 			time_t end;
-			do time(&end); while (difftime(end, start) <= 2.5);
+			do time(&end); while (difftime(end, start) <= 1);
 			states = States::inGame;
 
 			}
 
 		}
 
-	if (player->getPosition().x < 50) {
-		player->setPosition(b2Vec2(1700, player->getPosition().y));
-		walls.clear();
-		doors.clear();
-		tables.clear();
-		loadLevel(world, player, window, indiceLevel+1, ga);
-		indiceLevel++;
-	}
-	if (player->getPosition().x > 1750) {
-		player->setPosition(b2Vec2(100, player->getPosition().y));
-		walls.clear();
-		doors.clear();
-		tables.clear();
-		loadLevel(world, player, window, indiceLevel-1, ga);
-		indiceLevel--;
-	}
 
+	switchLevel();
 }
 
 
@@ -243,14 +252,16 @@ void Game::render()
 	this->window->draw(spriteBackground);
 
 	if (states == States::inGame) {
-		for (auto& door :doors) {
-			door->draw((this->window));
-		}
+
 		for (auto& wall : walls) {
 			wall->getWallPiece()->draw((this->window));
 		}
+
 		for (auto& door : doors) {
 			door->draw((this->window));
+		}
+		for (auto& table : tables) {
+			table->draw((this->window));
 		}
 	}
 	//Dessin du player
@@ -270,8 +281,6 @@ void Game::render()
 
 	this->window->display();
 }
-
-
 
 
 

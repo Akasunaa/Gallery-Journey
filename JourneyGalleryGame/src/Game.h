@@ -55,7 +55,8 @@ private:
 	int digIndex; //mur en cours de creusage
 	int indispo;
 
-
+	void electWall();
+	void switchLevel();
 	void initWindow();
 	void initWorld();
 	void loadLevel(b2World* world, Player* player,
