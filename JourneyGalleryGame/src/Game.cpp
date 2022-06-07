@@ -1,8 +1,36 @@
 #include "Game.h"
-#include "pugixml.hpp"
-#include <cstdlib>
-#define INVENTORY_XML_PATH "resources/xml_files/inventory.xml"
 
+
+void Game::loadLevel(b2World* world, Player* player, 
+	sf::RenderWindow* window, int levelNumber,GameAssets* ga)
+{
+	std::string stringName = "resources/xml_files/level" + std::to_string(levelNumber) + ".xml";
+	const char* charName = stringName.c_str();
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(charName);
+	if (!result)
+	{
+		std::cerr << "Could not open file " << stringName << " because " << result.description() << std::endl;
+		return;
+	}
+	pugi::xml_node levelData = doc.child("LevelData");
+	for (auto child : levelData.children()) {
+		if(child.name()=="Wall"sv){
+			std::unique_ptr<Wall> wall = std::make_unique<Wall>(world,child, window, ga, player->get_inventory());
+			walls.push_back(std::move(wall));
+		}
+		if (child.name() == "Door"sv) {
+			std::unique_ptr<Door> door = std::make_unique<Door>(world, child, ga, player->get_inventory());
+			doors.push_back(std::move(door));
+		}
+		if (child.name() == "Table") {
+			std::unique_ptr<Table> table = std::make_unique<Table>(world, child,ga);
+			tables.push_back(std::move(table));
+		}
+		
+	}
+
+}
 
 void Game::initWindow()
 {
@@ -46,23 +74,11 @@ void Game::initWorld()
     }
 	this->player = new Player(world, { 1000.0f, 650.0f }, inventory_doc.child("Inventory"),ga);
 
-	//init walls
-	std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, 500.0f, 400.0f,this->window,ga,player->get_inventory());
-	std::unique_ptr<Wall> walltwo = std::make_unique<Wall>(world, 200.0f, 400.0f, this->window,ga,player->get_inventory());
-	std::unique_ptr<Wall> wallthree = std::make_unique<Wall>(world, 1100.0f, 400.0f, this->window,ga,player->get_inventory());
-	std::unique_ptr<Wall> wallfour = std::make_unique<Wall>(world, 800.0f, 400.0f, this->window, ga, player->get_inventory());
-	walls.push_back(std::move(wall));
-	walls.push_back(std::move(walltwo));
-	walls.push_back(std::move(wallthree));
-	walls.push_back(std::move(wallfour));
+	//init level
+	indiceLevel=1;
+	loadLevel(world, player, window, indiceLevel, ga);
+
 	indispo = 0;
-	//init table
-	table = std::make_unique<Table>(world, 1600.0f, 650.0f,ga);
-	door = std::make_unique<Door>(world, 600.0f, 450.0f, ga,player);
-
-
-
-
 
 }
 
@@ -116,9 +132,12 @@ void Game::pollEvents()
 						}
 					}
 					//Interraction avec la table
-					if (table->checkInteract()) { 
-						std::cout << "bro wat";
+					for (auto& table : tables) {
+						if (table->checkInteract()) {
+							std::cout << "bro wat";
+						}
 					}
+
 				}
 			}
 			else if (this->ev.key.code == sf::Keyboard::Q) {
@@ -126,7 +145,6 @@ void Game::pollEvents()
 					digIndex = -1;
 					states = States::inGame;
 				}
-				break;
 			}
 		}
 	}
@@ -139,19 +157,63 @@ void Game::update()
 	this->pollEvents();
 
 	//InGame
-	if (states == States::inGame)
+	if (states == States::inGame) {
 		player->updateInput();
-
+	}
 	//InExcavation -> code � d�placer?
 	if (states == States::inExcavation) {
 		//Verifie qu'on peut toujours creuser, sinon on se fait virer du mur
 		if (!(walls[digIndex]->getExcavation()->getCanDig())) {
 			walls[digIndex]->getWallPiece()->setCanBeDug(false);
-			states = States::inGame;
-			//Si on retourne en jeu, on cherche un autre mur � rendre actif
-			//Boucle sur les non actifs pour trouver celui � reveiller #sprint 1 d'os moins bien cod�			
+			indispo++;
+			states = States::inFinishExcavation;
+			time(&start);
+			//#sprint d'os #j'ai la flemme #ca prend trop de place dans le game
+			if (indispo > 2) {
+				//Initialisation
+				int maxPrio = walls[digIndex]->getPrio();
+				int toReactive = digIndex;
+				//Boucle pour trouver celui a reactiver
+				for(int i = 0; i < walls.size();i++) {
+					if (!(walls[i]->getExcavation()->getCanDig())) {
+						walls[i]->setPrio(walls[i]->getPrio() + 1);
+						if (walls[i]->getPrio() > maxPrio) {
+							toReactive = i;
+							maxPrio = walls[i]->getPrio();
+						}
+					}
+				}
+				walls[toReactive]->reactiv();
+				indispo--;
+			}
 		}
+		if (states == States::inFinishExcavation) {
+			//TODO :popup 
+			time_t end;
+			do time(&end); while (difftime(end, start) <= 2.5);
+			states = States::inGame;
+
+			}
+
+		}
+
+	if (player->getPosition().x < 50) {
+		player->setPosition(b2Vec2(1700, player->getPosition().y));
+		walls.clear();
+		doors.clear();
+		tables.clear();
+		loadLevel(world, player, window, indiceLevel+1, ga);
+		indiceLevel++;
 	}
+	if (player->getPosition().x > 1750) {
+		player->setPosition(b2Vec2(100, player->getPosition().y));
+		walls.clear();
+		doors.clear();
+		tables.clear();
+		loadLevel(world, player, window, indiceLevel-1, ga);
+		indiceLevel--;
+	}
+
 }
 
 
@@ -167,11 +229,16 @@ void Game::render()
 	spriteBackground.setTexture(textBackground);
 	this->window->draw(spriteBackground);
 
-	//Dessin de la table
-	this->table->draw(this->window);
-	//Dessin des walls
-	for (auto& wall : walls) {
-		wall->getWallPiece()->draw((this->window));
+	if (states == States::inGame) {
+		for (auto& door :doors) {
+			door->draw((this->window));
+		}
+		for (auto& wall : walls) {
+			wall->getWallPiece()->draw((this->window));
+		}
+		for (auto& door : doors) {
+			door->draw((this->window));
+		}
 	}
 	//Dessin du player
 	this->player->playerDraw((this->window));
@@ -182,9 +249,13 @@ void Game::render()
 
 
     ImGui::SFML::Render(*window);
-	this->door->draw(this->window);
+
 	this->window->display();
 }
+
+
+
+
 
 sf::RenderWindow* &Game::get_window() {
     return window;

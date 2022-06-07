@@ -20,7 +20,7 @@ public:
 	void updateInput();
 	void playerDraw(sf::RenderWindow* window);
 	b2Vec2 getPosition() const;
-	void setposition(b2Vec2 pos);
+	void setPosition(b2Vec2 pos);
 	void stop();
     std::unique_ptr<Inventory> & get_inventory();
 

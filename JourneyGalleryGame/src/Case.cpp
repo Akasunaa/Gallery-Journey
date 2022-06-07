@@ -22,6 +22,7 @@ Case::Case(int x, int y,float height, float width, float nb_case,
 
 void Case::draw(sf::RenderWindow* window)
 {
+
 	spriteUndig.setTexture(textureUndig);
 	spriteDig.setTexture(textureDig);
 	if (isDig) {
@@ -36,7 +37,6 @@ void Case::draw(sf::RenderWindow* window)
 		window->draw(spriteUndig);
 
 	}
-
 	
 	
 }
