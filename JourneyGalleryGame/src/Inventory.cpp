@@ -11,8 +11,9 @@ using namespace std::literals;
 
 Inventory::Inventory() :
 materials(std::map<std::string, std::unique_ptr<Material>>()),
-equipment(std::map<std::string, std::unique_ptr<Equipment>>()){
-
+equipment(std::map<std::string, std::unique_ptr<Equipment>>()),
+selected_equip_craft("None"),
+selected_item_inventory("None"){
 }
 
 void Inventory::init_inventory(pugi::xml_node node) {
@@ -111,6 +112,14 @@ void Inventory::craft(const std::string & equip_key) {
     }
 }
 
+bool Inventory::is_equip_craft_selected() {
+    return(! (selected_equip_craft.compare("None") == 0) );
+}
+
+bool Inventory::is_item_inventory_selected() {
+    return(! (selected_item_inventory.compare("None") == 0) );
+}
+
 void Inventory::display_equipment(int mode) {
     std::cout << "----- Equipement & Trésors -----" << std::endl ;
     for(const auto & equip : equipment ){
@@ -201,7 +210,7 @@ void Inventory::draw_craft(std::string equip_key) {
         std::string s = material->get_name() + " " + std::to_string(material->get_nb_copies())
                         + "/" + std::to_string(nb_required);
 
-        ImGui::PushID(mat_req.c_str());
+        ImGui::PushID((mat_req + "##TextRequired").c_str());
         if (material->has_enough(nb_required)) {
             ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(120, 100, 100));
 
@@ -237,11 +246,105 @@ void Inventory::draw_craft(std::string equip_key) {
                 if(ImGui::Button("OK")){
                     ImGui::CloseCurrentPopup();
                 }
+                clear_selected_equip_craft();
             }
 
         }
         ImGui::PopStyleColor(3);
         ImGui::PopID();
+}
+
+void Inventory::draw_inventory_screen() {
+    ImGui::Begin("Inventaire",NULL);
+    ImGui::SetWindowPos(ImVec2(0,0));
+    //ImGui::SetWindowFontScale(1);
+    ImGui::SetWindowSize(ImVec2(WINDOW_W,WINDOW_H));
+    {
+        ImGui::BeginChild("Inventory_Left",
+                          ImVec2(ImGui::GetWindowContentRegionWidth() * 0.5f, ImGui::GetWindowHeight()),
+                          true, NULL);
+        ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+        if(ImGui::BeginTabBar("Inventory_tab", tab_bar_flags)){
+            if(ImGui::BeginTabItem("Équipements & Trésors")){
+
+                for(const auto & [equip_key, equip_obj] : equipment ){
+
+                    if(is_crafted(equip_key)){
+                        std::string name_equip = equip_obj->get_name();
+                        if(ImGui::Selectable(name_equip.c_str(),
+                                             (selected_item_inventory.compare(name_equip) == 0))){
+                            selected_item_inventory = name_equip;
+                        }
+                    }
+
+                }
+                ImGui::EndTabItem();
+            }
+            if(ImGui::BeginTabItem("Matériaux")){
+
+                for(const auto & [mat_key, mat_obj] : materials ){
+
+                    if(mat_obj->has_enough(1)){
+                        std::string name_mat = mat_obj->get_name();
+                        if(ImGui::Selectable(name_mat.c_str(),
+                                             (selected_item_inventory.compare(name_mat) == 0))){
+                            selected_item_inventory = name_mat;
+                        }
+                    }
+
+                }
+                ImGui::EndTabItem();
+            }
+            ImGui::EndTabBar();
+        }
+        ImGui::EndChild();
+    }
+    ImGui::SameLine();
+    if(is_item_inventory_selected()){
+        ImGui::BeginChild("Inventory_Right",
+                          ImVec2(ImGui::GetWindowContentRegionWidth() * 0.5f, ImGui::GetWindowHeight()),
+                          true, NULL);
+        draw_object_info(selected_item_inventory);
+        ImGui::EndChild();
+    }
+    ImGui::End();
+}
+
+void Inventory::draw_craft_screen() {
+    ImGui::Begin("Craft_Screen",NULL);
+    ImGui::SetWindowPos(ImVec2(0,0));
+    //ImGui::SetWindowFontScale(1);
+    ImGui::SetWindowSize(ImVec2(WINDOW_W,WINDOW_H));
+
+    {
+        ImGui::BeginChild("Craft_Screen_Left",
+                          ImVec2(ImGui::GetWindowContentRegionWidth() * 0.5f, ImGui::GetWindowHeight()),
+                          true, NULL);
+        ImGui::TextUnformatted("Listes des objets à forger");
+        for(const auto & [equip_key, equip_obj] : equipment ){
+
+            if(! is_crafted(equip_key)){
+                std::string name_equip = equip_obj->get_name();
+                if(ImGui::Selectable(name_equip.c_str(),
+                                     (selected_equip_craft.compare(name_equip) == 0))){
+                    selected_equip_craft = name_equip;
+                }
+            }
+
+        }
+        ImGui::EndChild();
+    }
+    ImGui::SameLine();
+
+    if(is_equip_craft_selected()){
+        ImGui::BeginChild("Craft_Screen_Right",
+                          ImVec2(ImGui::GetWindowContentRegionWidth() * 0.5f, ImGui::GetWindowHeight()),
+                          true, NULL);
+        draw_craft(selected_equip_craft);
+        ImGui::EndChild();
+    }
+    ImGui::End();
+
 }
 
 std::map<std::string, std::unique_ptr<Material>> &Inventory::get_materials() {
@@ -250,5 +353,13 @@ std::map<std::string, std::unique_ptr<Material>> &Inventory::get_materials() {
 
 std::map<std::string, std::unique_ptr<Equipment>> &Inventory::get_equipment() {
     return equipment;
+}
+
+void Inventory::clear_selected_equip_craft() {
+    selected_equip_craft = "None";
+}
+
+void Inventory::clear_selected_item_inventory() {
+    selected_item_inventory = "None";
 }
 

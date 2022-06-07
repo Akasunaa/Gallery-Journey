@@ -18,6 +18,8 @@
 #define DISPLAY_ALL_EQUIP 0
 #define DISPLAY_ACQUIRED_EQUIP 1
 #define DISPLAY_NOT_ACQUIRED_EQUIP 2
+#define WINDOW_W 1920
+#define WINDOW_H 1080
 
 
 class Inventory {
@@ -32,9 +34,14 @@ public:
     bool is_craftable(const std::string & equip_key);
     bool is_crafted(const std::string & equip_key);
     void craft(const std::string & equip_key);
+    bool is_item_inventory_selected();
+    bool is_equip_craft_selected();
 
     std::map<std::string, std::unique_ptr<Material>> & get_materials();
     std::map<std::string, std::unique_ptr<Equipment>> & get_equipment();
+    void clear_selected_item_inventory();
+    void clear_selected_equip_craft();
+
 
     void display_equipment(int mode);
     void display_required(const std::string & equip_key);
@@ -49,6 +56,8 @@ public:
 private :
     std::map<std::string, std::unique_ptr<Material>> materials;
     std::map<std::string, std::unique_ptr<Equipment>> equipment;
+    std::string selected_item_inventory;
+    std::string selected_equip_craft;
 };
 
 #endif //GALLERYJOURNEY_INVENTORY_H
