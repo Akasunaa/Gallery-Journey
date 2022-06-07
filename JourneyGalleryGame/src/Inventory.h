@@ -11,6 +11,8 @@
 #include "pugixml.hpp"
 #include "Material.h"
 #include "Equipment.h"
+#include <../imgui_lib/imgui.h>
+#include <../imgui_lib/imgui-SFML.h>
 #define DISPLAY_ALL_MAT 0
 #define DISPLAY_POSSESSED_MAT 1
 #define DISPLAY_ALL_EQUIP 0
@@ -30,12 +32,19 @@ public:
     bool is_craftable(const std::string & equip_key);
     bool is_crafted(const std::string & equip_key);
     void craft(const std::string & equip_key);
+
+    std::map<std::string, std::unique_ptr<Material>> & get_materials();
+    std::map<std::string, std::unique_ptr<Equipment>> & get_equipment();
+
     void display_equipment(int mode);
     void display_required(const std::string & equip_key);
     void display_materials(int mode);
     void display_all(int material_mode, int equipement_mode);
-    std::map<std::string, std::unique_ptr<Material>> & get_materials();
-    std::map<std::string, std::unique_ptr<Equipment>> & get_equipment();
+
+    void draw_object_info(std::string object_key);
+    void draw_craft(std::string equip_key);
+    void draw_inventory_screen();
+    void draw_craft_screen();
 
 private :
     std::map<std::string, std::unique_ptr<Material>> materials;

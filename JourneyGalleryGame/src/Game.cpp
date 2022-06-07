@@ -160,9 +160,6 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear();
-    ImGui::Begin("Hello, world!");
-    ImGui::Button("Look at this pretty button");
-    ImGui::End();
 
 	spriteBackground.setTexture(textBackground);
 	this->window->draw(spriteBackground);
@@ -181,8 +178,8 @@ void Game::render()
 	}
 
 
-    ImGui::SFML::Render(*window);
 	this->door->draw(this->window);
+    ImGui::SFML::Render(*window);
 	this->window->display();
 }
 

@@ -164,6 +164,86 @@ void Inventory::display_all(int mode_material, int mode_equipment) {
     std::cout << "================================" << std::endl;
 }
 
+void Inventory::draw_object_info(std::string object_key) {
+    std::string text;
+    std::string sprite_path;
+
+    if(materials.contains(object_key)){
+        text =  materials[object_key]->get_name();
+        sprite_path = materials[object_key]->get_sprite_path();
+    }
+    else if(equipment.contains(object_key)){
+        text =  equipment[object_key]->get_name();
+        sprite_path = equipment[object_key]->get_sprite_path();
+    }
+
+    ImGui::TextUnformatted(text.c_str());
+    ImGui::Indent();
+    //TODO Sprite affichage
+    //ImGui::SetWindowFontScale(1);
+    ImGui::TextColored((ImVec4)ImColor::HSV(190,80,100),"Texte de description à compléter.");
+}
+
+void Inventory::draw_craft(std::string equip_key) {
+    ImGui::TextUnformatted(equipment[equip_key]->get_name().c_str());
+    ImGui::Indent();
+    //TODO Sprite affichage
+    //ImGui::SetWindowFontScale(1);
+    ImGui::Separator();
+    ImGui::Text("MATÉRIAUX REQUIS :");
+
+    for(const auto & [mat_req, nb_required] : equipment[equip_key]->get_required_mats()) {
+        if (!materials.contains(mat_req)) {
+            std::cout << "(is_craftable) ERROR : the required material " << mat_req << " is not defined \n";
+            exit(1);
+        }
+        const auto &material = materials[mat_req];
+        std::string s = material->get_name() + " " + std::to_string(material->get_nb_copies())
+                        + "/" + std::to_string(nb_required);
+
+        ImGui::PushID(mat_req.c_str());
+        if (material->has_enough(nb_required)) {
+            ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(120, 100, 100));
+
+        } else {
+            ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(0, 100, 100));
+        }
+        ImGui::BulletText(s.c_str());
+        ImGui::PopStyleColor();
+        ImGui::PopID();
+    }
+
+        ImGui::Separator();
+
+        //TODO BOUTON FORGER
+
+        ImGui::PushID(equip_key.c_str());
+        if(is_craftable(equip_key)){
+            ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4) ImColor::HSV(120, 100, 100));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4) ImColor::HSV(120, 100, 100));
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4) ImColor::HSV(120, 100, 100));
+        }else {
+            ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4) ImColor::HSV(120, 100, 100));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4) ImColor::HSV(120, 100, 100));
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4) ImColor::HSV(120, 100, 100));
+        }
+        if(ImGui::Button("FORGER") && is_craftable(equip_key)){
+            //Si on clique sur le bouton "forger" et que l'équipement est craftable,alors on le craft
+            craft(equip_key);
+            //et on  affiche un pop-up pour dire que ça a été fait avec succès
+            ImGui::OpenPopup("Craft réussi");
+            if(ImGui::BeginPopupModal("Craft", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+                ImGui::Text(("Craft réussi : " + equipment[equip_key]->get_name() + " ! ").c_str());
+                if(ImGui::Button("OK")){
+                    ImGui::CloseCurrentPopup();
+                }
+            }
+
+        }
+        ImGui::PopStyleColor(3);
+        ImGui::PopID();
+}
+
 std::map<std::string, std::unique_ptr<Material>> &Inventory::get_materials() {
     return materials;
 }
@@ -171,3 +251,4 @@ std::map<std::string, std::unique_ptr<Material>> &Inventory::get_materials() {
 std::map<std::string, std::unique_ptr<Equipment>> &Inventory::get_equipment() {
     return equipment;
 }
+
