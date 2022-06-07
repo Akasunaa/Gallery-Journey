@@ -18,7 +18,7 @@
 
 class Game;
 
-enum class States { inGame = 1, inExcavation = 2};
+enum class States { inGame = 1, inExcavation = 2, inInventory = 4, inCraft = 5};
 
 
 

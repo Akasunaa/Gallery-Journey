@@ -186,15 +186,29 @@ void Inventory::draw_object_info(std::string object_key) {
         sprite_path = equipment[object_key]->get_sprite_path();
     }
 
+    ImGui::PushID("Selected_Equip");
+    ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::HSV(150.0f/360.0f ,0.3,0.9));
     ImGui::TextUnformatted(text.c_str());
+    ImGui::PopStyleColor();
+    ImGui::PopID();
+
+    ImGui::Separator();
     ImGui::Indent();
     //TODO Sprite affichage
     //ImGui::SetWindowFontScale(1);
-    ImGui::TextColored((ImVec4)ImColor::HSV(190,80,100),"Texte de description à compléter.");
+    ImGui::PushID((text + "##description").c_str());
+    ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::HSV(0.5,0.6,0.9));
+    ImGui::TextWrapped("Texte de description à compléter un jour.");
+    ImGui::PopStyleColor();
+    ImGui::PopID();
 }
 
 void Inventory::draw_craft(std::string equip_key) {
+    ImGui::PushID("Selected_Equip");
+    ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::HSV(150.0f/360.0f ,0.3,0.9));
     ImGui::TextUnformatted(equipment[equip_key]->get_name().c_str());
+    ImGui::PopStyleColor();
+    ImGui::PopID();
     ImGui::Indent();
     //TODO Sprite affichage
     //ImGui::SetWindowFontScale(1);
@@ -212,10 +226,9 @@ void Inventory::draw_craft(std::string equip_key) {
 
         ImGui::PushID((mat_req + "##TextRequired").c_str());
         if (material->has_enough(nb_required)) {
-            ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(120, 100, 100));
-
+            ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(115.0f / 360.0f, 1, 1));
         } else {
-            ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(0, 100, 100));
+            ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(0, 1, 1));
         }
         ImGui::BulletText(s.c_str());
         ImGui::PopStyleColor();
@@ -224,40 +237,45 @@ void Inventory::draw_craft(std::string equip_key) {
 
         ImGui::Separator();
 
-        //TODO BOUTON FORGER
-
         ImGui::PushID(equip_key.c_str());
         if(is_craftable(equip_key)){
-            ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4) ImColor::HSV(120, 100, 100));
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4) ImColor::HSV(120, 100, 100));
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4) ImColor::HSV(120, 100, 100));
+            ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4) ImColor::HSV(115.0f / 360.0f, 1, 1));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4) ImColor::HSV(145.0f/360.0f, 0.6, 0.9));
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4) ImColor::HSV(145.0f/360.0f, 0.6, 0.9));
         }else {
-            ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4) ImColor::HSV(120, 100, 100));
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4) ImColor::HSV(120, 100, 100));
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4) ImColor::HSV(120, 100, 100));
+            ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4) ImColor::HSV(245.0f/ 360.0f , 0, 0.7));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4) ImColor::HSV(1, 1, 1));
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4) ImColor::HSV(1, 1, 1));
         }
-        if(ImGui::Button("FORGER") && is_craftable(equip_key)){
+
+
+    if(ImGui::Button("FORGER") && is_craftable(equip_key)){
+
             //Si on clique sur le bouton "forger" et que l'équipement est craftable,alors on le craft
             craft(equip_key);
             //et on  affiche un pop-up pour dire que ça a été fait avec succès
-            ImGui::OpenPopup("Craft réussi");
-            if(ImGui::BeginPopupModal("Craft", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
-                ImGui::Text(("Craft réussi : " + equipment[equip_key]->get_name() + " ! ").c_str());
-                if(ImGui::Button("OK")){
-                    ImGui::CloseCurrentPopup();
-                }
-                clear_selected_equip_craft();
-            }
+            ImGui::OpenPopup("SUCCES");
+    }
+    if(ImGui::BeginPopupModal("SUCCES", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        ImGui::SetWindowFontScale(3);
+        ImGui::Text(("Craft réussi : " + equipment[equip_key]->get_name() + " ! ").c_str());
+        ImGui::Separator();
 
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::PopID();
+        if(ImGui::Button("OK", ImVec2(120, 0))){
+                    ImGui::CloseCurrentPopup();
+                    clear_selected_equip_craft();
+                }
+        ImGui::EndPopup();
+    }
+    ImGui::PopStyleColor(3);
+    ImGui::PopID();
 }
 
 void Inventory::draw_inventory_screen() {
-    ImGui::Begin("Inventaire",NULL);
+    ImGui::Begin("Inventaire (Appuyez sur \"I\" ou \"Q\" pour quitter)",NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
     ImGui::SetWindowPos(ImVec2(0,0));
-    //ImGui::SetWindowFontScale(1);
+    ImGui::SetWindowFontScale(3);
     ImGui::SetWindowSize(ImVec2(WINDOW_W,WINDOW_H));
     {
         ImGui::BeginChild("Inventory_Left",
@@ -311,16 +329,23 @@ void Inventory::draw_inventory_screen() {
 }
 
 void Inventory::draw_craft_screen() {
-    ImGui::Begin("Craft_Screen",NULL);
+    ImGui::Begin("Table de Craft (Appuyez sur \"Q\" pour quitter)",NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
     ImGui::SetWindowPos(ImVec2(0,0));
-    //ImGui::SetWindowFontScale(1);
+    ImGui::SetWindowFontScale(3);
     ImGui::SetWindowSize(ImVec2(WINDOW_W,WINDOW_H));
 
     {
         ImGui::BeginChild("Craft_Screen_Left",
                           ImVec2(ImGui::GetWindowContentRegionWidth() * 0.5f, ImGui::GetWindowHeight()),
                           true, NULL);
+
+        ImGui::PushID("List");
+        ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::HSV(60.0f/360.0f ,0.5,0.9));
         ImGui::TextUnformatted("Listes des objets à forger");
+        ImGui::PopStyleColor();
+        ImGui::PopID();
+
+        ImGui::Separator();
         for(const auto & [equip_key, equip_obj] : equipment ){
 
             if(! is_crafted(equip_key)){
