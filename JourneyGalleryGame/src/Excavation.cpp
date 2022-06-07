@@ -24,8 +24,8 @@ Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
 
 	//Tracé du cadre
 	textCadre = ga->cadre;
-	spriteCadre.setScale(1.5f,1.5f);
-	spriteCadre.setPosition(sf::Vector2f(offsetWindowX-100, offsetWindowY-100));
+	spriteCadre.setScale((float)(widthExc+100)/textCadre.getSize().y,(float) (hightExc+100)/textCadre.getSize().y);
+	spriteCadre.setPosition(sf::Vector2f(offsetWindowX-50, offsetWindowY-50));
 	//Appelle de la fonction init
 	textPelle1 = ga->shovel1;
 	spritePelle1.setPosition(sf::Vector2f(widthExc +600  , hightExc-200));
@@ -153,7 +153,7 @@ void Excavation::draw(sf::RenderWindow* window)
 		tryDig = 0;	
 	}
 	spriteCadre.setTexture(textCadre);
-	//window->draw(spriteCadre);
+	window->draw(spriteCadre);
 	spritePelle1.setTexture(textPelle1);
 	spritePelle2.setTexture(textPelle2);
 	spritePelle3.setTexture(textPelle3);
