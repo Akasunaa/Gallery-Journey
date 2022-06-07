@@ -15,7 +15,6 @@ void Game::loadLevel(b2World* world, Player* player,
 	}
 	pugi::xml_node levelData = doc.child("LevelData");
 	for (auto child : levelData.children()) {
-		std::cout << child.name();
 		if(child.name()=="Wall"sv){
 			std::unique_ptr<Wall> wall = std::make_unique<Wall>(world,child, window, ga, player->get_inventory());
 			walls.push_back(std::move(wall));

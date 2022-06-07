@@ -54,7 +54,6 @@ void Excavation::digIn(int val) //Creuse une case et vï¿½rifie si on a trouv�
 		if (!(cases[val].getDig())) {
 			tryDig++;
 			cases[val].setDig(true);
-			std::cout << "try: " << tryDig << '\n';
 			if (cases[val].getTresure()) {
 				found++;
 				foundTreasure(); 
