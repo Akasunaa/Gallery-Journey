@@ -115,9 +115,10 @@ void Game::pollEvents()
 							}
 						}
 					}
-					//Interraction avec la table
+					//Interaction avec la table
 					if (table->checkInteract()) { 
-						std::cout << "bro wat";
+						player->stop();
+                        states = States::inCraft;
 					}
 				}
 			}
@@ -126,8 +127,21 @@ void Game::pollEvents()
 					digIndex = -1;
 					states = States::inGame;
 				}
+                if (states == States::inInventory ||
+                    states == States::inCraft){
+                    states = States::inGame;
+                }
 				break;
 			}
+            else if (this->ev.key.code == sf::Keyboard::I){
+                if(states == States::inGame){
+                    player->stop();
+                    states = States::inInventory;
+                }
+                else if(states == States::inInventory){
+                    states = States::inGame;
+                }
+            }
 		}
 	}
 
@@ -176,6 +190,12 @@ void Game::render()
 	if (states == States::inExcavation) {
 		walls[digIndex]->getExcavation()->draw(this->window);
 	}
+    if (states == States::inInventory){
+        this->player->get_inventory()->draw_inventory_screen();
+    }
+    if (states == States::inCraft){
+        this->player->get_inventory()->draw_craft_screen();
+    }
 
 
 	this->door->draw(this->window);
