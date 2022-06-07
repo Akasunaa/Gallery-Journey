@@ -131,11 +131,14 @@ void Game::pollEvents()
 							}
 						}
 					}
+          
 					//Interraction avec la table
 					for (auto& table : tables) {
 						if (table->checkInteract()) {
-							std::cout << "bro wat";
+							player->stop();
+              states = States::inCraft;
 						}
+
 					}
 
 				}
@@ -145,7 +148,20 @@ void Game::pollEvents()
 					digIndex = -1;
 					states = States::inGame;
 				}
+        if (states == States::inInventory ||
+                    states == States::inCraft){
+          states = States::inGame;
+        }
 			}
+            else if (this->ev.key.code == sf::Keyboard::I){
+                if(states == States::inGame){
+                    player->stop();
+                    states = States::inInventory;
+                }
+                else if(states == States::inInventory){
+                    states = States::inGame;
+                }
+            }
 		}
 	}
 
@@ -222,9 +238,6 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear();
-    ImGui::Begin("Hello, world!");
-    ImGui::Button("Look at this pretty button");
-    ImGui::End();
 
 	spriteBackground.setTexture(textBackground);
 	this->window->draw(spriteBackground);
@@ -246,7 +259,12 @@ void Game::render()
 	if (states == States::inExcavation) {
 		walls[digIndex]->getExcavation()->draw(this->window);
 	}
-
+    if (states == States::inInventory){
+        this->player->get_inventory()->draw_inventory_screen();
+    }
+    if (states == States::inCraft){
+        this->player->get_inventory()->draw_craft_screen();
+    }
 
     ImGui::SFML::Render(*window);
 
