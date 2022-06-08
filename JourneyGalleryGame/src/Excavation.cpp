@@ -174,10 +174,10 @@ void Excavation::draw(sf::RenderWindow* window)
 	spritePelle2.setTexture(textPelle2);
 	spritePelle3.setTexture(textPelle3);
 	float ratio = (float)tryDig / (float)nbDig;
-	if (ratio<0.30f) {
+	if (ratio<=0.30f) {
 		window->draw(spritePelle1);
 	}
-	else if (ratio < 0.80f && ratio > 0.30f ) {
+	else if (ratio <= 0.80f && ratio >= 0.30f ) {
 		window->draw(spritePelle2);
 	}
 	else {
