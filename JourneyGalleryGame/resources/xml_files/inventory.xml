@@ -43,6 +43,12 @@
 		<Shape x="2" y="2"/>
 		<Shape x="1" y="2"/>
 	</Material>
+	<Material name="Serpentinite" sprite="serpentinite.png" nb="0">
+		<Shape x="0" y="0"/>
+		<Shape x="0" y="1"/>
+		<Shape x="1" y="1"/>
+		<Shape x="2" y="1"/>
+	</Material>
 	<Material name="Gold" sprite="gold.png" nb="0">
 		<Shape x="0" y="0"/>
 	</Material>
