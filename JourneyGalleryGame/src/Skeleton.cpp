@@ -7,6 +7,11 @@ Skeleton::Skeleton(b2World* world, pugi::xml_node node, GameAssets* ga,
 	float x = node.attribute("posX").as_float();
 	float y = node.attribute("posY").as_float();
 
+
+	for (auto child : node.children()) {
+		required.push_back(child.attribute("equipKey").value());
+	}
+
 	textureTrex = ga->TRex;
 	textureSocle = ga->socle;
 	spriteTRex.setScale((float)widthSkeleton / textureTrex.getSize().x, (float)heightSkeleton / textureTrex.getSize().y);
@@ -17,7 +22,7 @@ Skeleton::Skeleton(b2World* world, pugi::xml_node node, GameAssets* ga,
 
 void Skeleton::draw(sf::RenderWindow* window)
 {
-	if (isEnable) {
+	if (isUnlockable()) {
 		spriteTRex.setTexture(textureTrex);
 		window->draw(spriteTRex);
 	}

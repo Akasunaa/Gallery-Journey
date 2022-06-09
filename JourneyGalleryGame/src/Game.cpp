@@ -219,6 +219,13 @@ void Game::pollEvents()
 						}
 
 					}
+					for (auto& skeleton: skeletons) {
+						if (skeleton->isUnlockable()) {
+							skeleton->setEnable(true);
+						}
+				
+
+					}
 				}
 			}
 			else if (this->ev.key.code == sf::Keyboard::Q) {

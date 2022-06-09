@@ -12,7 +12,6 @@ bool UnlockableElement::isUnlockable()
 			return false;
 		}
 	}
-	isEnable = true;
 	return true;
 }
 

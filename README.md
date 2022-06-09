@@ -5,6 +5,6 @@ Fonctionnalité disponible :
 - Creuser un mur en appuyant sur E et récuperer des trésors
 - Consultez votre inventaire en appuyant sur I
 - Craftez en allant sur la table d'inventaire et en appuyant sur E
+- Constuire un super trex!!
 
 Malheureusement, les portes ne vous disent pas encore comment les débloquer.
-De plus, vous n'avez pas encore acquis le montage de squelette...
