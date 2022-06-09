@@ -143,6 +143,7 @@ void Excavation::foundTreasure()
 		std::cout << "FOUND";
 		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 		inventory->add_material(materialToFound, 1);
+        inventory->set_just_found(materialToFound);
 		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 		canDig = false;
 		//reset();

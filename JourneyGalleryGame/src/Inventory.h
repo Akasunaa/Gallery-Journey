@@ -41,6 +41,8 @@ public:
     std::map<std::string, std::unique_ptr<Equipment>> & get_equipment();
     void clear_selected_item_inventory();
     void clear_selected_equip_craft();
+    void set_just_found(std::string mat_found_key);
+    const std::string & get_just_found();
 
 
     void display_equipment(int mode);
@@ -52,12 +54,14 @@ public:
     void draw_craft(std::string equip_key);
     void draw_inventory_screen();
     void draw_craft_screen();
+    void draw_pop_up_found();
 
 private :
     std::map<std::string, std::unique_ptr<Material>> materials;
     std::map<std::string, std::unique_ptr<Equipment>> equipment;
     std::string selected_item_inventory;
     std::string selected_equip_craft;
+    std::string material_just_found;
 };
 
 #endif //GALLERYJOURNEY_INVENTORY_H
