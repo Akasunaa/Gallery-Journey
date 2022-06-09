@@ -304,7 +304,7 @@ void Inventory::draw_inventory_screen() {
 
                     if(mat_obj->has_enough(1)){
                         std::string name_mat = mat_obj->get_name();
-                        if(ImGui::Selectable(name_mat.c_str(),
+                        if(ImGui::Selectable((name_mat + "(" + std::to_string(mat_obj->get_nb_copies()) +")").c_str(),
                                              (selected_item_inventory.compare(name_mat) == 0))){
                             selected_item_inventory = name_mat;
                         }
