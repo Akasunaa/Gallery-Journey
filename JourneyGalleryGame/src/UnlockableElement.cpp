@@ -12,9 +12,15 @@ bool UnlockableElement::isUnlockable()
 			return false;
 		}
 	}
+	isEnable = true;
 	return true;
 }
 
 void UnlockableElement::unlock()
 {
+}
+
+void UnlockableElement::setEnable(bool state)
+{
+	isEnable = state;
 }

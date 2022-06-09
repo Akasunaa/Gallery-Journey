@@ -23,4 +23,7 @@ GameAssets::GameAssets()
     shovel1.loadFromFile(resourceDirectory + "pelle1.png");
     shovel2.loadFromFile(resourceDirectory + "pelle2.png");
     shovel3.loadFromFile(resourceDirectory + "pelle3.png");
+
+    socle.loadFromFile(resourceDirectory + "socle.png");
+    TRex.loadFromFile(resourceDirectory + "trex.png");
 }

@@ -28,4 +28,7 @@ public:
     sf::Texture shovel2;
     sf::Texture shovel3;
 
+    sf::Texture socle;
+    sf::Texture TRex;
+
 };

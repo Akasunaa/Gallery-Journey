@@ -4,6 +4,10 @@
 		<Required equipKey="Hachette"></Required>
 	</Door>
 	<Wall posX="800" posY="400"/>
-
+	<Skeleton posX="1000" posY="500">
+		<Required equipKey="Torax T-Rex"></Required>
+		<Required equipKey="Jambe T-Rex"></Required>
+		<Required equipKey="Tete T-Rex"></Required>
+	</Skeleton>
 
 </LevelData>

@@ -19,6 +19,7 @@ void Game::loadLevel(b2World* world,
 	walls.clear();
 	doors.clear();
 	tables.clear();
+	skeletons.clear();
 
 	std::string stringName = "resources/xml_files/level" + std::to_string(levelNumber) + ".xml";
 	const char* charName = stringName.c_str();
@@ -42,6 +43,10 @@ void Game::loadLevel(b2World* world,
 		if (child.name() == "Table"sv) {
 			std::unique_ptr<Table> table = std::make_unique<Table>(world, child,ga);
 			tables.push_back(std::move(table));
+		}
+		if (child.name() == "Skeleton"sv) {
+			std::unique_ptr<Skeleton> skeleton = std::make_unique<Skeleton>(world, child, ga, player->get_inventory());
+			skeletons.push_back(std::move(skeleton));
 		}
 		
 	}
@@ -79,6 +84,8 @@ void Game::initWorld()
 	textBackground = ga->background;
 	spriteBackground.setPosition(sf::Vector2f(0, 0));
 	spriteBackground.setScale(0.5,0.5);
+
+
 
 	//init player & its inventory
     pugi::xml_document inventory_doc;
@@ -204,6 +211,14 @@ void Game::pollEvents()
 						}
 
 					}
+					for (auto& door : doors) {
+						if (door->checkInteract()) {
+							if (door->isUnlockable()) {
+								door->setEnable(false);
+							}
+						}
+
+					}
 				}
 			}
 			else if (this->ev.key.code == sf::Keyboard::Q) {
@@ -284,6 +299,9 @@ void Game::render()
 		}
 		for (auto& table : tables) {
 			table->draw((this->window));
+		}
+		for (auto& skeleton : skeletons) {
+			skeleton->draw((this->window));
 		}
 	}
 	//Dessin du player

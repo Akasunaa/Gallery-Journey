@@ -16,8 +16,7 @@ Door::Door(b2World* world, pugi::xml_node node, GameAssets* ga,
 	dynamicBox.SetAsBox(widthDoor / 2, heightDoor / 2);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 0.f;
-	fixtureDef.friction = 1.f;
+
 	body->CreateFixture(&fixtureDef);
 
 	body->SetEnabled(true);
@@ -34,7 +33,7 @@ Door::Door(b2World* world, pugi::xml_node node, GameAssets* ga,
 	sprite.setScale((float)widthDoor / texture.getSize().x, (float)heightDoor / texture.getSize().y);
 	sprite.setPosition(sf::Vector2f(x,y));
 
-	textureOpenDoor = ga->player;
+	textureOpenDoor = ga->openDoor;
 	spriteOpenDoor.setScale((float)widthDoor / textureOpenDoor.getSize().x, (float)heightDoor / textureOpenDoor.getSize().y);
 	spriteOpenDoor.setPosition(sf::Vector2f(x,y));
 }
@@ -50,7 +49,6 @@ void Door::draw(sf::RenderWindow* window)
 		window->draw(spriteOpenDoor);
 	}
 	if (canInteract) {
-
 		window->draw(textInteract);
 	}
 }
@@ -61,7 +59,4 @@ void Door::setEnable(bool state)
 	isEnable = state;
 }
 
-void Door::unlock()
-{
-	setEnable(false);
-}
+

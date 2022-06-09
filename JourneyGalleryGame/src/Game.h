@@ -20,6 +20,8 @@
 #include <string_view>
 #include <chrono>
 #include <thread> 
+#include <SFML/Audio.hpp>
+#include <Skeleton.h>
 #define INVENTORY_XML_PATH "resources/xml_files/inventory.xml"
 
 
@@ -54,6 +56,7 @@ private:
 	std::vector<std::unique_ptr<Table>> tables;
 	std::vector<std::unique_ptr<Door>> doors;
 	std::vector<std::unique_ptr<Wall>> walls;
+	std::vector<std::unique_ptr<Skeleton>> skeletons;
 	int digIndex; //mur en cours de creusage
 	int indispo;
 

@@ -19,13 +19,12 @@ public:
 		std::unique_ptr<Inventory>& inventory);
 
 	void draw(sf::RenderWindow* window);
-	void setEnable(bool state);
-	void unlock() override;
+	void setEnable(bool state) override;
 
 
 private:
 
-	bool isEnable;
+
 
 	sf::Sprite spriteOpenDoor;
 	sf::Texture textureOpenDoor;

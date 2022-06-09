@@ -12,7 +12,9 @@ public:
 	UnlockableElement(std::unique_ptr<Inventory>& inventory);
 	bool isUnlockable();
 	virtual void unlock();
+	virtual void setEnable(bool state);	
 protected:
+	bool isEnable;
 	std::vector<std::string> required;
 	std::unique_ptr<Inventory>& inventory;
 };
