@@ -10,18 +10,21 @@ Skeleton::Skeleton(b2World* world, pugi::xml_node node, GameAssets* ga,
 	textureTrex = ga->TRex;
 	textureSocle = ga->socle;
 	spriteTRex.setScale((float)widthSkeleton / textureTrex.getSize().x, (float)heightSkeleton / textureTrex.getSize().y);
+	spriteSocle.setPosition(x, y);
 	spriteSocle.setScale((float)widthSkeleton / textureTrex.getSize().x, 1);
+	spriteTRex.setPosition(x, y);
 }
 
 void Skeleton::draw(sf::RenderWindow* window)
 {
 	if (isEnable) {
-		spriteSocle.setTexture(textureSocle);
-		window->draw(spriteSocle);
-	}
-	else {
 		spriteTRex.setTexture(textureTrex);
 		window->draw(spriteTRex);
+	}
+	else {
+
+		spriteSocle.setTexture(textureSocle);
+		window->draw(spriteSocle);
 	}
 
 }
