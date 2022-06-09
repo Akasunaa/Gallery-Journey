@@ -21,7 +21,7 @@ public :
 	b2Body* getBodyPointer();
 
 protected:
-	b2Body* body;
+	b2Body* body=nullptr;
 	b2BodyDef bodyDef;
 	bool canInteract;
 

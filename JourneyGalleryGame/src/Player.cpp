@@ -73,6 +73,12 @@ std::unique_ptr<Inventory> &Player::get_inventory() {
     return inventory;
 }
 
+void Player::setEnable(bool state)
+{
+	body->SetEnabled(state);
+	
+}
+
 void Player::playerDraw(sf::RenderWindow* window)
 {
 	sprite.setTexture(texture);

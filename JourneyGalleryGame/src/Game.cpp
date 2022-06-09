@@ -1,9 +1,25 @@
 #include "Game.h"
 
 
-void Game::loadLevel(b2World* world, Player* player, 
+void Game::loadLevel(b2World* world,
 	sf::RenderWindow* window, int levelNumber,GameAssets* ga)
 {
+	for (auto& table : tables)
+	{
+		world->DestroyBody(table->getBodyPointer());
+	}
+	for (auto& door : doors) {
+
+		world->DestroyBody(door->getBodyPointer());
+	}
+	for (auto& wall : walls) {
+
+		world->DestroyBody(wall->getWallPiece()->getBodyPointer());
+	}
+	walls.clear();
+	doors.clear();
+	tables.clear();
+
 	std::string stringName = "resources/xml_files/level" + std::to_string(levelNumber) + ".xml";
 	const char* charName = stringName.c_str();
 	pugi::xml_document doc;
@@ -76,7 +92,7 @@ void Game::initWorld()
 
 	//init level
 	indiceLevel=1;
-	loadLevel(world, player, window, indiceLevel, ga);
+	loadLevel(world, window, indiceLevel, ga);
 
 	indispo = 0;
 
@@ -122,39 +138,30 @@ void Game::electWall()
 	}
 }
 
-void Game::destroyGameElement()
-{
-	for (auto& table : tables)
-	{
-		world->DestroyBody(table->getBodyPointer());
-	}
-	for (auto& door : doors) {
-		world->DestroyBody(door->getBodyPointer());
-	}
-	walls.clear();
-	doors.clear();
-	tables.clear();
-}
 
 
 void Game::switchLevel()
 {
 	if (player->getPosition().x < 50) {
-		player->setPosition(b2Vec2(1700, player->getPosition().y));
-		destroyGameElement();
+
 
 		indiceLevel++;
-		loadLevel(world, player, window, indiceLevel, ga);
+		loadLevel(world, window, indiceLevel, ga);
 
-	}
-	if (player->getPosition().x > 1750) {
-		player->setPosition(b2Vec2(100, player->getPosition().y));
-
-		destroyGameElement();
-		indiceLevel--;
-		loadLevel(world, player, window, indiceLevel, ga);
+		player->setPosition(b2Vec2(1760, 650.0f));
 
 		
+
+	}
+	if (player->getPosition().x > 1780) {
+
+
+		indiceLevel--;
+		loadLevel(world, window, indiceLevel, ga);
+
+		player->setPosition(b2Vec2(100, 650.0f));
+
+			
 	}
 
 }

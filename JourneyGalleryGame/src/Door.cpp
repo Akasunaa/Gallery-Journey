@@ -4,7 +4,7 @@
 
 Door::Door(b2World* world, pugi::xml_node node, GameAssets* ga, 
 	std::unique_ptr<Inventory>& inventory) :
-	UnlockableElement(inventory)
+	UnlockableElement(inventory), InterractableObject{ world, node,widthDoor, heightDoor, ga }
 {
 	float x= node.attribute("posX").as_float();
 	float y= node.attribute("posY").as_float();
@@ -12,8 +12,6 @@ Door::Door(b2World* world, pugi::xml_node node, GameAssets* ga,
 	b2Vec2 pos{x , y};
 	bodyDef.position.Set(pos.x, pos.y);
 
-
-	body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
 	dynamicBox.SetAsBox(widthDoor / 2, heightDoor / 2);
 	b2FixtureDef fixtureDef;
@@ -24,9 +22,7 @@ Door::Door(b2World* world, pugi::xml_node node, GameAssets* ga,
 
 	body->SetEnabled(true);
 
-	rect.setPosition(node.attribute("posX").as_float(), node.attribute("posY").as_float());
-	rect.setSize(sf::Vector2f(widthDoor, heightDoor));
-	rect.setFillColor(sf::Color::Black);
+
 
 	isEnable = true;
 
@@ -34,24 +30,28 @@ Door::Door(b2World* world, pugi::xml_node node, GameAssets* ga,
 		required.push_back(child.attribute("equipKey").value());
 	}
 
-	textureCloseDoor = ga->closeDoor;
-	spriteCloseDoor.setScale((float)widthDoor / textureCloseDoor.getSize().x, (float)heightDoor / textureCloseDoor.getSize().y);
-	spriteCloseDoor.setPosition(sf::Vector2f(x,y));
+	texture = ga->closeDoor;
+	sprite.setScale((float)widthDoor / texture.getSize().x, (float)heightDoor / texture.getSize().y);
+	sprite.setPosition(sf::Vector2f(x,y));
 
 	textureOpenDoor = ga->player;
-	spriteOpenDoor.setScale((float)widthDoor / textureCloseDoor.getSize().x, (float)heightDoor / textureCloseDoor.getSize().y);
+	spriteOpenDoor.setScale((float)widthDoor / textureOpenDoor.getSize().x, (float)heightDoor / textureOpenDoor.getSize().y);
 	spriteOpenDoor.setPosition(sf::Vector2f(x,y));
 }
 
 void Door::draw(sf::RenderWindow* window)
 {
 	if(isEnable){
-		spriteCloseDoor.setTexture(textureCloseDoor);
-		window->draw(spriteCloseDoor);
+		sprite.setTexture(texture);
+		window->draw(sprite);
 	}
 	else{
 		spriteOpenDoor.setTexture(textureOpenDoor);
 		window->draw(spriteOpenDoor);
+	}
+	if (canInteract) {
+
+		window->draw(textInteract);
 	}
 }
 
@@ -64,10 +64,4 @@ void Door::setEnable(bool state)
 void Door::unlock()
 {
 	setEnable(false);
-}
-
-
-b2Body* Door::getBodyPointer()
-{
-	return body;
 }

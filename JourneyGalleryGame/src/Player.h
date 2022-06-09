@@ -23,6 +23,7 @@ public:
 	void setPosition(b2Vec2 pos);
 	void stop();
     std::unique_ptr<Inventory> & get_inventory();
+	void setEnable(bool);
 
 private:
 	b2Body* body;

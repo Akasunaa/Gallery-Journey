@@ -18,6 +18,8 @@
 #include "pugixml.hpp"
 #include <cstdlib>
 #include <string_view>
+#include <chrono>
+#include <thread> 
 #define INVENTORY_XML_PATH "resources/xml_files/inventory.xml"
 
 
@@ -55,13 +57,12 @@ private:
 	int digIndex; //mur en cours de creusage
 	int indispo;
 
-	void destroyGameElement();
+	//void destroyGameElement();
 	void electWall();
 	void switchLevel();
 	void initWindow();
 	void initWorld();
-	void loadLevel(b2World* world, Player* player,
-		sf::RenderWindow* window, int levelNumber, GameAssets* ga);
+	void loadLevel(b2World* world,sf::RenderWindow* window, int levelNumber, GameAssets* ga);
 
 	States states;
 	int indiceLevel;

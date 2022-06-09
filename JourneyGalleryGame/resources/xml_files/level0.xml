@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LevelData>
-	<Door id_destination="0" posX="0" posY="530">
-		<Required equipKey="Pioche"></Required>
+	<Door id_destination="0" posX="1700" posY="530">
+		<Required equipKey="Hachette"></Required>
 	</Door>
 	<Wall posX="800" posY="400"/>
 

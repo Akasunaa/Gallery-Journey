@@ -38,7 +38,8 @@ InterractableObject::InterractableObject(b2World* world,float x, float y, float 
 
 }
 
-InterractableObject::InterractableObject(b2World* world, pugi::xml_node node, float width, float height, GameAssets* ga)
+InterractableObject::InterractableObject(b2World* world, pugi::xml_node node, float width, float height, GameAssets* ga):
+	ga(ga)
 {
 	canInteract = false;
 	float x = node.attribute("posX").as_float();
@@ -109,5 +110,8 @@ b2Body* InterractableObject::getBodyPointer()
 }
 
 void InterractableObject::draw(sf::RenderWindow* window) {
+	if (canInteract) {
 
+		window->draw(textInteract);
+	}
 }
