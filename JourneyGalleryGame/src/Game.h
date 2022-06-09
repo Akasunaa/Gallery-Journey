@@ -75,6 +75,7 @@ public :
 	void pollEvents();
 	void update();
 	void render();
+    void draw_commands_window();
 
     sf::RenderWindow* & get_window();
 

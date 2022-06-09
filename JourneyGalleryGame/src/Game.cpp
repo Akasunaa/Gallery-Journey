@@ -228,7 +228,6 @@ void Game::update()
 			electWall();
 		}
 		if (states == States::inFinishExcavation) {
-			//TODO :popup 
 			time_t end;
 			do time(&end); while (difftime(end, start) <= 1);
 			states = States::inGame;
@@ -266,6 +265,7 @@ void Game::render()
 	}
 	//Dessin du player
 	this->player->playerDraw((this->window));
+    draw_commands_window();
 	//Dessin de l'extraction
 	if (states == States::inExcavation) {
 		walls[digIndex]->getExcavation()->draw(this->window);
@@ -288,4 +288,16 @@ sf::RenderWindow* &Game::get_window() {
     return window;
 }
 
+void Game::draw_commands_window() {
+    ImGui::Begin("Aide",NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+    ImGui::SetWindowPos(ImVec2(WINDOW_W*4/5,0));
+    ImGui::SetWindowFontScale(2);
+    ImGui::SetWindowSize(ImVec2(WINDOW_W/5,WINDOW_H/5.5));
+    ImGui::Text("Interagir : E ");
+    ImGui::Text("Inventaire : I ");
+    ImGui::Text("Se déplacer : <- et -> ");
+    ImGui::Text("Quitter un écran : Q ");
+    ImGui::Text("Creuser : Clic Gauche");
+    ImGui::End();
+}
 
