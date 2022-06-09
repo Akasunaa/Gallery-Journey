@@ -55,6 +55,7 @@ private:
 	int digIndex; //mur en cours de creusage
 	int indispo;
 
+	void destroyGameElement();
 	void electWall();
 	void switchLevel();
 	void initWindow();

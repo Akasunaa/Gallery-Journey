@@ -103,7 +103,7 @@ const bool Game::running() const
 
 void Game::electWall()
 {
-	if (indispo > 2) {
+	if (indispo > walls.size()/2) {
 		//Initialisation
 		int maxPrio = walls[digIndex]->getPrio();
 		int toReactive = digIndex;
@@ -122,24 +122,41 @@ void Game::electWall()
 	}
 }
 
+void Game::destroyGameElement()
+{
+	for (auto& table : tables)
+	{
+		world->DestroyBody(table->getBodyPointer());
+	}
+	for (auto& door : doors) {
+		world->DestroyBody(door->getBodyPointer());
+	}
+	walls.clear();
+	doors.clear();
+	tables.clear();
+}
+
+
 void Game::switchLevel()
 {
 	if (player->getPosition().x < 50) {
 		player->setPosition(b2Vec2(1700, player->getPosition().y));
-		walls.clear();
-		doors.clear();
-		tables.clear();
-		loadLevel(world, player, window, indiceLevel + 1, ga);
+		destroyGameElement();
+
 		indiceLevel++;
+		loadLevel(world, player, window, indiceLevel, ga);
+
 	}
 	if (player->getPosition().x > 1750) {
 		player->setPosition(b2Vec2(100, player->getPosition().y));
-		walls.clear();
-		doors.clear();
-		tables.clear();
-		loadLevel(world, player, window, indiceLevel - 1, ga);
+
+		destroyGameElement();
 		indiceLevel--;
+		loadLevel(world, player, window, indiceLevel, ga);
+
+		
 	}
+
 }
 
 void Game::pollEvents()
@@ -172,16 +189,14 @@ void Game::pollEvents()
 							}
 						}
 					}
-          
 					//Interraction avec la table
 					for (auto& table : tables) {
 						if (table->checkInteract()) {
 							player->stop();
-              states = States::inCraft;
+						 states = States::inCraft;
 						}
 
 					}
-
 				}
 			}
 			else if (this->ev.key.code == sf::Keyboard::Q) {

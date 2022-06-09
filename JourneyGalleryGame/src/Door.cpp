@@ -65,3 +65,9 @@ void Door::unlock()
 {
 	setEnable(false);
 }
+
+
+b2Body* Door::getBodyPointer()
+{
+	return body;
+}

@@ -18,6 +18,7 @@ public :
 	virtual void interact();
 	virtual void dontInteract();
 	virtual bool checkInteract();
+	b2Body* getBodyPointer();
 
 protected:
 	b2Body* body;

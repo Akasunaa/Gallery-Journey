@@ -103,6 +103,11 @@ bool InterractableObject::checkInteract()
 	return canInteract;
 }
 
+b2Body* InterractableObject::getBodyPointer()
+{
+	return body;
+}
+
 void InterractableObject::draw(sf::RenderWindow* window) {
 
 }

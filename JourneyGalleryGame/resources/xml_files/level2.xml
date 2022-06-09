@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LevelData>
+
+	<Wall posX="500" posY="400"/>
+	<Wall posX="200" posY="400"/>
+	<Wall posX="1100" posY="400"/>
+</LevelData>

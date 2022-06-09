@@ -21,6 +21,8 @@ public:
 	void setEnable(bool state);
 	void unlock() override;
 
+	b2Body* getBodyPointer();
+
 private:
 	sf::RectangleShape rect;
 	b2Body* body;
