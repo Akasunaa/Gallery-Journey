@@ -13,7 +13,8 @@ Inventory::Inventory() :
 materials(std::map<std::string, std::unique_ptr<Material>>()),
 equipment(std::map<std::string, std::unique_ptr<Equipment>>()),
 selected_equip_craft("None"),
-selected_item_inventory("None"){
+selected_item_inventory("None"),
+material_just_found("None"){
 }
 
 void Inventory::init_inventory(pugi::xml_node node) {
@@ -372,6 +373,24 @@ void Inventory::draw_craft_screen() {
 
 }
 
+void Inventory::draw_pop_up_found() {
+    printf("POP UP TRO COOL");
+    if(material_just_found.compare("None") == 0){
+        return;
+    }
+    ImGui::Begin("Pop_up_found");
+    ImGui::OpenPopup("Matériau obtenu !");
+    if(ImGui::BeginPopupModal("Matériau obtenu !", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+    ImGui::SetWindowFontScale(3);
+    ImGui::Text(("Vous avez trouvé : " + materials[material_just_found]->get_name() + " ! ").c_str());
+    ImGui::Separator();
+    ImGui::Text(("Vous en avez " + std::to_string(materials[material_just_found]->get_nb_copies()) + " en votre possesssion ").c_str());
+
+    ImGui::EndPopup();
+    }
+}
+
 std::map<std::string, std::unique_ptr<Material>> &Inventory::get_materials() {
     return materials;
 }
@@ -386,5 +405,13 @@ void Inventory::clear_selected_equip_craft() {
 
 void Inventory::clear_selected_item_inventory() {
     selected_item_inventory = "None";
+}
+
+void Inventory::set_just_found(std::string mat_found_key) {
+    material_just_found = mat_found_key;
+}
+
+const std::string & Inventory::get_just_found() {
+    return material_just_found;
 }
 
