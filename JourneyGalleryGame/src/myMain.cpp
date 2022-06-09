@@ -17,6 +17,7 @@ int myMain()
     if (!music.openFromFile("resources/Music_DigDeeper.wav")) {
         return -1;
     }
+    music.setLoop(true);
     music.play();
     sf::Clock globalClock;
     while (game.running())

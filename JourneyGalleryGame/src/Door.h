@@ -19,6 +19,7 @@ public:
 		std::unique_ptr<Inventory>& inventory);
 
 	void draw(sf::RenderWindow* window);
+    void draw_pop_up();
 	void setEnable(bool state) override;
 
 

@@ -415,3 +415,11 @@ const std::string & Inventory::get_just_found() {
     return material_just_found;
 }
 
+std::unique_ptr<Equipment> &Inventory::get_specific_equip(std::string equip_key) {
+    if(!equipment.contains(equip_key)){
+        std::cout << "(get_specific_equip) ERROR : No equipment/collectible of this type defined \n" ;
+        exit(1);
+    }
+    return equipment[equip_key];
+}
+

@@ -336,7 +336,9 @@ sf::RenderWindow* &Game::get_window() {
 }
 
 void Game::draw_commands_window() {
-    ImGui::Begin("Aide",NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("Aide",NULL, ImGuiWindowFlags_NoResize
+    | ImGuiWindowFlags_NoCollapse
+    | ImGuiWindowFlags_NoMove);
     ImGui::SetWindowPos(ImVec2(WINDOW_W*4/5,0));
     ImGui::SetWindowFontScale(2);
     ImGui::SetWindowSize(ImVec2(WINDOW_W/5,WINDOW_H/5.5));

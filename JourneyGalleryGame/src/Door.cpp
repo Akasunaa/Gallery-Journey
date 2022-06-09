@@ -50,6 +50,7 @@ void Door::draw(sf::RenderWindow* window)
 	}
 	if (canInteract) {
 		window->draw(textInteract);
+        draw_pop_up();
 	}
 }
 
@@ -57,6 +58,48 @@ void Door::setEnable(bool state)
 {
 	body->SetEnabled(state);
 	isEnable = state;
+}
+
+void Door::draw_pop_up() {
+    float width = WINDOW_W/5;
+    ImGui::Begin("Zone inaccessible", NULL,ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove);
+    auto pos= this->getPosition();
+    if(pos.x < WINDOW_W / 2) {
+        ImGui::SetWindowPos(ImVec2(pos.x, pos.y));
+    }else{
+        ImGui::SetWindowPos(ImVec2(pos.x-width, pos.y));
+    }
+    ImGui::SetWindowFontScale(2);
+    ImGui::SetWindowSize(ImVec2(width, 0));
+    ImGui::Text("Équipements requis :");
+    ImGui::Separator();
+
+    const auto & equips = inventory->get_equipment();
+
+    for(const auto & equip_req : required) {
+        if (!equips.contains(equip_req)) {
+            std::cout << "(is_craftable) ERROR : the required material " << equip_req << " is not defined \n";
+            exit(1);
+        }
+
+        const auto & equip_obj = inventory->get_specific_equip(equip_req);
+
+        ImGui::PushID((equip_req + "##TextRequired").c_str());
+        std::string s = equip_obj->get_name();
+        if(inventory->is_crafted(equip_req)){
+            s += " OK";
+            ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(115.0f / 360.0f, 1, 1));
+        }else{
+            s += " MANQUANT";
+            ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(0, 1, 1));
+        }
+        ImGui::BulletText(s.c_str());
+        ImGui::PopStyleColor();
+        ImGui::PopID();
+    }
+
+
+    ImGui::End();
 }
 
 

@@ -6,6 +6,9 @@
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
     </Material>
+    <Material name="Gold" sprite="gold.png" nb="0">
+        <Shape x="0" y="0"/>
+    </Material>
     <Material name="Olivine" sprite="green.png" nb="0">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
@@ -39,18 +42,15 @@
 	<Material name="Flaminite" sprite="flaminite.png" nb="0">
 		<Shape x="0" y="0"/>
 		<Shape x="0" y="1"/>
+		<Shape x="0" y="2"/>
+		<Shape x="1" y="0"/>
 		<Shape x="1" y="1"/>
-		<Shape x="2" y="2"/>
-		<Shape x="1" y="2"/>
 	</Material>
-	<Material name="Serpentinite" sprite="serpentinite.png" nb="0">
+	<Material name="Serpentine" sprite="serpentinite.png" nb="0">
 		<Shape x="0" y="0"/>
-		<Shape x="0" y="1"/>
+		<Shape x="1" y="0"/>
 		<Shape x="1" y="1"/>
 		<Shape x="2" y="1"/>
-	</Material>
-	<Material name="Gold" sprite="gold.png" nb="0">
-		<Shape x="0" y="0"/>
 	</Material>
 	<Material name="Rocktinite" sprite="roc.png" nb="0">
 		<Shape x="0" y="0"/>
@@ -116,10 +116,10 @@
     <Equipment name="Rune Gamma" sprite="None" nb="0">
         <Required mat="Grande Rune Poussérieuse" need="1"/>
     </Equipment>
+    <!-- COMPLETED TREASURES -->
 	<Equipment name="T-Rex" sprite="None" nb="0">
 		<Required mat="Torax T-Rex" need="1"/>
 		<Required mat="Jambe T-Rex" need="1"/>
 		<Required mat="Tete T-Rex" need="1"/>
 	</Equipment>
-    <!-- COMPLETED TREASURES -->
 </Inventory>

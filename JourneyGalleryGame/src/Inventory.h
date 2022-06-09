@@ -39,6 +39,7 @@ public:
 
     std::map<std::string, std::unique_ptr<Material>> & get_materials();
     std::map<std::string, std::unique_ptr<Equipment>> & get_equipment();
+    std::unique_ptr<Equipment> & get_specific_equip(std::string equip_key);
     void clear_selected_item_inventory();
     void clear_selected_equip_craft();
     void set_just_found(std::string mat_found_key);
