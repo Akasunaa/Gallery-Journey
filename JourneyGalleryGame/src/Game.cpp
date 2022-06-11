@@ -2,8 +2,9 @@
 
 
 void Game::loadLevel(b2World* world,
-	sf::RenderWindow* window, int levelNumber,GameAssets* ga)
+	sf::RenderWindow* window, int levelNumber, GameAssets* ga)
 {
+	//Destruction des objets de l'ancien niveau
 	for (auto& table : tables)
 	{
 		world->DestroyBody(table->getBodyPointer());
@@ -32,8 +33,8 @@ void Game::loadLevel(b2World* world,
 	}
 	pugi::xml_node levelData = doc.child("LevelData");
 	for (auto child : levelData.children()) {
-		if(child.name()=="Wall"sv){
-			std::unique_ptr<Wall> wall = std::make_unique<Wall>(world,child, window, ga, player->get_inventory());
+		if (child.name() == "Wall"sv) {
+			std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, child, window, ga, player->get_inventory());
 			walls.push_back(std::move(wall));
 		}
 		if (child.name() == "Door"sv) {
@@ -41,14 +42,14 @@ void Game::loadLevel(b2World* world,
 			doors.push_back(std::move(door));
 		}
 		if (child.name() == "Table"sv) {
-			std::unique_ptr<Table> table = std::make_unique<Table>(world, child,ga);
+			std::unique_ptr<Table> table = std::make_unique<Table>(world, child, ga);
 			tables.push_back(std::move(table));
 		}
 		if (child.name() == "Skeleton"sv) {
 			std::unique_ptr<Skeleton> skeleton = std::make_unique<Skeleton>(world, child, ga, player->get_inventory());
 			skeletons.push_back(std::move(skeleton));
 		}
-		
+
 	}
 
 }
@@ -58,14 +59,14 @@ void Game::initWindow()
 	//init fenetre
 	this->videoMode.height = 1080;
 	this->videoMode.width = 1920;
-	this->window= new sf::RenderWindow(this->videoMode, "Gallery Journey", sf::Style::Titlebar | sf::Style::Close);
-    ImGui::SFML::Init(*window);
+	this->window = new sf::RenderWindow(this->videoMode, "Gallery Journey", sf::Style::Titlebar | sf::Style::Close);
+	ImGui::SFML::Init(*window);
 }
 
 void Game::initWorld()
 {
 	//init asset
-	
+
 	ga = new GameAssets();
 
 	//init world
@@ -83,23 +84,23 @@ void Game::initWorld()
 	//init background
 	textBackground = ga->background;
 	spriteBackground.setPosition(sf::Vector2f(0, 0));
-	spriteBackground.setScale(0.5,0.5);
-
+	spriteBackground.setScale(0.5, 0.5);
 
 
 	//init player & its inventory
-    pugi::xml_document inventory_doc;
-    pugi::xml_parse_result result = inventory_doc.load_file(INVENTORY_XML_PATH);
-    if (!result)
-    {
-        std::cerr << "Could not open file inventory.xml because " << result.description() << std::endl;
-        exit(1);
-    }
-	this->player = new Player(world, { 1000.0f, 650.0f }, inventory_doc.child("Inventory"),ga);
+	pugi::xml_document inventory_doc;
+	pugi::xml_parse_result result = inventory_doc.load_file(INVENTORY_XML_PATH);
+	if (!result)
+	{
+		std::cerr << "Could not open file inventory.xml because " << result.description() << std::endl;
+		exit(1);
+	}
+	this->player = new Player(world, { 1000.0f, 650.0f }, inventory_doc.child("Inventory"), ga);
 
 	//init level
-	indiceLevel=1;
+	indiceLevel = 1;
 	loadLevel(world, window, indiceLevel, ga);
+
 
 	indispo = 0;
 
@@ -126,7 +127,7 @@ const bool Game::running() const
 
 void Game::electWall()
 {
-	if (indispo > walls.size()/2) {
+	if (indispo > walls.size() / 2) {
 		//Initialisation
 		int maxPrio = walls[digIndex]->getPrio();
 		int toReactive = digIndex;
@@ -157,7 +158,7 @@ void Game::switchLevel()
 
 		player->setPosition(b2Vec2(1760, 650.0f));
 
-		
+
 
 	}
 	if (player->getPosition().x > 1780) {
@@ -168,7 +169,7 @@ void Game::switchLevel()
 
 		player->setPosition(b2Vec2(100, 650.0f));
 
-			
+
 	}
 
 }
@@ -181,7 +182,7 @@ void Game::pollEvents()
 
 	while (this->window->pollEvent(this->ev))
 	{
-        ImGui::SFML::ProcessEvent(ev);
+		ImGui::SFML::ProcessEvent(ev);
 		switch (this->ev.type)
 		{
 		case sf::Event::Closed:
@@ -207,25 +208,19 @@ void Game::pollEvents()
 					for (auto& table : tables) {
 						if (table->checkInteract()) {
 							player->stop();
-						 states = States::inCraft;
+							states = States::inCraft;
 						}
 
 					}
 					for (auto& door : doors) {
 						if (door->checkInteract()) {
 							if (door->isUnlockable()) {
-								door->setEnable(false);
+								door->unlock();
 							}
 						}
 
 					}
-					for (auto& skeleton: skeletons) {
-						if (skeleton->isUnlockable()) {
-							skeleton->setEnable(true);
-						}
-				
 
-					}
 				}
 			}
 			else if (this->ev.key.code == sf::Keyboard::Q) {
@@ -233,20 +228,20 @@ void Game::pollEvents()
 					digIndex = -1;
 					states = States::inGame;
 				}
-        if (states == States::inInventory ||
-                    states == States::inCraft){
-          states = States::inGame;
-        }
+				if (states == States::inInventory ||
+					states == States::inCraft) {
+					states = States::inGame;
+				}
 			}
-            else if (this->ev.key.code == sf::Keyboard::I){
-                if(states == States::inGame){
-                    player->stop();
-                    states = States::inInventory;
-                }
-                else if(states == States::inInventory){
-                    states = States::inGame;
-                }
-            }
+			else if (this->ev.key.code == sf::Keyboard::I) {
+				if (states == States::inGame) {
+					player->stop();
+					states = States::inInventory;
+				}
+				else if (states == States::inInventory) {
+					states = States::inGame;
+				}
+			}
 		}
 	}
 
@@ -260,6 +255,13 @@ void Game::update()
 	//InGame
 	if (states == States::inGame) {
 		player->updateInput();
+		for (auto& skeleton : skeletons) {
+			if (skeleton->isUnlockable()) {
+				skeleton->unlock();
+			}
+
+
+		}
 	}
 	//InExcavation -> code � d�placer?
 	if (states == States::inExcavation) {
@@ -276,10 +278,16 @@ void Game::update()
 			do time(&end); while (difftime(end, start) <= 1);
 			states = States::inGame;
 
-			}
-
 		}
 
+	}
+	for (auto& skeleton : skeletons) {
+		if (skeleton->isUnlockable()) {
+			skeleton->unlock();
+		}
+
+
+	}
 
 	switchLevel();
 }
@@ -312,41 +320,41 @@ void Game::render()
 	}
 	//Dessin du player
 	this->player->playerDraw((this->window));
-    draw_commands_window();
+	draw_commands_window();
 	//Dessin de l'extraction
 	if (states == States::inExcavation) {
 		walls[digIndex]->getExcavation()->draw(this->window);
 	}
-    if (states == States::inInventory){
-        this->player->get_inventory()->draw_inventory_screen();
-    }
-    if (states == States::inCraft){
-        this->player->get_inventory()->draw_craft_screen();
-    }
+	if (states == States::inInventory) {
+		this->player->get_inventory()->draw_inventory_screen();
+	}
+	if (states == States::inCraft) {
+		this->player->get_inventory()->draw_craft_screen();
+	}
 
-    ImGui::SFML::Render(*window);
+	ImGui::SFML::Render(*window);
 
 	this->window->display();
 }
 
 
 
-sf::RenderWindow* &Game::get_window() {
-    return window;
+sf::RenderWindow*& Game::get_window() {
+	return window;
 }
 
 void Game::draw_commands_window() {
-    ImGui::Begin("Aide",NULL, ImGuiWindowFlags_NoResize
-    | ImGuiWindowFlags_NoCollapse
-    | ImGuiWindowFlags_NoMove);
-    ImGui::SetWindowPos(ImVec2(WINDOW_W*4/5,0));
-    ImGui::SetWindowFontScale(2);
-    ImGui::SetWindowSize(ImVec2(WINDOW_W/5,WINDOW_H/5.5));
-    ImGui::Text("Interagir : E ");
-    ImGui::Text("Inventaire : I ");
-    ImGui::Text("Se déplacer : <- et -> ");
-    ImGui::Text("Quitter un écran : Q ");
-    ImGui::Text("Creuser : Clic Gauche");
-    ImGui::End();
+	ImGui::Begin("Aide", NULL, ImGuiWindowFlags_NoResize
+		| ImGuiWindowFlags_NoCollapse
+		| ImGuiWindowFlags_NoMove);
+	ImGui::SetWindowPos(ImVec2(WINDOW_W * 4 / 5, 0));
+	ImGui::SetWindowFontScale(2);
+	ImGui::SetWindowSize(ImVec2(WINDOW_W / 5, WINDOW_H / 5.5));
+	ImGui::Text("Interagir : E ");
+	ImGui::Text("Inventaire : I ");
+	ImGui::Text("Se déplacer : <- et -> ");
+	ImGui::Text("Quitter un écran : Q ");
+	ImGui::Text("Creuser : Clic Gauche");
+	ImGui::End();
 }
 

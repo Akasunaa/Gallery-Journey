@@ -1,6 +1,8 @@
 #include "MyContactListener.h"
 
-
+/*
+Listener qui vérifie si le joueur est en contact avec d'autre box2d
+*/
 void MyContactListener::BeginContact(b2Contact* contact) {
     if (contact && contact->IsTouching()) {
         b2BodyUserData bodyA = contact->GetFixtureA()->GetBody()->GetUserData();
@@ -21,8 +23,6 @@ void MyContactListener::BeginContact(b2Contact* contact) {
                         ptrB->interact();
                     }
                 }
-                std::cout << "poutch";
-
             }
         }
         
@@ -46,6 +46,5 @@ void MyContactListener::EndContact(b2Contact* contact) {
                 ptrB->dontInteract();
             }
         }
-        std::cout << "poutch";
     }
 }

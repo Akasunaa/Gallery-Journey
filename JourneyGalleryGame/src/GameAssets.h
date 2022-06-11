@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string>
 
+/*
+Permet de charger certains sprite à l'avance
+*/
 class GameAssets {
 public:
     GameAssets();

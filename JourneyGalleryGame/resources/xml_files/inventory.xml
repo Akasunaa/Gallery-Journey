@@ -43,7 +43,7 @@
 		<Shape x="0" y="0"/>
 		<Shape x="0" y="1"/>
 		<Shape x="0" y="2"/>
-		<Shape x="1" y="0"/>
+		<Shape x="1" y="2"/>
 		<Shape x="1" y="1"/>
 	</Material>
 	<Material name="Serpentine" sprite="serpentinite.png" nb="0">
@@ -83,15 +83,15 @@
         <Shape x="3" y="1"/>
     </Material>
     <!-- FOSSILE FRAGMENTS -->
-    <Material name="Tete T-Rex" sprite="headtrex.png" nb="0">
+    <Material name="Tete T-Rex" sprite="headtrex.png" nb="1">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
     </Material>
-	<Material name="Jambe T-Rex" sprite="jambetrex.png" nb="0">
+	<Material name="Jambe T-Rex" sprite="jambetrex.png" nb="2">
         <Shape x="0" y="0"/>
         <Shape x="0" y="1"/>
     </Material>
-	 <Material name="Torax T-Rex" sprite="toraxtrex.png" nb="0">
+	 <Material name="Torax T-Rex" sprite="toraxtrex.png" nb="1">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
     </Material>

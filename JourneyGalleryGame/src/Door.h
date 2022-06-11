@@ -11,7 +11,10 @@
 
 #define heightDoor 360
 #define widthDoor 240
-
+/*
+Cette classe gère les portes, qui sont des éléments à la fois interactif et déblocable si notre joueur possède tout 
+les éléments nécessaire
+*/
 class Door : public UnlockableElement, public InterractableObject
 {
 public:
@@ -20,13 +23,10 @@ public:
 
 	void draw(sf::RenderWindow* window);
     void draw_pop_up();
-	void setEnable(bool state) override;
+	void unlock() override;
 
 
 private:
-
-
-
 	sf::Sprite spriteOpenDoor;
 	sf::Texture textureOpenDoor;
 

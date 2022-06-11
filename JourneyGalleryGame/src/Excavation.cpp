@@ -10,9 +10,14 @@ int random_a_to_b(int const a, int const b)
 	return distribution(engine);
 }
 
+/*
+Cette classe gère la partie "excavation" du jeu, ie le moment où on creuse sur les cases. Cette classe est construire de 
+sorte qu'on peut toujours faire varier le nombre de case.
+*/
+
+
 Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga, 
-	std::unique_ptr<Inventory>& inventory ) : inventory(inventory) {
-	ga = ga;
+	std::unique_ptr<Inventory>& inventory ) : inventory(inventory), ga(ga) {
 
 	canDig = true; 
 	//Construction de la grille de base avec un vecteur de cases
@@ -119,7 +124,7 @@ void Excavation::init()
 
 }
 
-void Excavation::reset()
+void Excavation::reset() //Cette fonction clean les cases et les variables de la classe quand on quitte l'excavation
 {
 	canDig = false;
 	tryDig = 0;
@@ -140,13 +145,11 @@ bool Excavation::getCanDig()
 void Excavation::foundTreasure()
 {
 	if (found == toFound) {
-		std::cout << "FOUND";
 		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 		inventory->add_material(materialToFound, 1);
         inventory->set_just_found(materialToFound);
 		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 		canDig = false;
-		//reset();
 
 	}
 }
@@ -155,8 +158,6 @@ void Excavation::setCanDig(bool state)
 {
 	canDig = state;
 }
-
-
 
 
 void Excavation::draw(sf::RenderWindow* window)
@@ -184,8 +185,5 @@ void Excavation::draw(sf::RenderWindow* window)
 	else {
 		window->draw(spritePelle3);
 	}
-
-
-	
 
 }

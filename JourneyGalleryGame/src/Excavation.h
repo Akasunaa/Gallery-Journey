@@ -13,10 +13,6 @@
 #include <chrono>
 #include <thread>
 
-using namespace std::this_thread;     // sleep_for, sleep_until
-using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
-using std::chrono::system_clock;
-
 using namespace std;
 
 //Taille de la fenetre
@@ -33,7 +29,7 @@ using namespace std;
 class Excavation
 {
 public:
-	explicit Excavation(sf::RenderWindow* window,GameAssets* ga, std::unique_ptr<Inventory>& inventory);
+	explicit Excavation(sf::RenderWindow* window, GameAssets* ga, std::unique_ptr<Inventory>& inventory);
 	void draw(sf::RenderWindow* window);
 	int posMouse(sf::RenderWindow* window);
 	void digIn(int val);
@@ -74,8 +70,5 @@ private:
 	sf::Sprite spritePelle2;
 	sf::Texture textPelle3;
 	sf::Sprite spritePelle3;
-
-
-
 
 };

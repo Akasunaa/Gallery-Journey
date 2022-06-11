@@ -1,30 +1,35 @@
 #include "Skeleton.h"
 
+/*
+Les squelettes sont des éléments déblocables
+*/
+
 Skeleton::Skeleton(b2World* world, pugi::xml_node node, GameAssets* ga,
 	std::unique_ptr<Inventory>& inventory) : UnlockableElement{ inventory }
 {
-	isEnable = false;
+
 	float x = node.attribute("posX").as_float();
 	float y = node.attribute("posY").as_float();
+	std::string stringSprite = node.attribute("sprite").as_string();
 
 
 	for (auto child : node.children()) {
 		required.push_back(child.attribute("equipKey").value());
 	}
 
-	textureTrex = ga->TRex;
+	textureSkeleton.loadFromFile("resources/images/" + stringSprite);
 	textureSocle = ga->socle;
-	spriteTRex.setScale((float)widthSkeleton / textureTrex.getSize().x, (float)heightSkeleton / textureTrex.getSize().y);
+	spriteSkeleton.setScale((float)widthSkeleton / textureSkeleton.getSize().x, (float)heightSkeleton / textureSkeleton.getSize().y);
 	spriteSocle.setPosition(x, y+200);
-	spriteSocle.setScale((float)widthSkeleton / textureTrex.getSize().x, 1);
-	spriteTRex.setPosition(x, y);
+	spriteSocle.setScale((float)widthSkeleton / textureSkeleton.getSize().x, 1);
+	spriteSkeleton.setPosition(x, y);
 }
 
 void Skeleton::draw(sf::RenderWindow* window)
 {
-	if (isUnlockable()) {
-		spriteTRex.setTexture(textureTrex);
-		window->draw(spriteTRex);
+	if (isUnlock) {
+		spriteSkeleton.setTexture(textureSkeleton);
+		window->draw(spriteSkeleton);
 	}
 	else {
 
@@ -32,6 +37,10 @@ void Skeleton::draw(sf::RenderWindow* window)
 		window->draw(spriteSocle);
 	}
 
+}
+
+void Skeleton::unlock() {
+isUnlock = true;
 }
 
 
