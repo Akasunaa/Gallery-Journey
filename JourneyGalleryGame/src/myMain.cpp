@@ -11,7 +11,7 @@ int myMain()
     //Init game
     Game game;
 
-
+    //Music
     sf::Music music;
     //Merci Guitou le meilleur compositeur du monde 
     if (!music.openFromFile("resources/Music_DigDeeper.wav")) {
@@ -19,6 +19,7 @@ int myMain()
     }
     music.setLoop(true);
     music.play();
+
     sf::Clock globalClock;
     while (game.running())
     {

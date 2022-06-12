@@ -28,11 +28,7 @@
 
 class Game;
 
-
 enum class States { inGame = 1, inExcavation = 2, inFinishExcavation = 3, inInventory = 4, inCraft = 5};
-
-
-
 
 class Game {
 private:
@@ -58,11 +54,10 @@ private:
 	std::vector<std::unique_ptr<Wall>> walls;
 	std::vector<std::unique_ptr<Skeleton>> skeletons;
 	int digIndex; //mur en cours de creusage
-	int indispo;
+	int indispo; //Nombre de mur indisponibles
 
-	//void destroyGameElement();
-	void electWall();
-	void switchLevel();
+	void electWall(); //Pour elir les murs à rétablir
+	void switchLevel(); //Verifier qu'on change de niveaux
 	void initWindow();
 	void initWorld();
 	void loadLevel(b2World* world,sf::RenderWindow* window, int levelNumber, GameAssets* ga);
@@ -76,14 +71,12 @@ public :
 
 	const bool running() const;
 
-
 	void pollEvents();
 	void update();
 	void render();
     void draw_commands_window();
 
     sf::RenderWindow* & get_window();
-
 
 	time_t start;
 

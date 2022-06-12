@@ -20,5 +20,4 @@ public:
 
 private:
 	bool canBeDug;
-
 };

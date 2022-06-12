@@ -1,6 +1,10 @@
 #include "Player.h"
 #include <iostream>
 
+/*
+La classe du joueur
+*/
+
 Player::Player(b2World* world, b2Vec2 pos, pugi::xml_node inventory_xml, GameAssets* ga)
 {
 	//box2d

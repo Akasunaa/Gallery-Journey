@@ -18,12 +18,13 @@ public:
 	explicit Skeleton(b2World* world, pugi::xml_node node, GameAssets* ga,std::unique_ptr<Inventory>& inventory);
 
 	void draw(sf::RenderWindow* window);
+	void unlock() override;
 
 private:
 
 	sf::Sprite spriteSocle;
 	sf::Texture textureSocle;
-	sf::Sprite spriteTRex;
-	sf::Texture textureTrex;
+	sf::Sprite spriteSkeleton;
+	sf::Texture textureSkeleton;
 
 };

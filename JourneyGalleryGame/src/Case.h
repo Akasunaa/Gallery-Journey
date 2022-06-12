@@ -8,14 +8,14 @@
 #include <string.h>
 #include <GameAssets.h>
 
-
+//Cette classe gère les cases affichés lorsqu'on creuse, c'est à dire leur contenu et leur état 
 class Case
 {
 public:
 	explicit Case(int x,int y, float height, float width, float nb_case, 
 		GameAssets* ga, float offsetWindowX,float offsetWindowY);
 	void draw(sf::RenderWindow* window);
-	void setDig(bool state);
+	void setDig(bool state); //Permet de dire que la case est creusée
 	bool getDig();
 
 

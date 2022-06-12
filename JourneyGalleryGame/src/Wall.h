@@ -22,8 +22,6 @@ public:
 	void reactiv();
 	void reset();
 
-	void update();
-
 private:
 	WallPiece* wallPiece;
 	Excavation* excavation;

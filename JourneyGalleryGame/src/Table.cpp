@@ -1,6 +1,9 @@
 #include "Table.h"
 #include <iostream>
 
+/*
+Les tables sont des éléments intéractifs
+*/
 Table::Table(b2World* world, float x, float y, GameAssets* ga) : 
 	InterractableObject{ world, x,y,heightTable, widthTable, ga }
 {

@@ -1,5 +1,9 @@
 #include "Wall.h"
 
+/*
+Cette classe lie un wallpiece qui est un mur affichable et son excavation
+*/
+
 Wall::Wall(b2World* world, float x, float y, sf::RenderWindow* window, 
 	GameAssets* ga, std::unique_ptr<Inventory>& inventory)
 {
@@ -51,7 +55,3 @@ void Wall::reset()
 	excavation->reset();
 }
 
-void Wall::update()
-{
-	//nothing to do here
-}

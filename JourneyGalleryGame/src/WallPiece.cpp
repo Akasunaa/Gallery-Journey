@@ -1,6 +1,10 @@
 #include "WallPiece.h"
 #include <iostream>
 
+/*
+Mur à visible à l'ecran, interractif
+*/
+
 WallPiece::WallPiece(b2World* world, float x, float y, GameAssets* ga) : 
 	InterractableObject{world, x,y, widthWall,heightWall, ga}
 {
