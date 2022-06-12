@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LevelData>
-    <Door id_destination="0" posX="0" posY="530">
-        <Required equipKey="Bottes de Pégase"></Required>
-    </Door>
-    <Wall posX="500" posY="400"/>
-    <Wall posX="1100" posY="400"/>
-    <Wall posX="800" posY="400"/>
+	<Door id_destination="0" posX="0" posY="530">
+		<Required equipKey="Hachette"></Required>
+	</Door>
+	<Wall posX="500" posY="400"/>
+	<Wall posX="1100" posY="400"/>
+	<Wall posX="800" posY="400"/>
+	<Table posX="1400" posY="700"/>
 </LevelData>

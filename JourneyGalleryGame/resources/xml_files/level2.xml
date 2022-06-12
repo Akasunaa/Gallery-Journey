@@ -4,6 +4,5 @@
 		<Required equipKey="Rune Alpha"></Required>
 	</Door>
 	<Wall posX="500" posY="400"/>
-	<Wall posX="200" posY="400"/>
 	<Wall posX="1100" posY="400"/>
 </LevelData>
