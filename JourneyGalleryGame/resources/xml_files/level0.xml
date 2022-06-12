@@ -3,8 +3,7 @@
 	<Door id_destination="0" posX="1700" posY="530">
 		<Required equipKey="Le Mac d'Alexandre"></Required>
 	</Door>
-	<Wall posX="800" posY="400"/>
-	<Skeleton sprite="trex.png" posX="1000" posY="600">
+	<Skeleton sprite="trex.png" posX="700" posY="600">
 		<Required equipKey="T-Rex"></Required>
 	</Skeleton>
 
