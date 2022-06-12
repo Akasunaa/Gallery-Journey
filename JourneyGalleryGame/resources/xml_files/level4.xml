@@ -6,4 +6,5 @@
     <Wall posX="500" posY="400"/>
     <Wall posX="1100" posY="400"/>
     <Wall posX="800" posY="400"/>
+	<Table posX="1400" posY="700"/>
 </LevelData>
