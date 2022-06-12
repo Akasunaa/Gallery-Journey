@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LevelData>
 	<Door id_destination="0" posX="1700" posY="530">
-		<Required equipKey="Hachette"></Required>
+		<Required equipKey="Le Mac d'Alexandre"></Required>
 	</Door>
 	<Wall posX="800" posY="400"/>
 	<Skeleton posX="1000" posY="600">

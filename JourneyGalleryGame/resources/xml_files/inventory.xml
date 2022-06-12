@@ -43,8 +43,8 @@
 		<Shape x="0" y="0"/>
 		<Shape x="0" y="1"/>
 		<Shape x="0" y="2"/>
-		<Shape x="1" y="0"/>
 		<Shape x="1" y="1"/>
+		<Shape x="1" y="2"/>
 	</Material>
 	<Material name="Serpentine" sprite="serpentinite.png" nb="0">
 		<Shape x="0" y="0"/>
@@ -104,8 +104,8 @@
         <Required mat="Olivine" need="2"/>
     </Equipment>
     <Equipment name="Lanterne Prismatique" sprite="None" nb="0">
-        <Required mat="Firamine" need="2"/>
-        <Required mat="Luminite" need="4"/>
+        <Required mat="Firamine" need="4"/>
+        <Required mat="Luminite" need="7"/>
     </Equipment>
     <Equipment name="Masque Enhydris" sprite="None" nb="0">
         <Required mat="Serpentine" need="3"/>
@@ -126,7 +126,7 @@
         <Required mat="Or" need="2"/>
     </Equipment>
     <Equipment name="Combinaison de Prométhée" sprite="None" nb="0">
-        <Required mat="Firamine" need="5"/>
+        <Required mat="Firamine" need="3"/>
         <Required mat="Kubinite" need="5"/>
     </Equipment>
     <Equipment name="Le Mac d'Alexandre" sprite="None" nb="0">
@@ -147,9 +147,9 @@
     </Equipment>
     <Equipment name="Rune Gamma" sprite="None" nb="0">
         <Required mat="Grande Rune Poussérieuse" need="1"/>
-        <Required mat="Rocktinite" need="3"/>
-        <Required mat="Serpentine" need="3"/>
-        <Required mat="Or" need="2"/>
+        <Required mat="Rocktinite" need="5"/>
+        <Required mat="Serpentine" need="5"/>
+        <Required mat="Or" need="5"/>
     </Equipment>
     <!-- COMPLETED TREASURES -->
 	<Equipment name="T-Rex" sprite="None" nb="0">
