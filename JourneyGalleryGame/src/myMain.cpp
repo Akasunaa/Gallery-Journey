@@ -3,7 +3,7 @@
 #include <assert.h>
 
 #include "box2d/box2d.h"
-#include <Player.cpp>
+#include <Player.h>
 #include "Game.h"
 
 int myMain()

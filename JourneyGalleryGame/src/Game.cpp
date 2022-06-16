@@ -106,9 +106,6 @@ void Game::initWorld()
 
 }
 
-
-
-
 Game::Game() {
 	this->initWindow();
 	this->initWorld();
@@ -151,25 +148,14 @@ void Game::electWall()
 void Game::switchLevel()
 {
 	if (player->getPosition().x < 50) {
-
-
 		indiceLevel++;
 		loadLevel(world, window, indiceLevel, ga);
-
 		player->setPosition(b2Vec2(1760, 650.0f));
-
-
-
 	}
 	if (player->getPosition().x > 1780) {
-
-
 		indiceLevel--;
 		loadLevel(world, window, indiceLevel, ga);
-
 		player->setPosition(b2Vec2(100, 650.0f));
-
-
 	}
 
 }
@@ -189,9 +175,11 @@ void Game::pollEvents()
 			this->window->close();
 			break;
 		case sf::Event::KeyPressed:
-			if (this->ev.key.code == sf::Keyboard::Escape)
+			switch (this->ev.key.code) {
+			case sf::Keyboard::Escape:
 				this->window->close();
-			else if (this->ev.key.code == sf::Keyboard::E) { //Boucle d'interaction avec les objets 
+				break;
+			case sf::Keyboard::E:
 				if (states == States::inGame) {
 					//Interraction avec les murs
 					for (int i = 0; i < walls.size(); i++)
@@ -220,31 +208,33 @@ void Game::pollEvents()
 						}
 
 					}
-
 				}
-			}
-			else if (this->ev.key.code == sf::Keyboard::Q) {
-				if (states == States::inExcavation) {
+				break;
+			case sf::Keyboard::Q:
+				switch (states) {
+				case States::inExcavation:
 					digIndex = -1;
+				case States::inInventory:
+				case States::inCraft:
 					states = States::inGame;
+					break;
 				}
-				if (states == States::inInventory ||
-					states == States::inCraft) {
-					states = States::inGame;
-				}
-			}
-			else if (this->ev.key.code == sf::Keyboard::I) {
-				if (states == States::inGame) {
+				break;
+			case sf::Keyboard::I:
+				switch (states) {
+				case States::inGame:
 					player->stop();
 					states = States::inInventory;
-				}
-				else if (states == States::inInventory) {
+					break;
+				case States::inInventory:
 					states = States::inGame;
+					break;
+
 				}
+				break;
 			}
 		}
 	}
-
 }
 
 void Game::update()
@@ -252,58 +242,62 @@ void Game::update()
 	//Interaction input
 	this->pollEvents();
 
-	//InGame
-	if (states == States::inGame) {
-		player->updateInput();
-		for (auto& skeleton : skeletons) {
-			if (skeleton->isUnlockable()) {
-				skeleton->unlock();
-			}
-
-
-		}
-	}
-	//InExcavation -> code � d�placer?
-	if (states == States::inExcavation) {
-		//Verifie qu'on peut toujours creuser, sinon on se fait virer du mur
+	switch (states)
+	{
+	case States::inExcavation:
 		if (!(walls[digIndex]->getExcavation()->getCanDig())) {
-			walls[digIndex]->reset();
-			indispo++;
-			states = States::inFinishExcavation;
 			time(&start);
+			states = States::inFinishExcavation;
+		}
+		break;
+	case States::inFinishExcavation:
+		time_t end;
+		time(&end);
+		std::cout << "miou";
+
+		if (difftime(end, start) > 2) {
+			states = States::inGame;
+			start = 0;
+			indispo++;
+			walls[digIndex]->reset();
 			electWall();
 		}
-		if (states == States::inFinishExcavation) {
-			time_t end;
-			do time(&end); while (difftime(end, start) <= 1);
-			states = States::inGame;
-
+		break;
+	case States::inInventory:
+		break;
+	case States::inCraft:
+		break;
+	case States::inGame:
+		player->updateInput();
+		for (auto& skeleton : skeletons) {
+			if (skeleton->isUnlockable())
+				skeleton->unlock();
 		}
-
+		break;
 	}
-	for (auto& skeleton : skeletons) {
-		if (skeleton->isUnlockable()) {
-			skeleton->unlock();
-		}
-
-
-	}
-
 	switchLevel();
 }
-
-
 
 
 void Game::render()
 {
 	this->window->clear();
-
 	spriteBackground.setTexture(textBackground);
 	this->window->draw(spriteBackground);
 
-	if (states == States::inGame) {
-
+	switch (states)
+	{
+	case States::inExcavation:
+	case States::inFinishExcavation:
+		walls[digIndex]->getExcavation()->draw(this->window);
+		break;
+	case States::inInventory:
+		this->player->get_inventory()->draw_inventory_screen();
+		break;
+	case States::inCraft:
+		this->player->get_inventory()->draw_craft_screen();
+		break;
+	case States::inGame:
 		for (auto& wall : walls) {
 			wall->getWallPiece()->draw((this->window));
 		}
@@ -317,27 +311,13 @@ void Game::render()
 		for (auto& skeleton : skeletons) {
 			skeleton->draw((this->window));
 		}
+		this->player->playerDraw((this->window));
+		draw_commands_window();
+		break;
 	}
-	//Dessin du player
-	this->player->playerDraw((this->window));
-	draw_commands_window();
-	//Dessin de l'extraction
-	if (states == States::inExcavation) {
-		walls[digIndex]->getExcavation()->draw(this->window);
-	}
-	if (states == States::inInventory) {
-		this->player->get_inventory()->draw_inventory_screen();
-	}
-	if (states == States::inCraft) {
-		this->player->get_inventory()->draw_craft_screen();
-	}
-
 	ImGui::SFML::Render(*window);
-
 	this->window->display();
 }
-
-
 
 sf::RenderWindow*& Game::get_window() {
 	return window;

@@ -55,16 +55,18 @@ int Excavation::posMouse(sf::RenderWindow* window) //Retourne la position i de l
 
 void Excavation::digIn(int val) //Creuse une case et vï¿½rifie si on a trouvï¿½ le trï¿½sor
 {
-	if (val >= 0 && val < nb_case * nb_case) {
-		if (!(cases[val].getDig())) {
-			tryDig++;
-			cases[val].setDig(true);
-			if (cases[val].getTresure()) {
-				found++;
-				foundTreasure(); 
+	if (canDig) {
+		if (val >= 0 && val < nb_case * nb_case) {
+			if (!(cases[val].getDig())) {
+				tryDig++;
+				cases[val].setDig(true);
+				if (cases[val].getTresure()) {
+					found++;
+					foundTreasure();
+				}
 			}
-		}
 
+		}
 	}
 }
 

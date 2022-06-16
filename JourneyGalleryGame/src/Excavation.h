@@ -39,6 +39,7 @@ public:
 	bool getCanDig();
 	void foundTreasure();
 	void setCanDig(bool state);
+	void setDrawing(bool state);
 
 private:
 	GameAssets* ga;
@@ -60,6 +61,10 @@ private:
 	int toFound; //nombre de morceau a trouvé
 
 	bool canDig; //Si on peut creuser -> lui qui fait passer au state inendexcavation
+
+	bool isDrawing; //Pour savoir si il faut draw la grille ou non
+
+
 
 	sf::Texture textCadre;
 	sf::Sprite spriteCadre;
