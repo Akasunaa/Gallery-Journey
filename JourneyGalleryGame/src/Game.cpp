@@ -60,6 +60,7 @@ void Game::initWindow()
 	this->videoMode.height = 1080;
 	this->videoMode.width = 1920;
 	this->window = new sf::RenderWindow(this->videoMode, "Gallery Journey", sf::Style::Titlebar | sf::Style::Close);
+	this->window->setFramerateLimit(60);
 	ImGui::SFML::Init(*window);
 }
 
