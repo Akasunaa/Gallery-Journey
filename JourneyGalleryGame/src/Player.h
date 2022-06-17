@@ -7,8 +7,6 @@
 #include <memory>
 #include <GameAssets.h>
 
-#define movHorizontal 1000000000
-#define maxSpeed 10000
 
 #define playerHeight 240
 #define playerWidth 120
@@ -30,6 +28,8 @@ private:
 	b2BodyDef bodyDef;
 
     std::unique_ptr<Inventory> inventory;
+
+
 
 	GameAssets* ga;
 	sf::Sprite sprite;

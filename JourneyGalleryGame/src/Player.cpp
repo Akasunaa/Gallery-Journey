@@ -16,7 +16,6 @@ Player::Player(b2World* world, b2Vec2 pos, pugi::xml_node inventory_xml, GameAss
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.f;
-	fixtureDef.friction = 1.f;
 	body->CreateFixture(&fixtureDef);
 
     //inventory
@@ -36,23 +35,21 @@ Player::Player(b2World* world, b2Vec2 pos, pugi::xml_node inventory_xml, GameAss
 void Player::updateInput()
 {
 	b2Vec2 vel = body->GetLinearVelocity();
-	float force = 0;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		if (vel.x > -maxSpeed) force = -movHorizontal;
-		body->ApplyForceToCenter(b2Vec2(force, 0), true);
+		body->SetLinearVelocity(b2Vec2(-120, 0));
 		sprite.setScale((float)playerWidth / texture.getSize().x, (float)playerHeight / texture.getSize().y);
 
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		if (vel.x < maxSpeed) force = movHorizontal;
-		body->ApplyForceToCenter(b2Vec2(force, 0), true);
+		body->SetLinearVelocity(b2Vec2(120, 0));
 		sprite.setScale(-(float)playerWidth / texture.getSize().x, (float)playerHeight / texture.getSize().y);
 	}
-	force =0;
-	body->SetLinearVelocity(b2Vec2(0, 0));
-	body->ApplyForceToCenter(b2Vec2(force, 0), true);
+	else {
+		body->SetLinearVelocity(b2Vec2(0, 0));
+	}
+
 
 }
 

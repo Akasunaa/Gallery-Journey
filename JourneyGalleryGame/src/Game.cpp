@@ -60,7 +60,7 @@ void Game::initWindow()
 	this->videoMode.height = 1080;
 	this->videoMode.width = 1920;
 	this->window = new sf::RenderWindow(this->videoMode, "Gallery Journey", sf::Style::Titlebar | sf::Style::Close);
-	this->window->setFramerateLimit(60);
+	this->window->setFramerateLimit(120);
 	ImGui::SFML::Init(*window);
 }
 
@@ -76,8 +76,8 @@ void Game::initWorld()
 
 	//init time
 	timeStep = 1.0f / 60.0f;
-	velocityIterations = 6;
-	positionIterations = 2;
+	velocityIterations = 10;
+	positionIterations = 10;
 
 	//init state
 	states = States::inGame;
