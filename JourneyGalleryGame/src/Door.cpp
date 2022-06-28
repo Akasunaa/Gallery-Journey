@@ -1,6 +1,8 @@
 #include "Door.h"
 
-
+/*
+Est debloquable et interractif, bloque le joueur s'il n'a pas l'objet demandé
+*/
 
 Door::Door(b2World* world, pugi::xml_node node, GameAssets* ga,
 	std::unique_ptr<Inventory>& inventory) :

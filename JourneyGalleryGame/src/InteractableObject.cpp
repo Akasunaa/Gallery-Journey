@@ -3,7 +3,8 @@
 
 /*
 Cette classe rend un élément interractif, c'est à dire qu'il detecte quand le joueur est proche
-et fait l'input demandé*/
+et fait l'input demandé
+*/
 InterractableObject::InterractableObject(b2World* world,float x, float y, float width, float height, GameAssets* ga) :
 	ga(ga)
 {

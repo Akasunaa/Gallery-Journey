@@ -28,11 +28,19 @@
 
 class Game;
 
-enum class States { inGame = 1, inExcavation = 2, inFinishExcavation = 3, inInventory = 4, inCraft = 5};
+enum class States { 
+	inGame = 1, 
+	inExcavation = 2, 
+	inFinishExcavation = 3, 
+	inInventory = 4, 
+	inCraft = 5,
+	inMenu=6};
 
 class Game {
 private:
 	sf::RenderWindow* window;
+
+
 	sf::VideoMode videoMode;
 	sf::Event ev;
 
@@ -45,6 +53,10 @@ private:
 
 	sf::Texture textBackground;
 	sf::Sprite spriteBackground;
+
+
+	sf::Font fontStart;
+	sf::Text textStart;
 
 
 	GameAssets* ga;

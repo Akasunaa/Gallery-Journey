@@ -10,11 +10,9 @@ void Game::loadLevel(b2World* world,
 		world->DestroyBody(table->getBodyPointer());
 	}
 	for (auto& door : doors) {
-
 		world->DestroyBody(door->getBodyPointer());
 	}
 	for (auto& wall : walls) {
-
 		world->DestroyBody(wall->getWallPiece()->getBodyPointer());
 	}
 	walls.clear();
@@ -49,9 +47,7 @@ void Game::loadLevel(b2World* world,
 			std::unique_ptr<Skeleton> skeleton = std::make_unique<Skeleton>(world, child, ga, player->get_inventory());
 			skeletons.push_back(std::move(skeleton));
 		}
-
 	}
-
 }
 
 void Game::initWindow()
@@ -62,6 +58,7 @@ void Game::initWindow()
 	this->window = new sf::RenderWindow(this->videoMode, "Gallery Journey", sf::Style::Titlebar | sf::Style::Close);
 	this->window->setFramerateLimit(120);
 	ImGui::SFML::Init(*window);
+
 }
 
 void Game::initWorld()
@@ -80,12 +77,20 @@ void Game::initWorld()
 	positionIterations = 10;
 
 	//init state
-	states = States::inGame;
+	states = States::inMenu;
 
 	//init background
 	textBackground = ga->background;
 	spriteBackground.setPosition(sf::Vector2f(0, 0));
 	spriteBackground.setScale(0.5, 0.5);
+
+	//init text start
+	fontStart.loadFromFile("resources/font/ARIAL.ttf");
+	textStart.setFont(fontStart);
+	textStart.setString("GALLERY JOURNEY");
+	textStart.setString("Press Space to start");
+	textStart.setCharacterSize(200);
+	textStart.setPosition(1920 / 2, 1080 / 2);
 
 
 	//init player & its inventory
@@ -102,9 +107,7 @@ void Game::initWorld()
 	indiceLevel = 1;
 	loadLevel(world, window, indiceLevel, ga);
 
-
 	indispo = 0;
-
 }
 
 Game::Game() {
@@ -145,7 +148,6 @@ void Game::electWall()
 }
 
 
-
 void Game::switchLevel()
 {
 	if (player->getPosition().x < 50) {
@@ -153,7 +155,7 @@ void Game::switchLevel()
 		loadLevel(world, window, indiceLevel, ga);
 		player->setPosition(b2Vec2(1760, 650.0f));
 	}
-	if (player->getPosition().x > 1780) {
+	if (player->getPosition().x > 1780){
 		indiceLevel--;
 		loadLevel(world, window, indiceLevel, ga);
 		player->setPosition(b2Vec2(100, 650.0f));
@@ -177,6 +179,11 @@ void Game::pollEvents()
 			break;
 		case sf::Event::KeyPressed:
 			switch (this->ev.key.code) {
+			case sf::Keyboard::Space:
+				if (states == States::inMenu) {
+					states = States::inGame;
+				}
+				break;
 			case sf::Keyboard::Escape:
 				this->window->close();
 				break;
@@ -254,9 +261,9 @@ void Game::update()
 	case States::inFinishExcavation:
 		time_t end;
 		time(&end);
-		std::cout << "miou";
+		std::cout << "miou"; //TODO: met ta fenetre plz
 
-		if (difftime(end, start) > 2) {
+		if (difftime(end, start) > 1) { //Attente d'une seconde
 			states = States::inGame;
 			start = 0;
 			indispo++;
@@ -315,7 +322,11 @@ void Game::render()
 		this->player->playerDraw((this->window));
 		draw_commands_window();
 		break;
+	case States::inMenu:
+		window->draw(textStart);
+		break;
 	}
+
 	ImGui::SFML::Render(*window);
 	this->window->display();
 }

@@ -1,7 +1,9 @@
 #include "Case.h"
 #include <iostream>
 
-
+/*
+* potite case
+*/
 Case::Case(int x, int y, float height, float width, float nb_case,
 	GameAssets* ga, float offsetWindowX, float offsetWindowY) :
 	x(x), y(y), ga(ga), height(height), width(width), nb_case(nb_case),
