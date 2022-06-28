@@ -446,9 +446,18 @@ void Inventory::draw_craft_screen() {
 
 void Inventory::draw_pop_up_found() {
     if(material_just_found.compare("None") == 0){
+        ImGui::OpenPopup("Oh non !");
+        if (ImGui::BeginPopupModal("Oh non !", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+        {
+            ImGui::SetWindowFontScale(3);
+            ImGui::Text("Le pan de mur s'est effrondé !");
+            ImGui::Separator();
+            ImGui::Text("Vous vous écartez pour éviter l'éboulement.");
+
+            ImGui::EndPopup();
+        }
         return;
     }
-    ImGui::Begin("Pop_up_found");
     ImGui::OpenPopup("Matériau obtenu !");
     if(ImGui::BeginPopupModal("Matériau obtenu !", NULL, ImGuiWindowFlags_AlwaysAutoResize))
     {
@@ -471,13 +480,12 @@ void Inventory::draw_pop_up_found() {
             ImGui::PopStyleColor();
             ImGui::PopID();
         ImGui::SameLine();
-        ImGui::Text(" en votre possesssion ");
+        ImGui::Text(" en votre possession. ");
         ImGui::PopStyleColor();
         ImGui::PopID();
 
     ImGui::EndPopup();
     }
-    ImGui::End();
 }
 
 std::map<std::string, std::unique_ptr<Material>> &Inventory::get_materials() {

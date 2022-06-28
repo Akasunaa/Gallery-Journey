@@ -86,11 +86,14 @@ void Game::initWorld()
 
 	//init text start
 	fontStart.loadFromFile("resources/font/ARIAL.ttf");
-	textStart.setFont(fontStart);
-	textStart.setString("GALLERY JOURNEY");
-	textStart.setString("Press Space to start");
-	textStart.setCharacterSize(200);
-	textStart.setPosition(1920 / 2, 1080 / 2);
+	textStartOne.setFont(fontStart);
+	textStartOne.setString("GALLERY JOURNEY");
+	textStartOne.setCharacterSize(150);
+	textStartOne.setPosition(250,400);
+	textStartTwo.setFont(fontStart);
+	textStartTwo.setString("Press Space to Start");
+	textStartTwo.setCharacterSize(50);
+	textStartTwo.setPosition(700,600);
 
 
 	//init player & its inventory
@@ -262,7 +265,7 @@ void Game::update()
 		time_t end;
 		time(&end);
 
-		if (difftime(end, start) > 1) { //Attente d'une seconde
+		if (difftime(end, start) > 2) { //Attente d'une seconde
 			states = States::inGame;
 			start = 0;
 			indispo++;
@@ -324,7 +327,8 @@ void Game::render()
 		draw_commands_window();
 		break;
 	case States::inMenu:
-		window->draw(textStart);
+		window->draw(textStartOne);
+		window->draw(textStartTwo);
 		break;
 	}
 

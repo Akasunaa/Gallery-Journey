@@ -40,6 +40,7 @@ public:
 	void foundTreasure();
 	void setCanDig(bool state);
 	void setDrawing(bool state);
+	void dig(int val);
 
 private:
 	GameAssets* ga;

@@ -56,7 +56,8 @@ private:
 
 
 	sf::Font fontStart;
-	sf::Text textStart;
+	sf::Text textStartOne;
+	sf::Text textStartTwo;
 
 
 	GameAssets* ga;

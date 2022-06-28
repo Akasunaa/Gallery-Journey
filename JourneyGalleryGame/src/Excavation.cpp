@@ -11,29 +11,29 @@ int random_a_to_b(int const a, int const b)
 }
 
 /*
-Cette classe gère la partie "excavation" du jeu, ie le moment où on creuse sur les cases. Cette classe est construire de 
+Cette classe gère la partie "excavation" du jeu, ie le moment où on creuse sur les cases. Cette classe est construire de
 sorte qu'on peut toujours faire varier le nombre de case.
 */
 
 
-Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga, 
-	std::unique_ptr<Inventory>& inventory ) : inventory(inventory), ga(ga) {
+Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
+	std::unique_ptr<Inventory>& inventory) : inventory(inventory), ga(ga) {
 
-	canDig = true; 
+	canDig = true;
 	//Construction de la grille de base avec un vecteur de cases
 	for (int i = 0; i < nb_case * nb_case; i++) {
 		Case thisCase(i / nb_case, i % nb_case, hightExc, widthExc, nb_case,
-			ga,(float)offsetWindowX, (float)offsetWindowY);
+			ga, (float)offsetWindowX, (float)offsetWindowY);
 		cases.push_back(thisCase);
 	}
 
 	//Tracé du cadre
 	textCadre = ga->cadre;
-	spriteCadre.setScale((float)(widthExc+100)/textCadre.getSize().y,(float) (hightExc+100)/textCadre.getSize().y);
-	spriteCadre.setPosition(sf::Vector2f(offsetWindowX-50, offsetWindowY-50));
+	spriteCadre.setScale((float)(widthExc + 100) / textCadre.getSize().y, (float)(hightExc + 100) / textCadre.getSize().y);
+	spriteCadre.setPosition(sf::Vector2f(offsetWindowX - 50, offsetWindowY - 50));
 	//Pelle !
 	textPelle1 = ga->shovel1;
-	spritePelle1.setPosition(sf::Vector2f(widthExc +600  , hightExc-200));
+	spritePelle1.setPosition(sf::Vector2f(widthExc + 600, hightExc - 200));
 	textPelle2 = ga->shovel2;
 	spritePelle2.setPosition(sf::Vector2f(widthExc + 600, hightExc - 200));
 	textPelle3 = ga->shovel3;
@@ -47,8 +47,8 @@ Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
 int Excavation::posMouse(sf::RenderWindow* window) //Retourne la position i de la case sur laquelle la souris est
 {
 	sf::Vector2i position = sf::Mouse::getPosition(*window);
-	int x = (position.x - offsetWindowX) / (hightExc / nb_case) ;
-	int y = (position.y - offsetWindowY) / (widthExc / nb_case) ;
+	int x = (position.x - offsetWindowX) / (hightExc / nb_case);
+	int y = (position.y - offsetWindowY) / (widthExc / nb_case);
 	int value = x * nb_case + y;
 	return value;
 }
@@ -58,17 +58,48 @@ void Excavation::digIn(int val) //Creuse une case et vï¿½rifie si on a trouv�
 	if (canDig) {
 		if (val >= 0 && val < nb_case * nb_case) {
 			if (!(cases[val].getDig())) {
-				tryDig++;
-				cases[val].setDig(true);
-				if (cases[val].getTresure()) {
-					found++;
-					foundTreasure();
+				//peut creuser en ligne
+				if (inventory->is_crafted("Pioche renforcée")) {
+					if (val>= nb_case){
+						dig(val  - nb_case);
+					}
+					if (val < nb_case*(nb_case-1)) {
+						dig(val + nb_case);
+					}
+					//peut creuser en croix
+					if (inventory->is_crafted("Pioche de Geb")) {
+						if (val % nb_case != 0) {
+							dig(val - 1);
+						}
+						if ((val + 1) % nb_case != 0) {
+							dig(val + 1);
+						}
+					}
+				}
+
+				//creuse une case
+				dig(val);
+				foundTreasure();
+				if (tryDig > nbDig) {
+					canDig = false;
 				}
 			}
-
 		}
 	}
 }
+
+void Excavation::dig(int val)
+{
+	if (!(cases[val].getDig())) {
+		tryDig++;
+		cases[val].setDig(true);
+		if (cases[val].getTresure()) {
+			found++;
+		}
+	}
+
+}
+
 
 void Excavation::updateInput(sf::RenderWindow* window)
 {
@@ -94,7 +125,7 @@ void Excavation::init()
 	std::vector<string> keys;
 	for (auto const& material : materials)
 		keys.push_back(material.first);
-	int rand = random_a_to_b(0, materials.size()-1);
+	int rand = random_a_to_b(0, materials.size() - 1);
 	materialToFound = keys[rand];
 
 	//Placement de l'objet
@@ -108,7 +139,7 @@ void Excavation::init()
 	maxX++;
 	maxY++;
 
-	offsetX = random_a_to_b(0, nb_case-maxX);
+	offsetX = random_a_to_b(0, nb_case - maxX);
 	offsetY = random_a_to_b(0, nb_case - maxY);
 	toFound = objCoor.size();
 	found = 0;
@@ -116,11 +147,11 @@ void Excavation::init()
 	string stringSprite = materials[materialToFound]->get_sprite_path();
 	for (auto& coor : objCoor) {
 		int val = (get<0>(coor) + offsetX) * nb_case + get<1>(coor) + offsetY;
-		cases[val].setTresure(stringSprite,maxX,maxY, get<0>(coor), get<1>(coor));
+		cases[val].setTresure(stringSprite, maxX, maxY, get<0>(coor), get<1>(coor));
 	}
 
 	//Nombre de possibilité de creuser
-	int pos = random_a_to_b(toFound, toFound+2*nb_case);
+	int pos = random_a_to_b(toFound, toFound + 2 * nb_case);
 	nbDig = pos;
 	tryDig = 0;
 
@@ -149,7 +180,7 @@ void Excavation::foundTreasure()
 	if (found == toFound) {
 		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 		inventory->add_material(materialToFound, 1);
-        inventory->set_just_found(materialToFound);
+		inventory->set_just_found(materialToFound);
 		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
 		canDig = false;
 
@@ -161,31 +192,26 @@ void Excavation::setCanDig(bool state)
 	canDig = state;
 }
 
-
 void Excavation::draw(sf::RenderWindow* window)
 {
 	updateInput(window);
 	for (int i = 0; i < nb_case * nb_case; i++) {
 		cases[i].draw(window);
 	}
-	if (tryDig > nbDig) {
-		//reset();
-		canDig = false;
-	}
+
 	spriteCadre.setTexture(textCadre);
 	window->draw(spriteCadre);
 	spritePelle1.setTexture(textPelle1);
 	spritePelle2.setTexture(textPelle2);
 	spritePelle3.setTexture(textPelle3);
 	float ratio = (float)tryDig / (float)nbDig;
-	if (ratio<=0.30f) {
+	if (ratio <= 0.30f) {
 		window->draw(spritePelle1);
 	}
-	else if (ratio <= 0.80f && ratio >= 0.30f ) {
+	else if (ratio <= 0.80f && ratio >= 0.30f) {
 		window->draw(spritePelle2);
 	}
 	else {
 		window->draw(spritePelle3);
 	}
-
 }
