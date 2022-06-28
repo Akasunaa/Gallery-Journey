@@ -152,11 +152,15 @@ void Inventory::craft(const std::string & equip_key) {
     }
 
     if(is_craftable(equip_key)){
+        for(const auto & previous_upgrade : equipment[equip_key]->get_required_equip_upgrade()){
+            equipment[previous_upgrade]->set_obselete(true);
+        }
         for(const auto & required : equipment[equip_key]->get_required_mats()) {
             std::string mat_req = std::get<0>(required);
             int nb_required = std::get<1>(required);
             consume_material(mat_req, nb_required);
         }
+        clear_selected_item_inventory();
         equipment[equip_key]->increase_copies(1);
     }
 }
@@ -355,7 +359,7 @@ void Inventory::draw_inventory_screen() {
 
                 for(const auto & [equip_key, equip_obj] : equipment ){
 
-                    if(is_crafted(equip_key)){
+                    if(is_crafted(equip_key) && !(equipment[equip_key]->get_obselete()) ){
                         std::string name_equip = equip_obj->get_name();
                         if(ImGui::Selectable(name_equip.c_str(),
                                              (selected_item_inventory.compare(name_equip) == 0))){
