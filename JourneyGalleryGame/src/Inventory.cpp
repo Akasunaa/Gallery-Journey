@@ -398,9 +398,27 @@ void Inventory::draw_pop_up_found() {
     if(ImGui::BeginPopupModal("Matériau obtenu !", NULL, ImGuiWindowFlags_AlwaysAutoResize))
     {
     ImGui::SetWindowFontScale(3);
-    ImGui::Text(("Vous avez trouvé : " + materials[material_just_found]->get_name() + " ! ").c_str());
+    ImGui::Text("Vous avez trouvé : ");
+    ImGui::SameLine();
+        ImGui::PushID("Founded material");
+        ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::HSV(60.0f/360.0f ,0.5,0.9));
+        ImGui::Text((materials[material_just_found]->get_name()).c_str());
+        ImGui::PopStyleColor();
+        ImGui::PopID();
     ImGui::Separator();
-    ImGui::Text(("Vous en avez " + std::to_string(materials[material_just_found]->get_nb_copies()) + " en votre possesssion ").c_str());
+        ImGui::PushID("Already in possession");
+        ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::HSV(20.0f/360.0f ,0.35,0.9));
+        ImGui::Text("Vous en avez ");
+        ImGui::SameLine();
+            ImGui::PushID("Already in possession");
+            ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::HSV(320.0f/360.0f ,0.6,0.9));
+            ImGui::Text((std::to_string(materials[material_just_found]->get_nb_copies())).c_str());
+            ImGui::PopStyleColor();
+            ImGui::PopID();
+        ImGui::SameLine();
+        ImGui::Text(" en votre possesssion ");
+        ImGui::PopStyleColor();
+        ImGui::PopID();
 
     ImGui::EndPopup();
     }
