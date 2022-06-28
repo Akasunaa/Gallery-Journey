@@ -388,8 +388,6 @@ void Inventory::draw_craft_screen() {
 }
 
 void Inventory::draw_pop_up_found() {
-    printf("POP UP TRO COOL");
-    printf("%s", material_just_found.c_str());
     if(material_just_found.compare("None") == 0){
         return;
     }
@@ -443,6 +441,10 @@ void Inventory::clear_selected_item_inventory() {
 
 void Inventory::set_just_found(std::string mat_found_key) {
     material_just_found = mat_found_key;
+}
+
+void Inventory::clear_just_found() {
+    material_just_found = "None";
 }
 
 const std::string & Inventory::get_just_found() {

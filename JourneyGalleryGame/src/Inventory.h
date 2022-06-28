@@ -43,6 +43,7 @@ public:
     void clear_selected_item_inventory();
     void clear_selected_equip_craft();
     void set_just_found(std::string mat_found_key);
+    void clear_just_found();
     const std::string & get_just_found();
 
 

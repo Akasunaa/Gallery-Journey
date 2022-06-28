@@ -254,14 +254,13 @@ void Game::update()
 	case States::inFinishExcavation:
 		time_t end;
 		time(&end);
-		std::cout << "miou";
 
 		if (difftime(end, start) > 2) {
 			states = States::inGame;
 			start = 0;
 			indispo++;
 			walls[digIndex]->reset();
-            player->get_inventory()->set_just_found("None");
+            player->get_inventory()->clear_just_found();
 			electWall();
 		}
 		break;
