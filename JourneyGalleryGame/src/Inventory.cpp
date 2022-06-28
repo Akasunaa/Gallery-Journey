@@ -74,6 +74,13 @@ bool Inventory::is_craftable(const std::string & equip_key) {
         exit(1);
     }
 
+    //On regarde si il y a des équipements nécessaire à l'amélioration, et si ils ont déjà été forgés.
+    //(si il n'y en a pas, alors c'est un équipment de base)
+    if(!is_previous_upgrade_done(equip_key)){
+        return false;
+    }
+
+    //On vérifie si on dispose de tous les matériaux nécessaires et en quantité suffisante.
     for(const auto & required : equipment[equip_key]->get_required_mats()){
         std::string mat_req = std::get<0>(required);
         int nb_required = std::get<1>(required);
@@ -85,6 +92,7 @@ bool Inventory::is_craftable(const std::string & equip_key) {
             return false;
         }
     }
+
     return true;
 }
 
@@ -97,6 +105,46 @@ bool Inventory::is_crafted(const std::string & equip_key) {
     return equipment[equip_key]->possessed();
 }
 
+bool Inventory::is_previous_upgrade_done(const std::string &equip_key) {
+    if(!equipment.contains(equip_key)){
+        std::cout << "(is_previous_upgrade_done) ERROR : No equipment/collectible of this type defined \n" ;
+        exit(1);
+    }
+
+    for(const auto & equip_for_upgrade : equipment[equip_key]->get_required_equip_upgrade()){
+        if(!equipment.contains(equip_for_upgrade)){
+            std::cout << "(is_previous_upgrade_done) ERROR : The required equipment for this upgrade of this type is not defined \n" ;
+            exit(1);
+        }
+        if(!is_crafted(equip_for_upgrade)){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Inventory::is_one_of_previous_upgrade_done(const std::string &equip_key) {
+    if(!equipment.contains(equip_key)){
+        std::cout << "(is_one_of_previous_upgrade_done) ERROR : No equipment/collectible of this type defined \n" ;
+        exit(1);
+    }
+    auto required_equip_upgrade = equipment[equip_key]->get_required_equip_upgrade();
+    if(required_equip_upgrade.size() == 0){
+        return true; //si il s'agit d'un équipement de base, on renvoit vrai aussi.
+    }
+
+    for(const auto & equip_for_upgrade : required_equip_upgrade){
+        if(!equipment.contains(equip_for_upgrade)){
+            std::cout << "(is_one_of_previous_upgrade_done) ERROR : The required equipment for this upgrade of this type is not defined \n" ;
+            exit(1);
+        }
+        if(is_crafted(equip_for_upgrade)){
+            return true;
+        }
+    }
+    return false;
+}
+
 void Inventory::craft(const std::string & equip_key) {
     if(is_crafted(equip_key)){
         std::cout << "This object is already in your possession \n" ;
@@ -104,11 +152,15 @@ void Inventory::craft(const std::string & equip_key) {
     }
 
     if(is_craftable(equip_key)){
+        for(const auto & previous_upgrade : equipment[equip_key]->get_required_equip_upgrade()){
+            equipment[previous_upgrade]->set_obselete(true);
+        }
         for(const auto & required : equipment[equip_key]->get_required_mats()) {
             std::string mat_req = std::get<0>(required);
             int nb_required = std::get<1>(required);
             consume_material(mat_req, nb_required);
         }
+        clear_selected_item_inventory();
         equipment[equip_key]->increase_copies(1);
     }
 }
@@ -213,6 +265,25 @@ void Inventory::draw_craft(std::string equip_key) {
     ImGui::Indent();
     //TODO Sprite affichage
     //ImGui::SetWindowFontScale(1);
+
+
+    auto req_for_upgrade = equipment[equip_key]->get_required_equip_upgrade();
+    if(req_for_upgrade.size() > 0){
+        ImGui::Separator();
+        ImGui::Text("ÉQUIPEMENTS REQUIS :");
+        for(const auto & req_equip: req_for_upgrade){
+            ImGui::PushID((req_equip + "##TextRequiredForUpgrade").c_str());
+            if (is_crafted(req_equip)) {
+                ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(115.0f / 360.0f, 1, 1));
+            } else {
+                ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4) ImColor::HSV(0, 1, 1));
+            }
+            ImGui::BulletText(req_equip.c_str());
+            ImGui::PopStyleColor();
+            ImGui::PopID();
+
+        }
+    }
     ImGui::Separator();
     ImGui::Text("MATÉRIAUX REQUIS :");
 
@@ -288,7 +359,7 @@ void Inventory::draw_inventory_screen() {
 
                 for(const auto & [equip_key, equip_obj] : equipment ){
 
-                    if(is_crafted(equip_key)){
+                    if(is_crafted(equip_key) && !(equipment[equip_key]->get_obselete()) ){
                         std::string name_equip = equip_obj->get_name();
                         if(ImGui::Selectable(name_equip.c_str(),
                                              (selected_item_inventory.compare(name_equip) == 0))){
@@ -349,7 +420,7 @@ void Inventory::draw_craft_screen() {
         ImGui::Separator();
         for(const auto & [equip_key, equip_obj] : equipment ){
 
-            if(! is_crafted(equip_key)){
+            if(! is_crafted(equip_key) && is_one_of_previous_upgrade_done(equip_key)){
                 std::string name_equip = equip_obj->get_name();
                 if(ImGui::Selectable(name_equip.c_str(),
                                      (selected_equip_craft.compare(name_equip) == 0))){
@@ -374,7 +445,6 @@ void Inventory::draw_craft_screen() {
 }
 
 void Inventory::draw_pop_up_found() {
-    printf("POP UP TRO COOL");
     if(material_just_found.compare("None") == 0){
         return;
     }
@@ -383,12 +453,31 @@ void Inventory::draw_pop_up_found() {
     if(ImGui::BeginPopupModal("Matériau obtenu !", NULL, ImGuiWindowFlags_AlwaysAutoResize))
     {
     ImGui::SetWindowFontScale(3);
-    ImGui::Text(("Vous avez trouvé : " + materials[material_just_found]->get_name() + " ! ").c_str());
+    ImGui::Text("Vous avez trouvé : ");
+    ImGui::SameLine();
+        ImGui::PushID("Founded material");
+        ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::HSV(60.0f/360.0f ,0.5,0.9));
+        ImGui::Text((materials[material_just_found]->get_name()).c_str());
+        ImGui::PopStyleColor();
+        ImGui::PopID();
     ImGui::Separator();
-    ImGui::Text(("Vous en avez " + std::to_string(materials[material_just_found]->get_nb_copies()) + " en votre possesssion ").c_str());
+        ImGui::PushID("Already in possession");
+        ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::HSV(20.0f/360.0f ,0.35,0.9));
+        ImGui::Text("Vous en avez ");
+        ImGui::SameLine();
+            ImGui::PushID("Already in possession");
+            ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::HSV(320.0f/360.0f ,0.6,0.9));
+            ImGui::Text((std::to_string(materials[material_just_found]->get_nb_copies())).c_str());
+            ImGui::PopStyleColor();
+            ImGui::PopID();
+        ImGui::SameLine();
+        ImGui::Text(" en votre possesssion ");
+        ImGui::PopStyleColor();
+        ImGui::PopID();
 
     ImGui::EndPopup();
     }
+    ImGui::End();
 }
 
 std::map<std::string, std::unique_ptr<Material>> &Inventory::get_materials() {
@@ -409,6 +498,10 @@ void Inventory::clear_selected_item_inventory() {
 
 void Inventory::set_just_found(std::string mat_found_key) {
     material_just_found = mat_found_key;
+}
+
+void Inventory::clear_just_found() {
+    material_just_found = "None";
 }
 
 const std::string & Inventory::get_just_found() {

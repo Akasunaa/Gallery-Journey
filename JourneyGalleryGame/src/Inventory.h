@@ -37,12 +37,20 @@ public:
     bool is_item_inventory_selected();
     bool is_equip_craft_selected();
 
+    //vrai si tous les équipements requis pour l'upgrade sont faits.
+    bool is_previous_upgrade_done(const std::string & equip_key);
+
+    //vrai si au moins un des equiments requis est prêt pour l'upgrade.
+    bool is_one_of_previous_upgrade_done(const std::string & equip_key);
+
+
     std::map<std::string, std::unique_ptr<Material>> & get_materials();
     std::map<std::string, std::unique_ptr<Equipment>> & get_equipment();
     std::unique_ptr<Equipment> & get_specific_equip(std::string equip_key);
     void clear_selected_item_inventory();
     void clear_selected_equip_craft();
     void set_just_found(std::string mat_found_key);
+    void clear_just_found();
     const std::string & get_just_found();
 
 

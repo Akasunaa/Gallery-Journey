@@ -35,6 +35,7 @@ TEST(TestReadXML, TestEquipment) {
     std::string xml = R"(
 <?xml version = "1.0"?>
 <Equipment name="testEquipment" sprite="None" nb="0">
+    <UpgradeReq equip="BasicEquip"/>
     <Required mat="Material1" need="2"/>
     <Required mat="Material2" need="1"/>
 </Equipment>
@@ -53,6 +54,8 @@ TEST(TestReadXML, TestEquipment) {
     EXPECT_EQ("Material2", std::get<0>(required[1]));
     EXPECT_EQ(1, std::get<1>(required[1]));
 
+    auto required_for_upgrade = equip.get_required_equip_upgrade();
+    EXPECT_EQ("BasicEquip", required_for_upgrade[0]);
 }
 
 TEST(TestReadXML, TestInitInventory){
