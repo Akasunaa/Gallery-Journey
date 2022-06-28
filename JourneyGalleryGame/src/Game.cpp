@@ -261,6 +261,7 @@ void Game::update()
 			start = 0;
 			indispo++;
 			walls[digIndex]->reset();
+            player->get_inventory()->set_just_found("None");
 			electWall();
 		}
 		break;
@@ -288,8 +289,9 @@ void Game::render()
 
 	switch (states)
 	{
-	case States::inExcavation:
 	case States::inFinishExcavation:
+        this->player->get_inventory()->draw_pop_up_found();
+    case States::inExcavation:
 		walls[digIndex]->getExcavation()->draw(this->window);
 		break;
 	case States::inInventory:

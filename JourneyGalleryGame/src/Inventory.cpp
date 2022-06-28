@@ -74,6 +74,19 @@ bool Inventory::is_craftable(const std::string & equip_key) {
         exit(1);
     }
 
+    //On regarde si il y a des équipements nécessaire à l'amélioration, et si ils ont déjà été forgés.
+    //(si il n'y en a pas, alors c'est un équipment de base)
+    for(const auto & equip_for_upgrade : equipment[equip_key]->get_required_equip_upgrade()){
+        if(!equipment.contains(equip_for_upgrade)){
+            std::cout << "(is_craftable) ERROR : The required equipment for this upgrade of this type is not defined \n" ;
+            exit(1);
+        }
+        if(!is_crafted(equip_for_upgrade)){
+            return false;
+        }
+    }
+
+    //On vérifie si on dispose de tous les matériaux nécessaires et en quantité suffisante.
     for(const auto & required : equipment[equip_key]->get_required_mats()){
         std::string mat_req = std::get<0>(required);
         int nb_required = std::get<1>(required);
@@ -85,6 +98,7 @@ bool Inventory::is_craftable(const std::string & equip_key) {
             return false;
         }
     }
+
     return true;
 }
 
@@ -375,6 +389,7 @@ void Inventory::draw_craft_screen() {
 
 void Inventory::draw_pop_up_found() {
     printf("POP UP TRO COOL");
+    printf("%s", material_just_found.c_str());
     if(material_just_found.compare("None") == 0){
         return;
     }
@@ -389,6 +404,7 @@ void Inventory::draw_pop_up_found() {
 
     ImGui::EndPopup();
     }
+    ImGui::End();
 }
 
 std::map<std::string, std::unique_ptr<Material>> &Inventory::get_materials() {

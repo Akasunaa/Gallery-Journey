@@ -6,7 +6,7 @@
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
     </Material>
-    <Material name="Or" sprite="gold.png" nb="0">
+    <Material name="Or" sprite="gold.png" nb="5">
         <Shape x="0" y="0"/>
     </Material>
     <Material name="Olivine" sprite="green.png" nb="5">
@@ -15,13 +15,13 @@
         <Shape x="0" y="1"/>
         <Shape x="1" y="1"/>
     </Material>
-    <Material name="Kubinite" sprite="pink.png" nb="0">
+    <Material name="Kubinite" sprite="pink.png" nb="5">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
         <Shape x="0" y="1"/>
         <Shape x="1" y="1"/>
     </Material>
-    <Material name="Célestine" sprite="blue.png" nb="0">
+    <Material name="Célestine" sprite="blue.png" nb="3">
         <Shape x="0" y="0"/>
         <Shape x="1" y="0"/>
         <Shape x="2" y="0"/>
@@ -52,7 +52,7 @@
 		<Shape x="1" y="1"/>
 		<Shape x="2" y="1"/>
 	</Material>
-	<Material name="Rocktinite" sprite="roc.png" nb="0">
+	<Material name="Rocktinite" sprite="roc.png" nb="5">
 		<Shape x="0" y="0"/>
 		<Shape x="1" y="0"/>
 		<Shape x="2" y="0"/>
@@ -99,6 +99,17 @@
     <!-- EQUIPMENT -->
     <Equipment name="Pioche" sprite="None" nb="1">
     </Equipment>
+    <Equipment name="Pioche renforcée" sprite="None" nb="0">
+        <UpgradeReq equip="Pioche"/>
+        <Required mat="Fer" need="3"/>
+        <Required mat="Célestine" need="3"/>
+    </Equipment>
+    <Equipment name="Pioche de Geb" sprite="None" nb="0">
+        <UpgradeReq equip="Pioche renforcée"/>
+        <Required mat="Kubinite" need="5"/>
+        <Required mat="Rocktinite" need="3"/>
+        <Required mat="Or" need="2"/>
+    </Equipment>
     <Equipment name="Hachette" sprite="None" nb="0">
         <Required mat="Fer" need="3"/>
         <Required mat="Olivine" need="2"/>
@@ -114,11 +125,6 @@
     <Equipment name="Bottes de Pégase" sprite="None" nb="0">
         <Required mat="Célestine" need="5"/>
         <Required mat="Luminite" need="3"/>
-    </Equipment>
-    <Equipment name="Pioche de Geb" sprite="None" nb="0">
-        <Required mat="Kubinite" need="5"/>
-        <Required mat="Rocktinite" need="3"/>
-        <Required mat="Or" need="2"/>
     </Equipment>
     <Equipment name="Boucle Boréale" sprite="None" nb="0">
         <Required mat="Serpentine" need="8"/>
