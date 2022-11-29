@@ -13,8 +13,6 @@
 #include <chrono>
 #include <thread>
 
-using namespace std;
-
 //Taille de la fenetre
 #define hightExc 800 
 #define widthExc 800
@@ -48,8 +46,8 @@ private:
 	std::vector<Case> cases;
 
 	std::unique_ptr<Inventory>& inventory;
-	string materialToFound;
-	vector<std::tuple<int, int> > objCoor; //objet a trouver
+	std::string materialToFound;
+	std::vector<std::tuple<int, int> > objCoor; //objet a trouver
 
 	int maxX; //largeur max
 	int maxY; //longeur max

@@ -22,9 +22,9 @@
 #include <thread> 
 #include <SFML/Audio.hpp>
 #include <Skeleton.h>
+#include <ArduinoHandle.h>
+#include <string>
 #define INVENTORY_XML_PATH "resources/xml_files/inventory.xml"
-
-
 
 class Game;
 
@@ -59,6 +59,7 @@ private:
 	sf::Text textStartOne;
 	sf::Text textStartTwo;
 
+	ArduinoHandle* arduinoHandle;
 
 	GameAssets* ga;
 

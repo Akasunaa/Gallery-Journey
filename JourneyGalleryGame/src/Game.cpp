@@ -1,4 +1,5 @@
 #include "Game.h"
+using namespace std;
 
 
 void Game::loadLevel(b2World* world,
@@ -111,6 +112,10 @@ void Game::initWorld()
 	loadLevel(world, window, indiceLevel, ga);
 
 	indispo = 0;
+
+	//init arduino
+	arduinoHandle = new ArduinoHandle();
+
 }
 
 Game::Game() {
@@ -192,6 +197,7 @@ void Game::pollEvents()
 				break;
 			case sf::Keyboard::E:
 				if (states == States::inGame) {
+					arduinoHandle->SwitchLed();
 					//Interraction avec les murs
 					for (int i = 0; i < walls.size(); i++)
 					{

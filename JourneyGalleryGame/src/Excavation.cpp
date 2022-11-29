@@ -122,7 +122,7 @@ void Excavation::init()
 
 	//Recherche d'un objet aléatoire	
 	auto& materials = inventory->get_materials();
-	std::vector<string> keys;
+	std::vector<std::string> keys;
 	for (auto const& material : materials)
 		keys.push_back(material.first);
 	int rand = random_a_to_b(0, materials.size() - 1);
@@ -144,7 +144,7 @@ void Excavation::init()
 	toFound = objCoor.size();
 	found = 0;
 
-	string stringSprite = materials[materialToFound]->get_sprite_path();
+	std::string stringSprite = materials[materialToFound]->get_sprite_path();
 	for (auto& coor : objCoor) {
 		int val = (get<0>(coor) + offsetX) * nb_case + get<1>(coor) + offsetY;
 		cases[val].setTresure(stringSprite, maxX, maxY, get<0>(coor), get<1>(coor));
