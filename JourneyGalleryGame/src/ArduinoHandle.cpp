@@ -15,7 +15,7 @@ ArduinoHandle::ArduinoHandle(){
         if (GetLastError() == ERROR_FILE_NOT_FOUND) {
             std::cout << "serial port not found.";
         }
-        //any other error. Handle error here.
+        std::cout << "unknown error";
     }
 
     //basic prop -----------
@@ -23,7 +23,7 @@ ArduinoHandle::ArduinoHandle(){
     dcbSerialParam.DCBlength = sizeof(dcbSerialParam);
 
     if (!GetCommState(h_Serial, &dcbSerialParam)) {
-        //handle error here
+        std::cout << "error get com";
     }
 
     dcbSerialParam.BaudRate = CBR_9600;
@@ -32,9 +32,8 @@ ArduinoHandle::ArduinoHandle(){
     dcbSerialParam.Parity = NOPARITY;
 
     if (!SetCommState(h_Serial, &dcbSerialParam)) {
-        //handle error here
+        std::cout << "error basic prop";
     }
-
 
     //set the timeout ------------
     COMMTIMEOUTS timeout = { 0 };
@@ -44,18 +43,40 @@ ArduinoHandle::ArduinoHandle(){
     timeout.WriteTotalTimeoutConstant = 60;
     timeout.WriteTotalTimeoutMultiplier = 8;
     if (!SetCommTimeouts(h_Serial, &timeout)) {
-        //handle error here
+        std::cout << "error timeout";
     }
 
 }
 
-void ArduinoHandle::SwitchLed() {
+void ArduinoHandle::SwitchLedRed() {
     char sBuff[2] = { 0 };
-    DWORD dwRead = 5;
-    if (!WriteFile(h_Serial, sBuff, 1, &dwRead, NULL)) {
-        std::cout << "not fun";
+    DWORD dwWrite;
+    if (!WriteFile(h_Serial, sBuff, strlen(sBuff), &dwWrite, NULL)) {
+        std::cout << "error red led";
+
     }
+    std::cout << "red";
 }
+
+void ArduinoHandle::SwitchLedBlue() {
+    char sBuff[2] = {1};
+    DWORD dwWrite;
+    if (!WriteFile(h_Serial, sBuff, strlen(sBuff), &dwWrite, NULL)) {
+        std::cout << "error blue led";
+    }
+    std::cout << "blue";
+}
+
+void ArduinoHandle::ReadDDR() {
+    char sBuff[2]={0};
+    DWORD dwRead;
+    if (!ReadFile(h_Serial, sBuff, 1, &dwRead, NULL)) {
+        std::cout << "error ddr";
+    }
+    std::cout << sBuff;
+}
+
+
 
 void ArduinoHandle::CloseCom() {
     CloseHandle(h_Serial);

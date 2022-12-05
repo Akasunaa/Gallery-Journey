@@ -5,9 +5,10 @@ class ArduinoHandle
 {
 public:
 	explicit ArduinoHandle();
-	void SwitchLed();
+	void SwitchLedRed();
+	void SwitchLedBlue();
 	void CloseCom();
-
+	void ReadDDR();
 private:
 	HANDLE h_Serial;
 

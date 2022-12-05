@@ -197,7 +197,7 @@ void Game::pollEvents()
 				break;
 			case sf::Keyboard::E:
 				if (states == States::inGame) {
-					arduinoHandle->SwitchLed();
+					arduinoHandle->SwitchLedRed();
 					//Interraction avec les murs
 					for (int i = 0; i < walls.size(); i++)
 					{
@@ -234,12 +234,15 @@ void Game::pollEvents()
 				case States::inInventory:
 				case States::inCraft:
 					states = States::inGame;
+					arduinoHandle->SwitchLedBlue();
+
 					break;
 				}
 				break;
 			case sf::Keyboard::I:
 				switch (states) {
 				case States::inGame:
+					arduinoHandle->SwitchLedBlue();
 					player->stop();
 					states = States::inInventory;
 					break;
@@ -290,6 +293,7 @@ void Game::update()
 			if (skeleton->isUnlockable())
 				skeleton->unlock();
 		}
+		arduinoHandle->ReadDDR();
 		break;
 	}
 	switchLevel();
