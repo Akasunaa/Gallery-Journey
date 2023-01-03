@@ -1,5 +1,6 @@
 #include "ArduinoHandle.h"
 #include <iostream>
+#include <string>
 
 ArduinoHandle::ArduinoHandle(){
     //Port d'entree ------------
@@ -49,32 +50,95 @@ ArduinoHandle::ArduinoHandle(){
 }
 
 void ArduinoHandle::SwitchLedRed() {
-    char sBuff[2] = { 0 };
     DWORD dwWrite;
-    if (!WriteFile(h_Serial, sBuff, strlen(sBuff), &dwWrite, NULL)) {
+    const char* message = "red";
+    if (!WriteFile(h_Serial, message, strlen(message), &dwWrite, NULL)) {
         std::cout << "error red led";
-
     }
     std::cout << "red";
 }
 
 void ArduinoHandle::SwitchLedBlue() {
-    char sBuff[2] = {1};
     DWORD dwWrite;
-    if (!WriteFile(h_Serial, sBuff, strlen(sBuff), &dwWrite, NULL)) {
+    const char* message = "blue";
+    if (!WriteFile(h_Serial, message, strlen(message), &dwWrite, NULL)) {
         std::cout << "error blue led";
     }
     std::cout << "blue";
 }
 
-void ArduinoHandle::ReadDDR() {
+void ArduinoHandle::screenMessage(const char* message)
+{
+    DWORD dwWrite;
+    if (!WriteFile(h_Serial, message, strlen(message), &dwWrite, NULL)) {
+        std::cout << "error message";
+    }
+    std::cout << "screen message";
+}
+
+
+int ArduinoHandle::ReadDDR() {
     char sBuff[2]={0};
     DWORD dwRead;
     if (!ReadFile(h_Serial, sBuff, 1, &dwRead, NULL)) {
         std::cout << "error ddr";
     }
     std::cout << sBuff;
+    if (strlen(sBuff) > 0) { 
+        switch (sBuff[0]) {
+        case '1':
+            return 0;
+            break;
+        case '4':
+            return 1;
+            break;
+        case '7':
+            return 2;
+            break;
+        case '*':
+            return 3;
+            break; 
+        case '2':
+            return 4;
+            break;
+        case '5':
+            return 5;
+            break;
+        case '8':
+            return 6;
+            break;
+        case '0':
+            return 7;
+            break;
+        case '3':
+            return 8;
+            break;
+        case '6':
+            return 9;
+            break;
+        case '9':
+            return 10;
+            break;
+        case '#':
+            return 11;
+            break;
+        case 'A':
+            return 12;
+            break;
+        case 'B':
+            return 13;
+            break;
+        case 'C':
+            return 14;
+            break;
+        case 'D':
+            return 15;
+            break;
+        }
+    }
+    return -1;
 }
+
 
 
 

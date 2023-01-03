@@ -8,6 +8,7 @@
 #include <InteractableObject.h>
 #include <random>
 #include <Inventory.h>
+#include "ArduinoHandle.h"
 #include <Material.h>
 #include <memory>
 #include <chrono>
@@ -27,7 +28,7 @@
 class Excavation
 {
 public:
-	explicit Excavation(sf::RenderWindow* window, GameAssets* ga, std::unique_ptr<Inventory>& inventory);
+	explicit Excavation(sf::RenderWindow* window, GameAssets* ga, std::unique_ptr<Inventory>& inventory, ArduinoHandle* ah);
 	void draw(sf::RenderWindow* window);
 	int posMouse(sf::RenderWindow* window);
 	void digIn(int val);
@@ -42,6 +43,7 @@ public:
 
 private:
 	GameAssets* ga;
+	ArduinoHandle* ah;
 
 	std::vector<Case> cases;
 
@@ -63,7 +65,7 @@ private:
 
 	bool isDrawing; //Pour savoir si il faut draw la grille ou non
 
-
+	
 
 	sf::Texture textCadre;
 	sf::Sprite spriteCadre;

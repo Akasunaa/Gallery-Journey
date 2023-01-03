@@ -8,7 +8,8 @@ public:
 	void SwitchLedRed();
 	void SwitchLedBlue();
 	void CloseCom();
-	void ReadDDR();
+	int ReadDDR();
+	void screenMessage(const char* message);
 private:
 	HANDLE h_Serial;
 

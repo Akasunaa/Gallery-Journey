@@ -5,20 +5,20 @@ Cette classe lie un wallpiece qui est un mur affichable et son excavation
 */
 
 Wall::Wall(b2World* world, float x, float y, sf::RenderWindow* window, 
-	GameAssets* ga, std::unique_ptr<Inventory>& inventory)
+	GameAssets* ga, std::unique_ptr<Inventory>& inventory, ArduinoHandle* ah)
 {
 	wallPiece = new WallPiece(world, x, y,ga);
-	excavation = new Excavation(window,ga,inventory);
+	excavation = new Excavation(window,ga,inventory,ah);
 	prio = 0;
 }
 
 Wall::Wall(b2World* world, pugi::xml_node node, sf::RenderWindow* window,
-	GameAssets* ga, std::unique_ptr<Inventory>& inventory)
+	GameAssets* ga, std::unique_ptr<Inventory>& inventory, ArduinoHandle* ah)
 {
 	float x = node.attribute("posX").as_float();
 	float y = node.attribute("posY").as_float();
 	wallPiece = new WallPiece(world, x, y, ga);
-	excavation = new Excavation(window, ga, inventory);
+	excavation = new Excavation(window, ga, inventory,ah);
 	prio = 0;
 }
 

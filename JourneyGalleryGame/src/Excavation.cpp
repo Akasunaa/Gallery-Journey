@@ -1,7 +1,6 @@
 #include "Excavation.h"
 #include <iostream>
 
-
 int random_a_to_b(int const a, int const b)
 {
 	static std::random_device rd;
@@ -17,7 +16,7 @@ sorte qu'on peut toujours faire varier le nombre de case.
 
 
 Excavation::Excavation(sf::RenderWindow* window, GameAssets* ga,
-	std::unique_ptr<Inventory>& inventory) : inventory(inventory), ga(ga) {
+	std::unique_ptr<Inventory>& inventory, ArduinoHandle* ah) : inventory(inventory), ga(ga), ah(ah) {
 
 	canDig = true;
 	//Construction de la grille de base avec un vecteur de cases
@@ -82,6 +81,8 @@ void Excavation::digIn(int val) //Creuse une case et vï¿½rifie si on a trouv�
 				foundTreasure();
 				if (tryDig > nbDig) {
 					canDig = false;
+					ah->screenMessage("Ahah, rien du tout");
+					//ah->SwitchLedRed();
 				}
 			}
 		}
@@ -100,7 +101,6 @@ void Excavation::dig(int val)
 
 }
 
-
 void Excavation::updateInput(sf::RenderWindow* window)
 {
 	//Creuse la case sur laquelle on est et verifie si on le dï¿½bloque
@@ -109,7 +109,13 @@ void Excavation::updateInput(sf::RenderWindow* window)
 		int caseIndex = posMouse(window);
 		digIn(caseIndex);
 	}
+
+	else {
+		int buff = ah->ReadDDR();	
+		digIn(buff);
+	}
 }
+
 
 
 
@@ -182,8 +188,9 @@ void Excavation::foundTreasure()
 		inventory->add_material(materialToFound, 1);
 		inventory->set_just_found(materialToFound);
 		inventory->display_all(DISPLAY_ALL_MAT, DISPLAY_ALL_EQUIP);
+		ah->screenMessage(materialToFound.c_str());
+		//ah->SwitchLedBlue();
 		canDig = false;
-
 	}
 }
 

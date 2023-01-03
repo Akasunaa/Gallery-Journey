@@ -33,7 +33,7 @@ void Game::loadLevel(b2World* world,
 	pugi::xml_node levelData = doc.child("LevelData");
 	for (auto child : levelData.children()) {
 		if (child.name() == "Wall"sv) {
-			std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, child, window, ga, player->get_inventory());
+ 			std::unique_ptr<Wall> wall = std::make_unique<Wall>(world, child, window, ga, player->get_inventory(), arduinoHandle);
 			walls.push_back(std::move(wall));
 		}
 		if (child.name() == "Door"sv) {
@@ -71,7 +71,8 @@ void Game::initWorld()
 	//init world
 	b2Vec2 gravity(0.0f, 0.0f);
 	this->world = new b2World(gravity);
-
+	//init arduino
+	arduinoHandle = new ArduinoHandle();
 	//init time
 	timeStep = 1.0f / 60.0f;
 	velocityIterations = 10;
@@ -113,8 +114,7 @@ void Game::initWorld()
 
 	indispo = 0;
 
-	//init arduino
-	arduinoHandle = new ArduinoHandle();
+
 
 }
 
@@ -190,6 +190,7 @@ void Game::pollEvents()
 			case sf::Keyboard::Space:
 				if (states == States::inMenu) {
 					states = States::inGame;
+			
 				}
 				break;
 			case sf::Keyboard::Escape:
@@ -197,7 +198,6 @@ void Game::pollEvents()
 				break;
 			case sf::Keyboard::E:
 				if (states == States::inGame) {
-					arduinoHandle->SwitchLedRed();
 					//Interraction avec les murs
 					for (int i = 0; i < walls.size(); i++)
 					{
@@ -234,15 +234,12 @@ void Game::pollEvents()
 				case States::inInventory:
 				case States::inCraft:
 					states = States::inGame;
-					arduinoHandle->SwitchLedBlue();
-
 					break;
 				}
 				break;
 			case sf::Keyboard::I:
 				switch (states) {
 				case States::inGame:
-					arduinoHandle->SwitchLedBlue();
 					player->stop();
 					states = States::inInventory;
 					break;
@@ -273,9 +270,16 @@ void Game::update()
 	case States::inFinishExcavation:
 		time_t end;
 		time(&end);
-
 		if (difftime(end, start) > 2) { //Attente d'une seconde
 			states = States::inGame;
+			if (player->get_inventory()->get_just_found() != "None") {
+				arduinoHandle->SwitchLedBlue();
+
+			}
+			else {
+				arduinoHandle->SwitchLedRed();
+
+			}
 			start = 0;
 			indispo++;
 			walls[digIndex]->reset();
@@ -293,7 +297,6 @@ void Game::update()
 			if (skeleton->isUnlockable())
 				skeleton->unlock();
 		}
-		arduinoHandle->ReadDDR();
 		break;
 	}
 	switchLevel();
