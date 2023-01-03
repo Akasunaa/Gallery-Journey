@@ -90,7 +90,8 @@ void redled(){
 </h1>
 
 ### Démo 
-
-[![Watch the video](https://img.youtube.com/vi/nTQUwghvy5Q/default.jpg)](https://www.youtube.com/watch?v=FP7NBC67TgI)
+<h1 align="center">
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/FP7NBC67TgI/0.jpg)](https://www.youtube.com/watch?v=FP7NBC67TgI)
+</h1>
 
 
